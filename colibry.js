@@ -36,7 +36,7 @@ if (Meteor.isClient) {
 
 
 
-
+//////////INTERACT ////////////////////
 interact('.draggable')
   .draggable({
     // enable inertial throwing
@@ -82,7 +82,7 @@ interact('.draggable')
 
 interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
-  accept: '#yes-drop',
+  //accept: '#yes-drop',
   // Require a 75% element overlap for a drop to be possible
   overlap: 0.75,
 
@@ -95,20 +95,30 @@ interact('.dropzone').dropzone({
   ondragenter: function (event) {
     var draggableElement = event.relatedTarget,
         dropzoneElement = event.target;
-
+var statutcible = dropzoneElement.id;
+    console.log(statutcible);
     // feedback the possibility of a drop
     dropzoneElement.classList.add('drop-target');
     draggableElement.classList.add('can-drop');
-    draggableElement.textContent = 'Dragged in';
+   // draggableElement.textContent = 'Dragged in';
   },
   ondragleave: function (event) {
     // remove the drop feedback style
+        var draggableElement = event.relatedTarget,
+         dropzoneElement = event.target;
+        var statutcible = dropzoneElement.id;
+    console.log(statutcible);
+
     event.target.classList.remove('drop-target');
     event.relatedTarget.classList.remove('can-drop');
-    event.relatedTarget.textContent = 'Dragged out';
+   // event.relatedTarget.textContent = 'Dragged out';
   },
   ondrop: function (event) {
-    event.relatedTarget.textContent = 'Dropped';
+    var draggableElement = event.relatedTarget,
+         dropzoneElement = event.target;
+        var statutcible = dropzoneElement.id;
+    console.log(statutcible);
+    //event.relatedTarget.textContent = 'Dropped';
   },
   ondropdeactivate: function (event) {
     // remove active dropzone feedback
@@ -117,6 +127,7 @@ interact('.dropzone').dropzone({
   }
 });
 
+//////////INTERACT ////////////////////
 
 
 

@@ -6,9 +6,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-
-
   </head>
 
 <template name="main">
@@ -194,87 +191,67 @@
 
 {{#if currentUser}}
   
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Books available for lending <span class="badge">    {{MyPublicBooks.count}}
-		</span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-     <p class="bg-success">
-      <div class="panel-body">
 
+  <div id="1" class="panel panel-success dropzone">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        Books available for lending <span class="badge">{{MyPublicBooks.count}}</span>
+      </h4>
+    <div class="panel-body">
       	<div class="row">
       	 {{#each MyPublicBooks}}
+         <div id="drag" class="draggable drag-drop">
     			<a class="img-thumbnail img-responsive">
      			 <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
     			</a>
+        </div>
   			{{/each}}	
   		
 		</div>
 	
       </div>
-      </p>
     </div>
   </div>
 
 
- <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
+  <div id="2" class="panel panel-warning dropzone">
+    <div class="panel-heading">
       <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Private books, unavailable for lending <span class="badge">    {{MyPrivateBooks.count}}
-		</span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <p class="bg-danger">
-      <div class="panel-body">
-	 <div class="row">
-      	
+          Private books, unavailable for lending <span class="badge">    {{MyPrivateBooks.count}}</span>
+	 </h4>
+    <div class="panel-body">
+        <div class="row">
       	 {{#each MyPrivateBooks}}
-    			<a class="img-thumbnail img-responsive">
-     			 <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
-    			</a>
-  			{{/each}}	
-  		
-		</div>
+    			<div id="drag" class="draggable drag-drop">
+          <a class="img-thumbnail img-responsive">
+           <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
+          </a>
+        </div>
+        {{/each}} 
+    </div>
       </div>
-      </p>
     </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingThree">
+  <div id="2" class="panel panel-danger dropzone">
+    <div class="panel-heading">
       <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
           Lent books <span class="badge">    {{MyLendedBooks.count}}
 		</span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <p class="bg-warning">
-      <div class="panel-body">
-       <div class="row">
-      	
+     </h4>
+    <div class="panel-body">
+        <div class="row">
       	 {{#each MyLendedBooks}}
-    			<a class="img-thumbnail img-responsive">
-     			 <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
-    			</a>
-  			{{/each}}	
-  		
-		</div>
+    			<div id="drag" class="draggable drag-drop">
+          <a class="img-thumbnail img-responsive">
+           <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
+          </a>
+        </div>
+        {{/each}} 
+    </div>
       </div>
-      </p>
     </div>
   </div>
-</div>
 {{/if}}
 </template>
 
