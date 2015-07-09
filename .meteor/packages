@@ -9,8 +9,11 @@ accounts-password
 accounts-ui
 http
 accounts-facebook
-meteorhacks:npm
 
 
 npm-container
 iron:router
+ryanswapp:interactjs
+jquery
+ddp
+meteor
