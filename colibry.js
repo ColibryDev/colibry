@@ -210,9 +210,9 @@ Template.DisplaySelectedBook.helpers({
 });
 
   Template.DisplayBooks.helpers({
-  'MyPrivateBooks': function(){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyPublicBooks': function(){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyLendedBooks': function(){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
+  'MyPrivateBooks': function(nb){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
+  'MyPublicBooks': function(nb){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
+  'MyLendedBooks': function(nb){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
   });
   
   Template.DisplayBooks.events({

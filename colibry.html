@@ -221,6 +221,8 @@
 	 </h4>
     <div class="panel-body">
         <div class="row">
+        {{#if MyPrivateBooks.count}}
+
       	 {{#each MyPrivateBooks}}
     			<div id="drag" class="draggable drag-drop">
           <a class="img-thumbnail img-responsive">
@@ -228,12 +230,16 @@
           </a>
         </div>
         {{/each}} 
+        {{else}}
+          caca
+
+          {{/if}}
     </div>
       </div>
     </div>
   </div>
 
-  <div id="2" class="panel panel-danger dropzone">
+  <div id="3" class="panel panel-danger dropzone">
     <div class="panel-heading">
       <h4 class="panel-title">
           Lent books <span class="badge">    {{MyLendedBooks.count}}
@@ -241,13 +247,17 @@
      </h4>
     <div class="panel-body">
         <div class="row">
-      	 {{#each MyLendedBooks}}
+      	 {{#if MyLendedBooks.count}}
+         {{#each MyLendedBooks}}
     			<div id="drag" class="draggable drag-drop">
           <a class="img-thumbnail img-responsive">
            <img class="ThumbBooks" src="{{thumb}}" alt={{Title}} height="140">
           </a>
         </div>
         {{/each}} 
+        {{else}}
+          <br>
+         {{/if}}
     </div>
       </div>
     </div>
