@@ -66,7 +66,7 @@ interact('.draggable')
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
+        
     // translate the element
     target.style.webkitTransform =
     target.style.transform =
@@ -75,6 +75,7 @@ interact('.draggable')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
+
   }
 
   // this is used later in the resizing demo
@@ -103,21 +104,29 @@ var statutcible = dropzoneElement.id;
    // draggableElement.textContent = 'Dragged in';
   },
   ondragleave: function (event) {
+    //EN DEHORS d'UNE ZONE !!!
     // remove the drop feedback style
-        var draggableElement = event.relatedTarget,
-         dropzoneElement = event.target;
-        var statutcible = dropzoneElement.id;
-    console.log(statutcible);
-
+    var draggableElement = event.relatedTarget;
     event.target.classList.remove('drop-target');
     event.relatedTarget.classList.remove('can-drop');
    // event.relatedTarget.textContent = 'Dragged out';
+
+
   },
   ondrop: function (event) {
+    // LORSQU'ON LACHE L'ITEM
     var draggableElement = event.relatedTarget,
          dropzoneElement = event.target;
         var statutcible = dropzoneElement.id;
     console.log(statutcible);
+
+// Change le statut du livre
+   var selectedbook = Session.get('selectedbook');
+       console.log(selectedbook,statutcible);
+
+    Meteor.call('ChangeStatut', selectedbook, statutcible);
+
+
     //event.relatedTarget.textContent = 'Dropped';
   },
   ondropdeactivate: function (event) {
@@ -210,9 +219,9 @@ Template.DisplaySelectedBook.helpers({
 });
 
   Template.DisplayBooks.helpers({
-  'MyPrivateBooks': function(nb){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyPublicBooks': function(nb){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyLendedBooks': function(nb){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
+  'MyPrivateBooks': function(){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
+  'MyPublicBooks': function(){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
+  'MyLendedBooks': function(){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
   });
   
   Template.DisplayBooks.events({
@@ -306,9 +315,13 @@ if (Meteor.isServer) {
 
   'RemoveBook': function(SelectedBook_Id){
   BOOKS.remove(SelectedBook_Id);
-  }
-    // BOOKS.insert({ISBN: 9780545010221,Title:"Harry Potter and the Deathly Hallows",BookOwner:"12345",PublicationDate:42181,statut:0})
+  },
 
+  'ChangeStatut': function(selectedbook,statutcible){
+    BOOKS.update(selectedbook, {$Statut: statutcible});
+  }
+
+    // BOOKS.insert({ISBN: 9780545010221,Title:"Harry Potter and the Deathly Hallows",BookOwner:"12345",PublicationDate:42181,statut:0})
 });
 
  Meteor.publish('booksSearch', function(query) {  
