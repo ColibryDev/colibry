@@ -24,6 +24,8 @@ if (Meteor.isClient) {
   Session.setDefault('searching', false);
   Session.setDefault('Abookhasjustbeenadded', "non");
   Session.setDefault('ActualGSearch', false);
+    Session.setDefault('statutcible', "no move");
+
 
   Tracker.autorun(function() {  
   if (Session.get('query')) {
@@ -96,8 +98,7 @@ interact('.dropzone').dropzone({
   ondragenter: function (event) {
     var draggableElement = event.relatedTarget,
         dropzoneElement = event.target;
-var statutcible = dropzoneElement.id;
-    console.log(statutcible);
+
     // feedback the possibility of a drop
     dropzoneElement.classList.add('drop-target');
     draggableElement.classList.add('can-drop');
@@ -106,6 +107,12 @@ var statutcible = dropzoneElement.id;
   ondragleave: function (event) {
     //EN DEHORS d'UNE ZONE !!!
     // remove the drop feedback style
+    var dropzoneElement = event.target,
+   statutcible = dropzoneElement.id;
+
+    Session.set('statutcible',statutcible);
+    console.log(statutcible);
+
     var draggableElement = event.relatedTarget;
     event.target.classList.remove('drop-target');
     event.relatedTarget.classList.remove('can-drop');
@@ -115,17 +122,15 @@ var statutcible = dropzoneElement.id;
   },
   ondrop: function (event) {
     // LORSQU'ON LACHE L'ITEM
-    var draggableElement = event.relatedTarget,
-         dropzoneElement = event.target;
-        var statutcible = dropzoneElement.id;
-    console.log(statutcible);
-
+ 
 // Change le statut du livre
    var selectedbook = Session.get('selectedbook');
-       console.log(selectedbook,statutcible);
-
+   var statutcible = Session.get('statutcible');
+   if (statutcible == "no move") {}
+    else {
     Meteor.call('ChangeStatut', selectedbook, statutcible);
-
+  }
+    Session.set('statutcible',"no move")
 
     //event.relatedTarget.textContent = 'Dropped';
   },
@@ -318,7 +323,7 @@ if (Meteor.isServer) {
   },
 
   'ChangeStatut': function(selectedbook,statutcible){
-    BOOKS.update(selectedbook, {$Statut: statutcible});
+  BOOKS.update(selectedbook, {$set: {Statut: statutcible}});
   }
 
     // BOOKS.insert({ISBN: 9780545010221,Title:"Harry Potter and the Deathly Hallows",BookOwner:"12345",PublicationDate:42181,statut:0})
