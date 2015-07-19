@@ -126,6 +126,11 @@ interact('.dropzone').dropzone({
 // Change le statut du livre
    var selectedbook = Session.get('selectedbook');
    var statutcible = Session.get('statutcible');
+
+   //On peut passer de la 3eme section à la première.
+   //effet visuel zab. Il revient toujours à sa place.
+  //Que faire quand on ne le change pas de place ?
+
    if (statutcible == "no move") {}
     else {
     Meteor.call('ChangeStatut', selectedbook, statutcible);
