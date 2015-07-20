@@ -17,7 +17,6 @@ a.button{
 .masthead {background-color: @brand-primary;}
 
 .dropzone {
-    background-color: #ccc;
   border: dashed 4px transparent;
   border-radius: 4px;
   margin: 10px auto 30px;
@@ -39,8 +38,7 @@ a.button{
 .drag-drop {
   display: inline-block;
  
- color: #fff;
-  background-color: #29e;
+ 
   border: solid 2px #fff;
   -webkit-transform: translate(0px, 0px);
           transform: translate(0px, 0px);
@@ -50,5 +48,4 @@ a.button{
 
 .drag-drop.can-drop {
    color: #000;
-  background-color: #4e4;
 }

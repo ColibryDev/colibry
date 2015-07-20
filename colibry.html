@@ -200,7 +200,8 @@
           </a>
         </div>-->
     			<a class="img-thumbnail img-responsive">
-     			 <img class="ThumbBooks draggable drag-drop" src="{{thumb}}" alt={{Title}} height="110">
+     			
+           {{> bookimage}}
     			</a>
   			{{/each}}	
   		
@@ -221,7 +222,8 @@
         {{#if MyPrivateBooks.count}}
       	 {{#each MyPrivateBooks}}
     			<a class="img-thumbnail img-responsive">
-           <img class="ThumbBooks draggable drag-drop" src="{{thumb}}" alt={{Title}} height="110">
+                      {{> bookimage}}
+
           </a>
         {{/each}} 
         {{else}}
@@ -243,7 +245,8 @@
       	 {{#if MyLendedBooks.count}}
          {{#each MyLendedBooks}}
     			<a class="img-thumbnail img-responsive">
-           <img class="ThumbBooks draggable drag-drop" src="{{thumb}}" alt={{Title}} height="110">
+                      {{> bookimage}}
+
           </a>
         {{/each}} 
         {{else}}
@@ -376,7 +379,8 @@
 
 <template name="DisplaySearchGbook">  
   <tr>
-    <td class="image Addthisbook"><img src="{{thumb}}" height="110">
+    <td class="image Addthisbook">
+      {{> bookimage}}
 	</td>
     <blockquote>
 	<strong>{{title}}</strong> by {{authors}}
@@ -401,6 +405,13 @@
 	 
 </template>  
 
+<template name="bookimage">
+  {{#if Imageornot}}
+   <img class="ThumbBooks draggable drag-drop" src="{{thumb}}" alt={{Title}} height="110">
+  {{else}}
+  <img class="ThumbBooks draggable drag-drop"  alt={{Title}} height="110" width="90">
 
+  {{/if}}
+</template>
 
 

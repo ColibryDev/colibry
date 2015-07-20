@@ -256,6 +256,15 @@ Hasabookbeenadded: function(statut) {
   }
 });
 
+Template.bookimage.helpers({
+Imageornot: function() {
+    if (this.thumb == "/na.png")
+      {return false;}
+    else
+      {return true;}
+  }
+});
+
 Template.GSearch.events({ 
   'submit form': function(event, template) {
     event.preventDefault();
@@ -348,7 +357,6 @@ if (Meteor.isServer) {
     _.each(response.data.items, function(item) {
       if (item.volumeInfo.imageLinks != undefined)
       {
-        console.log(item.volumeInfo.imageLinks);
       var doc = {
         thumb: item.volumeInfo.imageLinks.smallThumbnail,
         authors: item.volumeInfo.authors,
