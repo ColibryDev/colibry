@@ -346,6 +346,9 @@ if (Meteor.isServer) {
     });
 
     _.each(response.data.items, function(item) {
+      if (item.volumeInfo.imageLinks != undefined)
+      {
+        console.log(item.volumeInfo.imageLinks);
       var doc = {
         thumb: item.volumeInfo.imageLinks.smallThumbnail,
         authors: item.volumeInfo.authors,
@@ -355,8 +358,26 @@ if (Meteor.isServer) {
         ISBN: item.volumeInfo.industryIdentifiers,
         snippet: item.searchInfo && item.searchInfo.textSnippet
       };
-
+      
       self.added('GBooks', Random.id(), doc);
+    }
+
+    else
+      {
+      var doc = {
+        thumb: "/na.png",
+        authors: item.volumeInfo.authors,
+        title: item.volumeInfo.title,
+        averageRating: item.volumeInfo.averageRating,
+        publisher: item.volumeInfo.publisher,
+        ISBN: item.volumeInfo.industryIdentifiers,
+        snippet: item.searchInfo && item.searchInfo.textSnippet
+      };
+      
+      self.added('GBooks', Random.id(), doc);
+    }
+
+
     });
 
     self.ready();
