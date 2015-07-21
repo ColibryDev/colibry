@@ -1,18 +1,23 @@
 /* CSS declarations go here */
 body { padding-top: 52px; }
-a.button{
-		background:url(/button.gif);
-		display:block;
-		color:#555555;
-		font-weight:bold;
-		height:30px;
-		line-height:29px;
-		margin-bottom:14px;
-		text-decoration:none;
-		width:191px;
-	}
 
-	a:hover.button{color:#0066CC;}
+.dhtmlx_message_area{
+
+    padding-top: 52px;
+}
+
+.gris{
+  background-color: #708090;
+  color: #FFFFFF;
+  text-align: center;
+height:110px;
+  width: 80px;
+}
+
+.dhtmlxsucess{
+  background-color: #29e;
+  color:#008000;
+}
 
 .masthead {background-color: @brand-primary;}
 

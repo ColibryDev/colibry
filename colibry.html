@@ -137,10 +137,11 @@
 </template>
 
 <template name="lend">
+
+  {{#if currentUser}}
   <body>
   <div class="container-fluid">
   <h5>MY COLLABORATIVE LIBRARY</h5>
-  {{> Alert}}
   <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-8">{{> DisplayBooks}}
   </div>
@@ -151,15 +152,15 @@
   </div>
   </div>
 </body>
+{{/if}}
 </template>
 
 
 <template name="DisplaySelectedBook">
-{{#if currentUser}}
 	 {{#each MySelectedBook}}
 
 <div class="thumbnail">
-      <img class="ThumbBooks" src="{{thumb}}" width="100" height="140">
+      <img class="ThumbBooks" src="{{Thumb}}" width="100" height="140">
       <div class="caption">
         <h3>{{Title}} by {{Authors}}</h3>
         <p>{{Snippet}}</p>
@@ -171,7 +172,7 @@
     </div>
 
 	{{/each}}
-{{/if}}
+
 </template>
 
 
@@ -180,11 +181,7 @@
 
 
 
-<template name="DisplayBooks">
-
-{{#if currentUser}}
-  
-
+<template name="DisplayBooks">  
   <div id="1" class="panel panel-success dropzone">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -200,8 +197,9 @@
           </a>
         </div>-->
     			<a class="img-thumbnail img-responsive">
-     			
+     			<div class="draggable drag-drop">
            {{> bookimage}}
+         </div>
     			</a>
   			{{/each}}	
   		
@@ -222,7 +220,9 @@
         {{#if MyPrivateBooks.count}}
       	 {{#each MyPrivateBooks}}
     			<a class="img-thumbnail img-responsive">
-                      {{> bookimage}}
+          <div class="draggable drag-drop">
+           {{> bookimage}}
+          </div>
 
           </a>
         {{/each}} 
@@ -245,8 +245,9 @@
       	 {{#if MyLendedBooks.count}}
          {{#each MyLendedBooks}}
     			<a class="img-thumbnail img-responsive">
-                      {{> bookimage}}
-
+            <div class="draggable drag-drop">
+             {{> bookimage}}
+            </div>
           </a>
         {{/each}} 
         {{else}}
@@ -256,7 +257,6 @@
       </div>
     </div>
   </div>
-{{/if}}
 </template>
 
 
@@ -307,46 +307,9 @@
 
 
 
-<template name="Alert">
-{{#if currentUser}}
- {{#if Hasabookbeenadded 'oui'}}
-<div class="alert alert-success" role="alert">Book added to your account
-<button type="button" class="close closealert" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-  </button>
-  </div>
-  {{/if}}
-
-{{#if Hasabookbeenadded 'error'}}
-<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>
-  This book is already in your library !
-  <button type="button" class="close closealert" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-	{{/if}}
-
-
-{{#if Hasabookbeenadded 'removed'}}
-<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>
-  This book has been removed from your library.
-  <button type="button" class="close closealert" data-dismiss="alert" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-	{{/if}}
-	{{/if}}
-</template>
-
 
 
 <template name="GSearch">
-{{#if currentUser}}
-
  <form>
     <div class="input-group">
       <input type="text" class="form-control" name="query" placeholder="ISBN, title, author, theme, etc.">
@@ -374,7 +337,6 @@
     {{/if}}
   {{/if}}
   {{/if}}
-  {{/if}}
 </template>
 
 <template name="DisplaySearchGbook">  
@@ -383,9 +345,9 @@
       {{> bookimage}}
 	</td>
     <blockquote>
-	<strong>{{title}}</strong> by {{authors}}
-	<small>{{snippet}}</small>
-	{{averageRating}} / 5
+	<strong>{{Title}}</strong> by {{Authors}}
+	<small>{{Snippet}}</small>
+	{{AverageRating}} / 5
     </blockquote>
 
 	<button type="button" id="myButton" data-loading-text="Loading..." class="Addthisbook btn btn-primary" autocomplete="off">
@@ -407,9 +369,9 @@
 
 <template name="bookimage">
   {{#if Imageornot}}
-   <img class="ThumbBooks draggable drag-drop" src="{{thumb}}" alt={{Title}} height="110">
+   <img class="ThumbBooks" src="{{Thumb}}" alt={{Title}} height="110">
   {{else}}
-  <img class="ThumbBooks draggable drag-drop"  alt={{Title}} height="110" width="90">
+  <img class="ThumbBooks gris"  alt={{Title}} >
 
   {{/if}}
 </template>

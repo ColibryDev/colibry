@@ -22,9 +22,9 @@ Router.onBeforeAction(function(){
 if (Meteor.isClient) {
   Meteor.subscribe('theBooks');
   Session.setDefault('searching', false);
-  Session.setDefault('Abookhasjustbeenadded', "non");
   Session.setDefault('ActualGSearch', false);
     Session.setDefault('statutcible', "no move");
+
 
 
   Tracker.autorun(function() {  
@@ -134,6 +134,10 @@ interact('.dropzone').dropzone({
    if (statutcible == "no move") {}
     else {
     Meteor.call('ChangeStatut', selectedbook, statutcible);
+    var Etagerecible = "available for lending !";
+    if (statutcible == "0") {Etagerecible = "unavailable for lending !"}
+    if (statutcible == "2") {Etagerecible = "declared as lent !"}
+    dhtmlx.message({type:"dhtmlxsucess", text:"This book is now "+Etagerecible, expire: 1000});
   }
     Session.set('statutcible',"no move")
 
@@ -164,8 +168,11 @@ Template.register.events({
     password: password
     }, function(error){
     if(error){
-        var alert = window.alert(error.reason);
-        console.log(error.reason); // Output error if registration fails
+      dhtmlx.alert({
+        title:"Registration error",
+        type:"alert-warning",
+        text:error.reason
+    });
     } else {
         Router.go("lend"); // Redirect user if registration succeeds
     }
@@ -180,8 +187,11 @@ Template.login.events({
         var password = event.target.password.value;
         Meteor.loginWithPassword(email, password, function(error){
     if(error){
-        var alert = window.alert(error.reason);
-        console.log(error.reason); // Output error when the login fails
+        dhtmlx.alert({
+        title:"Login error",
+        type:"alert-warning",
+        text:error.reason
+    });// Output error when the login fails
     } else {
         Router.go("lend"); // Redirect user when login succeeds
     }
@@ -192,7 +202,7 @@ Template.login.events({
 Template.NavBar.events({
     'click .logout': function(event){
         event.preventDefault();
-        Session.set('Abookhasjustbeenadded', "non");
+        dhtmlx.message({ type:"error", text:"You logged out", expire: 1500}); 
         Meteor.logout();
         Router.go('login');
     }
@@ -205,11 +215,14 @@ Template.NavBar.events({
 Template.DisplaySelectedBook.events({
 'click .EraseBook' : function(){
     var SelectedBook_Id = Session.get('selectedbook');
-    var confirm = window.confirm("Delete this book from your library?");
-    if(confirm){
-    Session.set('Abookhasjustbeenadded',"removed");
+    dhtmlx.message({
+    type:"confirm",
+    text: "Delete this book from your library?",
+    callback: function() {
+    dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
     Meteor.call('RemoveBook', SelectedBook_Id);
-    }
+  }
+});
     }
 });
 
@@ -237,28 +250,15 @@ Template.DisplaySelectedBook.helpers({
   Template.DisplayBooks.events({
     'click .ThumbBooks': function(){
     var selectedbook = this._id;
-    Session.set('Abookhasjustbeenadded', "non");
     Session.set('selectedbook', selectedbook);
     },
 
     });
 
- 
-Template.Alert.events({
- 'click .closealert':function(){
-      Session.set('Abookhasjustbeenadded', "non");
-  }
-});
-
-Template.Alert.helpers({
-Hasabookbeenadded: function(statut) {
-    return statut === Session.get('Abookhasjustbeenadded');
-  }
-});
 
 Template.bookimage.helpers({
 Imageornot: function() {
-    if (this.thumb == "/na.png")
+    if (this.Thumb == "/na.png")
       {return false;}
     else
       {return true;}
@@ -273,16 +273,29 @@ Template.GSearch.events({
     if (query)
       Session.set('query', query);
 
-  },
+  }
+  });
 
+Template.DisplaySearchGbook.events({ 
  'click .Addthisbook': function(){
   var selectedGBook = this;
-  Meteor.call('InsertBook', selectedGBook.ISBN, selectedGBook.title, selectedGBook.authors, selectedGBook.publisher, "1", selectedGBook.snippet,selectedGBook.thumb, function(error, result){Session.set('Abookhasjustbeenadded', result);});
+  Meteor.call(
+    'InsertBook',selectedGBook.ISBN,selectedGBook.Title,selectedGBook.Authors,selectedGBook.Publisher,"1",selectedGBook.Snippet,selectedGBook.Thumb,
+    function(error, result)
+    {
+    if (error) {dhtmlx.message({type:"error", text:"Error", expire: 2000});}
+    if (result == "oui") {dhtmlx.message({type:"dhtmlxsucess", text:"This book has been added to your library", expire: 1500});}
+    if (result == "error") {dhtmlx.message({type:"error", text:"This book is already in your library", expire: 2000});}
+  }
+  );
+  
   Session.set('ActualGSearch', false);
   }
-  
-
 });
+
+Template.DisplaySearchGbook.helpers({ 
+
+  });
 
 Template.GSearch.helpers({  
   GBOOKSFIND: function() {
@@ -307,7 +320,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.methods({
-  'InsertBook': function(ISBN,Title,Authors,Publisher,Statut,Snippet,thumb,error){
+  'InsertBook': function(ISBN,Title,Authors,Publisher,Statut,Snippet,Thumb,error){
   var currentUserId = Meteor.userId();
   var Isthisbookalreadyinthelibrary = BOOKS.find({BookOwner: currentUserId,ISBN: ISBN}).count();
   if (Isthisbookalreadyinthelibrary == 0) {
@@ -320,7 +333,7 @@ if (Meteor.isServer) {
     PublicationDate: new Date(),
     Statut: Statut,
     Snippet:Snippet,
-    thumb:thumb
+    Thumb:Thumb
     });
     return "oui";
     }
@@ -358,13 +371,13 @@ if (Meteor.isServer) {
       if (item.volumeInfo.imageLinks != undefined)
       {
       var doc = {
-        thumb: item.volumeInfo.imageLinks.smallThumbnail,
-        authors: item.volumeInfo.authors,
-        title: item.volumeInfo.title,
-        averageRating: item.volumeInfo.averageRating,
-        publisher: item.volumeInfo.publisher,
+        Thumb: item.volumeInfo.imageLinks.smallThumbnail,
+        Authors: item.volumeInfo.authors,
+        Title: item.volumeInfo.title,
+        AverageRating: item.volumeInfo.averageRating,
+        Publisher: item.volumeInfo.publisher,
         ISBN: item.volumeInfo.industryIdentifiers,
-        snippet: item.searchInfo && item.searchInfo.textSnippet
+        Snippet: item.searchInfo && item.searchInfo.textSnippet
       };
       
       self.added('GBooks', Random.id(), doc);
@@ -373,13 +386,13 @@ if (Meteor.isServer) {
     else
       {
       var doc = {
-        thumb: "/na.png",
-        authors: item.volumeInfo.authors,
-        title: item.volumeInfo.title,
-        averageRating: item.volumeInfo.averageRating,
-        publisher: item.volumeInfo.publisher,
+        Thumb: "/na.png",
+        Authors: item.volumeInfo.authors,
+        Title: item.volumeInfo.title,
+        AverageRating: item.volumeInfo.averageRating,
+        Publisher: item.volumeInfo.publisher,
         ISBN: item.volumeInfo.industryIdentifiers,
-        snippet: item.searchInfo && item.searchInfo.textSnippet
+        Snippet: item.searchInfo && item.searchInfo.textSnippet
       };
       
       self.added('GBooks', Random.id(), doc);
