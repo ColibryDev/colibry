@@ -8,6 +8,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
 
+
+
 <template name="main">
       {{> yield}}
      {{> NavBar}} 
@@ -49,6 +51,8 @@
 </div><!-- /.row -->
 
 </template>
+
+
 
 <template name="login">
    {{> carousel}}
@@ -131,10 +135,7 @@
 </div>
 </template>
 
-<template name="borrow">
-      <h2>En construction !</h2>
-  
-</template>
+
 
 
 <template name="lend">
@@ -147,7 +148,7 @@
   <div class="col-xs-12 col-sm-6 col-md-8">{{> DisplayBooks}}
   </div>
   <div class="center-block">
-  <div class="col-xs-6 col-md-4"> {{> GSearch}} {{> DisplaySelectedBook}}
+  <div class="col-xs-6 col-md-4"> {{> DisplaySelectedBook}} {{> GSearch}} 
     </div>
   </div>
   </div>
@@ -374,6 +375,8 @@
 	 <br>
 	 
 </template>  
+
+
 
 <template name="bookimage">
   {{#if Imageornot}}

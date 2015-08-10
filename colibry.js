@@ -25,7 +25,7 @@ if (Meteor.isClient) {
   Meteor.subscribe('theBooks');
   Session.setDefault('searching', false);
   Session.setDefault('ActualGSearch', false);
-    Session.setDefault('statutcible', "no move");
+  Session.setDefault('statutcible', "no move");
 
 
 
