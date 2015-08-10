@@ -6,6 +6,8 @@ Router.route('/', function(){this.render('lend');}, {name: 'lend'});
 Router.route('/register');
 Router.route('/login');
 Router.route('/borrow');
+Router.route('/profile');
+
 Router.onBeforeAction(function(){
     var currentUser = Meteor.userId();
     if(currentUser){
@@ -174,7 +176,9 @@ Template.register.events({
         text:error.reason
     });
     } else {
-        Router.go("lend"); // Redirect user if registration succeeds
+     Router.go("lend"); // Redirect user if registration succeeds
+     //var currentUserId = Meteor.userId();
+     //Meteor.call('NewProfile', currentUserId, email)
     }
 });
     }
@@ -186,6 +190,8 @@ Template.login.events({
         var email = event.target.email.value;
         var password = event.target.password.value;
         Meteor.loginWithPassword(email, password, function(error){
+    
+//Accounts.loginWithPassword, Accounts.loginWithFacebook, Accounts.createUser and Accounts.forgotPassword 
     if(error){
         dhtmlx.alert({
         title:"Login error",
@@ -225,6 +231,8 @@ Template.DisplaySelectedBook.events({
 });
     }
 });
+
+
 
 Template.DisplaySelectedBook.helpers({
  'MySelectedBook': function(){  
@@ -294,7 +302,6 @@ Template.DisplaySearchGbook.events({
 });
 
 Template.DisplaySearchGbook.helpers({ 
-
   });
 
 Template.GSearch.helpers({  
@@ -318,6 +325,7 @@ if (Meteor.isServer) {
     var currentUserId = this.userId;
     return BOOKS.find({BookOwner: currentUserId}, {sort: {PublicationDate: 1}})
   });
+
 
   Meteor.methods({
   'InsertBook': function(ISBN,Title,Authors,Publisher,Statut,Snippet,Thumb,error){
@@ -351,8 +359,11 @@ if (Meteor.isServer) {
 
   'ChangeStatut': function(selectedbook,statutcible){
   BOOKS.update(selectedbook, {$set: {Statut: statutcible}});
-  }
+  },
 
+  'NewProfile' : function(currentUserId, email) {
+  PROFILES.insert({_id: currentUserId, mail:email});
+  }
     // BOOKS.insert({ISBN: 9780545010221,Title:"Harry Potter and the Deathly Hallows",BookOwner:"12345",PublicationDate:42181,statut:0})
 });
 

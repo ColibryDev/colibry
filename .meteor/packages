@@ -6,7 +6,6 @@
 
 meteor-platform
 accounts-password
-accounts-ui
 http
 accounts-facebook
 
@@ -18,3 +17,6 @@ jquery
 ddp
 meteor
 mrt:dhtmlx-message
+aldeed:autoform
+aldeed:simple-schema
+aldeed:collection2

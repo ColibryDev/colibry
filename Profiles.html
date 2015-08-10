@@ -1,0 +1,22 @@
+
+<template name="profile">
+  {{CurrentUser}}
+
+{{#autoForm collection="PROFILES" doc=this id="{{CurrentUser}}" type="insert"}}
+    <fieldset>
+   	{{> afQuickField name="firstname"}}
+ 	{{> afQuickField name="name"}}
+  {{> afQuickField name="mail"}}
+  {{> afQuickField name="birthday"}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Insert</button>
+
+{{/autoForm}} 
+
+  {{#autoForm collection="PROFILES" doc=this id="{{CurrentUser}}" type="update"}}
+ {{> afQuickField name="firstname"}}
+ 	{{> afQuickField name="name"}}
+  {{> afQuickField name="mail"}}
+  {{> afQuickField name="birthday"}}
+{{/autoForm}} 
+</template>

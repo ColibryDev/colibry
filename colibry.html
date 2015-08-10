@@ -136,6 +136,7 @@
   
 </template>
 
+
 <template name="lend">
 
   {{#if currentUser}}
@@ -291,8 +292,15 @@
         </div>
         <button type="submit" class="btn btn-default">Borrow</button>
       </form>
-      <ul class="nav navbar-nav navbar-right">
+     
+        <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
+         <li>
+          <a href="{{pathFor route='profile'}}">        
+         <span class="glyphicon glyphicon-user">
+        </span>
+        </a>
+        </li>
         <li><a href="#" class="logout">Logout</a></li>
        {{else}}
         <li><a href="{{pathFor route='login'}}">Login / Register</a></li>
