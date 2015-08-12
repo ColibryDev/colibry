@@ -297,8 +297,8 @@
         <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
          <li>
-          <a href="{{pathFor route='profile'}}">        
-         <span class="glyphicon glyphicon-user">
+          <a href="{{pathFor route='profile'}}">{{currentUser.profile.username}}  
+         <span class="glyphicon glyphicon-user"> 
         </span>
         </a>
         </li>

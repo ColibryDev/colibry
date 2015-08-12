@@ -4,6 +4,15 @@ Schema = {};
 PROFILES = new Mongo.Collection('Profiles');
 
 Schema.UserProfile = new SimpleSchema({
+   username: {
+    type: String,
+    label: 'Username',
+    optional: true,
+    autoform: {
+      'label-type': 'floating',
+      placeholder: 'Username'
+    }
+  },
    firstname: {
     type: String,
     label: 'First Name',
@@ -100,18 +109,11 @@ if (Meteor.isClient) {
 
   user: function(){
     return Meteor.userId;
-  },
-
-  'CurrentUser': function(){
-  var currentUserId = Meteor.userId();
-  return currentUserId;
-  },
-
-  Profiles: function(){
-  return PROFILES.find();
-}
-
+  }
 })
+
+
+
 }
 
 if (Meteor.isServer) {
