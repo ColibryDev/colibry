@@ -1,22 +1,24 @@
 
 <template name="profile">
+ <!--'
+  {{> quickForm collection="Meteor.users" doc=currentUser id="user-profile-form" type="update" omitFields="emails,createdAt, services"}}
+
+
+  {{#autoForm collection="Meteor.users" doc=currentUser id="{{CurrentUser}}" type="update"}}
+  {{> afQuickFields}}
+  {{CurrentUser}}
   {{CurrentUser}}
 
-{{#autoForm collection="PROFILES" doc=this id="{{CurrentUser}}" type="insert"}}
-    <fieldset>
-  {{> afQuickField name="firstname"}}
- {{> afQuickField name="name"}}
-  {{> afQuickField name="mail"}}
-  {{> afQuickField name="birthday"}}
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Insert</button>
-
+ {{> afObjectField name="profile"}}
+ 	{{> afObjectField name="lastname"}}
+  {{> afObjectField name="birthday"}}
 {{/autoForm}} 
 
-  {{#autoForm collection="PROFILES" doc=this id="{{CurrentUser}}" type="update"}}
- {{> afQuickField name="firstname"}}
- 	{{> afQuickField name="name"}}
-  {{> afQuickField name="mail"}}
-  {{> afQuickField name="birthday"}}
-{{/autoForm}} 
+<br><br><br>
+-->
+
+{{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm'}}
+  {{> afQuickField name='profile'}}
+<button type='submit' class="btn btn-primary">Save profile</button>
+{{/autoForm}}
 </template>
