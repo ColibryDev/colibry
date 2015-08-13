@@ -1,8 +1,6 @@
 Schema = {};
 
-
-PROFILES = new Mongo.Collection('Profiles');
-
+// Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 Schema.UserProfile = new SimpleSchema({
    username: {
     type: String,
@@ -40,6 +38,7 @@ Schema.UserProfile = new SimpleSchema({
   }
 });
 
+// deuxieme schema. Schema principale de Meteor.users dans lequel on inclue dans profile le schema ci-dessus
 Schema.User = new SimpleSchema({
 
     emails: {
@@ -71,22 +70,22 @@ Schema.User = new SimpleSchema({
 
   }); 
 
-
+// On attache le schema à la collection meteor.users.
 Meteor.users.attachSchema(Schema.User);
 
 
 
-
+// on autorise l'update uniquement
 Meteor.users.allow({
-  insert: function(userId, doc){
-    return doc && doc.userId === userId;
-  },
+ // insert: function(userId, doc){
+ //   return doc && doc.userId === userId;
+ // },
   update: function(userId, doc){
     return doc && doc.userId === userId;
   }
 })
 
-/*
+/* JE GARDE AU CAS OU DES BOUTS DE CODE
 var ProfileHooks = {
   before: {
     insert: function(doc) {
@@ -107,11 +106,7 @@ if (Meteor.isClient) {
 
   Template.profile.helpers({
 
-  user: function(){
-    return Meteor.userId;
-  }
 })
-
 
 
 }
