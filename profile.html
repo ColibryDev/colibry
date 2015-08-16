@@ -6,8 +6,26 @@ https://github.com/yogiben/meteor-autoform-file
 -->
 
 <!-- AUTOFORM, du package aldeed:autoform pour afficher automatiquement un formulaire issu d'un schéma d'une collection-->
+
+
+
+
+Hello {{currentUser.username}} !
 {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm' autosave=true}}
-  {{> afQuickField name='profile'}}
- <!--<button type='submit' class="btn btn-primary">Save profile</button>-->
-{{/autoForm}}
+
+  {{> afQuickField name="profile.firstName"}}
+  {{> afQuickField name="profile.lastName"}}
+  {{> afQuickField name="profile.birthday"}}
+    <button type='submit' class="btn btn-primary">Save !</button>
+
+{{/autoForm}} 
+
+<br><br>
+
+-->
+
+</template>
+
+<template name="enterUserName">
+
 </template>

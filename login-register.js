@@ -1,49 +1,197 @@
 
-if (Meteor.isClient) {
-// Fonction lorsqu'on clique sur le bouton register pour enregistrer un nouvel utilisateur //
-Template.register.events({
-    'submit form': function(event){
-        event.preventDefault();
-        var email = event.target.email.value;
-        var password = event.target.password.value;
-        Accounts.createUser({
-        email: email,
-    password: password
-    }, function(error){
-    if(error){
-      // Messages d'alerte gérés par DHTMLX (voir fonction sur internet)
-      dhtmlx.alert({
-        title:"Registration error",
-        type:"alert-warning",
-        text:error.reason
-    });
-    } else {
-     Router.go("lend"); // Redirect user if registration succeed
+Schema = {};
+
+// Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
+//ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
+
+Schema.UserProfile = new SimpleSchema({
+    
+   firstName: {
+    type: String,
+    label: 'First Name',
+    regEx: /^[a-zA-Z-]{2,25}$/,
+    optional: true,
+    autoform: {
+      'label-type': 'floating',
+      placeholder: 'First Name'
     }
-});
+  },
+  lastName: {
+    type: String,
+    label: 'Last Name',
+    regEx: /^[a-zA-Z-]{2,25}$/,
+    optional: true,
+    autoform: {
+      'label-type': 'floating',
+      placeholder: 'Last Name'
     }
+  },
+  birthday: {
+    type: Date,
+    label: "Birthday",
+    optional: true
+  }
 });
 
-Template.login.events({
-    'submit form': function(event){
-        event.preventDefault();
-        var email = event.target.email.value;
-        var password = event.target.password.value;
-        Meteor.loginWithPassword(email, password, function(error){
-    
-//Accounts.loginWithPassword, Accounts.loginWithFacebook, Accounts.createUser and Accounts.forgotPassword 
-    if(error){
-        dhtmlx.alert({
-        title:"Login error",
-        type:"alert-warning",
-        text:error.reason
-    });// Output error when the login fails
-    } else {
-        Router.go("lend"); // Redirect user when login succeeds
+// deuxieme schema. Schema principale de Meteor.users dans lequel on inclue dans profile le schema ci-dessus
+Schema.User = new SimpleSchema({
+     username: {
+        type: String,
+        optional:true,
+        unique:true,
+        regEx: /^[a-z0-9A-Z_]{3,15}$/
+    },
+    emails: {
+        type: [Object],
+        // this must be optional if you also use other login services like facebook,
+        // but if you use only accounts-password, then it can be required
+        optional: true
+    },
+    "emails.$.address": {
+        type: String,
+        regEx: SimpleSchema.RegEx.Email
+    },
+    "emails.$.verified": {
+        type: Boolean
+    },
+    createdAt: {
+        type: Date
+
+    },
+    profile: {
+        type: Schema.UserProfile,
+        optional: true
+    },
+    services: {
+        type: Object,
+        optional: true,
+        blackbox: true
     }
-});
+
+  }); 
+
+// On attache le schema à la collection meteor.users.
+Meteor.users.attachSchema(Schema.User);
+
+
+
+// on autorise l'update uniquement
+Meteor.users.allow({
+/*{
+ insert: function(userId, doc){
+  return doc && doc.userId === userId;
+ },*/
+  update: function(userId, doc){
+    return doc && doc.userId === userId;
+  }
+})
+
+/* client/validation/user.js */
+
+
+
+
+// Utilisation d'un package accounts
+// Redéfinition des informations voulues pour se connecter : email OU username
+
+var pwd = AccountsTemplates.removeField('password');
+AccountsTemplates.removeField('email');
+AccountsTemplates.addFields([
+  {
+   _id: 'username',
+    type: 'text',
+    required: true,
+    re: /^[a-z0-9A-Z_]{3,15}$/,
+    errStr: 'Please use only alphanumeric username between 3 and 15 caracters',
+
+},
+  {
+      _id: 'email',
+      type: 'email',
+      required: true,
+      displayName: "email",
+      re: /.+@(.+){2,}\.(.+){2,}/,
+      errStr: 'Invalid email',
+  },
+  pwd
+]);
+
+//définir ce qu'il se passe lorsque le signin ou le signup a fonctionné
+var mySubmitFunc = function(error, state){
+  if (!error) {
+    if (state === "signIn") {
+          Router.go('lend');
+
     }
+    if (state === "signUp") {
+          Router.go('profile');
+
+    }
+  }
+};
+
+//configuration du module de connexion : https://github.com/meteor-useraccounts/core/blob/master/Guide.md
+
+AccountsTemplates.configure({
+    // Behavior
+    confirmPassword: true,
+    enablePasswordChange: true,
+    forbidClientAccountCreation: false,
+    socialLoginStyle:"popup",
+    overrideLoginErrors: true,
+    sendVerificationEmail: true,
+    lowercaseUsername: false,
+    focusFirstInput: true,
+
+    // Appearance
+    showAddRemoveServices: true,
+    showForgotPasswordLink: true,
+    showLabels: true,
+    showPlaceholders: true,
+    showResendVerificationEmailLink: false,
+
+    // Client-side Validation
+    continuousValidation: true,
+    negativeFeedback: false,
+    negativeValidation: true,
+    positiveValidation: true,
+    positiveFeedback: true,
+    showValidating: true,
+
+    // Privacy Policy and Terms of Use
+    privacyUrl: 'privacy',
+    termsUrl: 'terms-of-use',
+
+    // Redirects
+    homeRoutePath: '/lend',
+    redirectTimeout: 4000,
+
+    // Hooks
+   // onLogoutHook: myLogoutFunc,
+    onSubmitHook: mySubmitFunc,
+   // preSignUpHook: myPreSubmitFunc,
+
+    // Texts
+    texts: {
+      button: {
+          signUp: "Register Now!"
+      },
+      socialSignUp: "Register",
+      socialIcons: {
+          "meteor-developer": "fa fa-rocket"
+      },
+      title: {
+          forgotPwd: "Recover Your Password"
+      },
+    },
 });
+
+
+
+
+
+if (Meteor.isClient) {
+
 }
 
 
@@ -53,4 +201,10 @@ Template.login.events({
 
 if (Meteor.isServer) {
 
+  //vérification de l'unicité du username
+Meteor.methods({
+        "userExists": function(username){
+            return !!Meteor.users.findOne({username: username});
+        },
+    });
 }

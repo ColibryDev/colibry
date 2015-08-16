@@ -34,7 +34,7 @@
         	<!-- Si un utilisateur est actuellement connecté-->
         {{#if currentUser}}
          <li><!--  Affichage d'un petit icône type profile avec le nom de l'utilisateur-->
-          <a href="{{pathFor route='profile'}}">{{currentUser.profile.username}}  
+          <a href="{{pathFor route='profile'}}">{{currentUser.username}}  
          <span class="glyphicon glyphicon-user"> 
         </span>
         </a>
@@ -42,7 +42,7 @@
         <li><a href="#" class="logout">Logout</a></li>
         <!-- Si aucun utilisateur n'est connecté -->
        {{else}}
-        <li><a href="{{pathFor route='login'}}">Login / Register</a></li>
+        <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
         {{/if}} 
       </ul>
     </div><!-- /.navbar-collapse -->

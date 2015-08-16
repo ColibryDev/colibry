@@ -4,8 +4,8 @@ Template.NavBar.events({
     'click .logout': function(event){
         event.preventDefault();
         dhtmlx.message({ type:"error", text:"You logged out", expire: 1500}); 
-        Meteor.logout();
-        Router.go('login');
+        AccountsTemplates.logout();
+        Router.go('loginregister');
     }
 });
 

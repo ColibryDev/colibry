@@ -6,6 +6,18 @@ body { padding-top: 52px; }
     padding-top: 52px;
 }
 
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
 .gris{
   background-color: #708090;
   color: #FFFFFF;

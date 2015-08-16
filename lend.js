@@ -1,7 +1,8 @@
 
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
-  Meteor.subscribe('theBooks');
+    Meteor.subscribe('theBooks');
+
 
   Session.setDefault('searching', false);
   Session.setDefault('ActualGSearch', false);
@@ -142,6 +143,7 @@ Template.DisplaySelectedBook.events({
 'click .EraseBook' : function(){
     // on récupère l'ID du livre grâce au sessionget selectedbook qui change lorsque quelqu'un clique sur un livre.
     var SelectedBook_Id = Session.get('selectedbook');
+    Router.go('borrow');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
     dhtmlx.message({
     type:"confirm",
@@ -213,9 +215,15 @@ Template.DisplayBooks.events({
 // Fonctions helpers sur le template DisplayBooks
   Template.DisplayBooks.helpers({
     // Fonctions pour aller chercher les infos des 3 parties de la bibliothèques. Trié par titre et date de publication
-  'MyPrivateBooks': function(){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyPublicBooks': function(){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyLendedBooks': function(){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
+  'MyPrivateBooks': function(){ 
+        var currentUserId = Meteor.userId();
+   return BOOKS.find({BookOwner:currentUserId , Statut:"0"}, {sort: {Title:1,PublicationDate:1}});},
+  'MyPublicBooks': function(){ 
+          var currentUserId = Meteor.userId();
+ return BOOKS.find({BookOwner:currentUserId, Statut:"1"}, {sort: {Title:1,PublicationDate:1}});},
+  'MyLendedBooks': function(){ 
+            var currentUserId = Meteor.userId();
+ return BOOKS.find({BookOwner:currentUserId, Statut:"2"}, {sort: {Title:1,PublicationDate:1}});}
   });
   
 
@@ -285,8 +293,7 @@ if (Meteor.isServer) {
 
 // fonction publish qui renvoit juste les livres de l'utilisateur actuellement connecté
   Meteor.publish('theBooks',function(){
-    var currentUserId = this.userId;
-    return BOOKS.find({BookOwner: currentUserId}, {sort: {PublicationDate: 1}})
+    return BOOKS.find();
   });
 
 
