@@ -4,6 +4,7 @@ Schema = {};
 // Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 //ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
 
+
 Schema.UserProfile = new SimpleSchema({
     
    firstName: {
@@ -148,7 +149,7 @@ AccountsTemplates.configure({
     showForgotPasswordLink: true,
     showLabels: true,
     showPlaceholders: true,
-    showResendVerificationEmailLink: false,
+    showResendVerificationEmailLink: true,
 
     // Client-side Validation
     continuousValidation: true,
