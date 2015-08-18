@@ -143,7 +143,6 @@ Template.DisplaySelectedBook.events({
 'click .EraseBook' : function(){
     // on récupère l'ID du livre grâce au sessionget selectedbook qui change lorsque quelqu'un clique sur un livre.
     var SelectedBook_Id = Session.get('selectedbook');
-    Router.go('borrow');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
     dhtmlx.message({
     type:"confirm",
