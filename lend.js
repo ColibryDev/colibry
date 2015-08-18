@@ -1,7 +1,8 @@
 
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
-    Meteor.subscribe('theBooks');
+  Meteor.subscribe('allBooksInformation');
+  Meteor.subscribe('myPhysicalBooks');
 
 
   Session.setDefault('searching', false);
@@ -11,7 +12,7 @@ if (Meteor.isClient) {
   // fonction liée à la reserche sur l'API Google Books
   Tracker.autorun(function() {  
   if (Session.get('query')) {
-    var searchHandle = Meteor.subscribe('booksSearch', Session.get('query'));
+    var searchHandle = Meteor.subscribe('googleBooksSearch', Session.get('query'));
     Session.set('searching', ! searchHandle.ready());
   }
   });
@@ -163,7 +164,8 @@ Template.DisplaySelectedBook.helpers({
   // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
   var selectedbook = Session.get('selectedbook');
   // renvoie toutes les infos sur le livre
-  return BOOKS.find({_id:selectedbook})
+  var selectedBookRef = physicalBooks.find({_id:selectedbook}).bookRef;
+  return booksInformation.findOne({BookRef:selectedBookRef});
   },
 
  'showselectedbook': function()
@@ -175,8 +177,8 @@ Template.DisplaySelectedBook.helpers({
   }
 });
 
-// Fonctions events sur le template DisplayGbook
-Template.DisplaySearchGbook.events({ 
+// Fonctions events sur le template displaySearchGoogleBooks
+Template.displaySearchGoogleBooks.events({ 
   // clique sur class Addthisbook (c'est à dire sur la photo d'un livre GSearch ou sur le boutton ajouter)
  'click .Addthisbook': function(){
   // on récupèere les infos de ce sur quoi on a cliqué
@@ -201,29 +203,50 @@ Template.DisplaySearchGbook.events({
 });
 
 
-// Fonctions events sur le template DisplayBooks
-Template.DisplayBooks.events({
+// Fonctions events sur le template displayMyPhysicalBooks
+Template.displayMyPhysicalBooks.events({
     'click .ThumbBooks': function(){
-      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre dans la cariable selectedbook (afin que celui ci soit affiché)
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedbook (afin que celui ci soit affiché)
     var selectedbook = this._id;
-    Session.set('selectedbook', selectedbook);
+    // on remonte ensuite sur la DB physicalBooks pour récupérer l'ID dans cette collection
+    var selectedPhysicalBook = physicalBooks.findOne({bookRef:selectedbook})._id;
+    Session.set('selectedbook', selectedPhysicalBook);
     },
 
     });
 
-// Fonctions helpers sur le template DisplayBooks
-  Template.DisplayBooks.helpers({
+// Fonctions helpers sur le template displayMyPhysicalBooks
+  Template.displayMyPhysicalBooks.helpers({
     // Fonctions pour aller chercher les infos des 3 parties de la bibliothèques. Trié par titre et date de publication
   'MyPrivateBooks': function(){ 
-        var currentUserId = Meteor.userId();
-   return BOOKS.find({BookOwner:currentUserId , Statut:"0"}, {sort: {Title:1,PublicationDate:1}});},
+    var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  physicalBooks.find({BookOwner:currentUserId, Statut:"0"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return booksInformation.find({_id:{ $in:differentBooks}});
+  },
+
+
   'MyPublicBooks': function(){ 
-          var currentUserId = Meteor.userId();
- return BOOKS.find({BookOwner:currentUserId, Statut:"1"}, {sort: {Title:1,PublicationDate:1}});},
+  var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  physicalBooks.find({BookOwner:currentUserId, Statut:"1"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return booksInformation.find({_id:{ $in:differentBooks}});
+  },
+
   'MyLendedBooks': function(){ 
-            var currentUserId = Meteor.userId();
- return BOOKS.find({BookOwner:currentUserId, Statut:"2"}, {sort: {Title:1,PublicationDate:1}});}
-  });
+      var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  physicalBooks.find({BookOwner:currentUserId, Statut:"2"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return booksInformation.find({_id:{ $in:differentBooks}});
+  }
+
+});
   
 
 // Fonctions helpers sur le template bookimage
@@ -242,6 +265,7 @@ Imageornot: function() {
 Template.GSearch.events({ 
   'submit form': function(event, template) {
     event.preventDefault();
+
     // met la variable à true pour afficher les résultats
     Session.set('ActualGSearch', true);
     // lance la recherhce sur GSEARCH côté serveur
@@ -255,8 +279,8 @@ Template.GSearch.events({
 // Fonctions helpers sur le template GSearch
 Template.GSearch.helpers({  
   // Afficher les résultats de la recherche Gbooks
-  GBOOKSFIND: function() {
-    return GBOOKS.find();
+  googleBooksSearchFind: function() {
+    return googleBooksSearch.find();
   },
   //Afficher la variable Searching or not
   searching: function() {
@@ -290,30 +314,62 @@ if (Meteor.isServer) {
  var ChildProcess = Npm.require('child_process').exec;
 
 
-// fonction publish qui renvoit juste les livres de l'utilisateur actuellement connecté
-  Meteor.publish('theBooks',function(){
-    return BOOKS.find();
+// fonction publish qui renvoit les informations sur la détention en livre d'un utilisateur
+  Meteor.publish('myPhysicalBooks',function(){
+    var currentUserId = this.userId;
+    return physicalBooks.find({BookOwner: currentUserId});
   });
 
+// fonction publish qui renvoit les infos sur tous les livres enregistrés sur le site.
+  Meteor.publish('allBooksInformation',function(){
+    return booksInformation.find();
+  });
 
   Meteor.methods({
     // POur insérer un livre dans la collection BOOK
   'InsertBook': function(ISBN,Title,Authors,Publisher,Statut,Snippet,Thumb,error){
-  var currentUserId = Meteor.userId();
-  // Met dans une variable le nombre de livre qui comporte le même ISBN et qui est dans la librairie de la personne connectée (est ce que le livre est en double)
-  var Isthisbookalreadyinthelibrary = BOOKS.find({BookOwner: currentUserId,ISBN: ISBN}).count();
-  // Si pas de livre identique dans la biblio de l'utilisateur
-  if (Isthisbookalreadyinthelibrary == 0) {
-    BOOKS.insert({
+  // var pour l'id de l'utiisateur
+  var currentUserId = this.userId;
+  // variable ou est stocké l'id unique du livre de la DBMongo booksInformation
+  var bookRef;
+     //VOIR ENSUITE POUR ACTUALISER LES INFORMATIONS ISSUES DE GBOOKS !!! V2
+    // VOIR ENSUITE SI ON PEUT VALIDER L'ISBN + FIABLEMENT !!! V2
+
+//PARTIE 1
+      //var pour voir si le bouquin est déjèa référencé dans la base de données
+  var isThisBookAlreadyInTheDatabase = booksInformation.find({ISBN: ISBN}).count();
+  if (isThisBookAlreadyInTheDatabase == 0) {
+    //Si aucun document ne ressort alors on le créé
+  // le callback permet de récupérer l'id lorsque l'insertion a réussi
+    bookRef = booksInformation.insert({
     ISBN: ISBN,
     Authors: Authors,
     Title: Title,
-    Publisher: Publisher,
-    BookOwner: currentUserId,
-    PublicationDate: new Date(),
-    Statut: Statut,
+    Publisher: Publisher,    
     Snippet:Snippet,
     Thumb:Thumb
+    });
+
+  }
+  else
+  {
+    // SInon, on renvoit l'_id du bouquin unique de la base de données pour les fonctions suivantes
+    bookRef = booksInformation.findOne({ISBN:ISBN})._id;
+    console.log("déjèa ajouté");console.log(bookRef);
+  }
+
+
+//PARTIE 2
+  // Met dans une variable le nombre de livre qui comporte le même ISBN et qui est dans la librairie de la personne connectée (est ce que le livre est en double)
+  var isThisABookAlreadyInTheLibrary = physicalBooks.find({BookOwner: currentUserId,bookRef: bookRef}).count();
+  // Si pas de livre identique dans la biblio de l'utilisateur
+  if (isThisABookAlreadyInTheLibrary == 0) {
+// Ajoute une nouvelle entrée dans la base de données physicalBooks pour indiquer que cet utilisateur possède un exemplaire de ce livre portant cet ISBN la. Le statut de base donné est ladisponbile.
+    physicalBooks.insert({
+    bookRef: bookRef,
+    BookOwner: currentUserId,
+    PublicationDate: new Date(),
+    Statut: Statut
     });
     return "oui";
     }
@@ -326,17 +382,17 @@ if (Meteor.isServer) {
 
   'RemoveBook': function(SelectedBook_Id){
     //suppression d'un livre de la bibliothèque
-  BOOKS.remove(SelectedBook_Id);
+  physicalBooks.remove(SelectedBook_Id);
   },
 
   'ChangeStatut': function(selectedbook,statutcible){
 // Fonction utilisée par le drag and drop pour changer le statut du livre (1 = available, 0 = private, 2 = lent)
-  BOOKS.update(selectedbook, {$set: {Statut: statutcible}});
+  physicalBooks.update(selectedbook, {$set: {Statut: statutcible}});
   },
 
 });
 
- Meteor.publish('booksSearch', function(query) {  
+ Meteor.publish('googleBooksSearch', function(query) {  
   // FONCTION DE RECHERCHE DANS L'API GOOGLE BOOKS
   var self = this;
   try {
