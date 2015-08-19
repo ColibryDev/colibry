@@ -1,0 +1,845 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"selec",
+				"selectedBookRef"
+			],
+			[
+				"Books",
+				"booksInformation"
+			],
+			[
+				"selected",
+				"selectedBooksISBN"
+			],
+			[
+				"all",
+				"allBooksInformation"
+			],
+			[
+				"log",
+				"loginregister"
+			],
+			[
+				"user",
+				"username"
+			],
+			[
+				"usern",
+				"username"
+			],
+			[
+				"this",
+				"thisUserName"
+			],
+			[
+				"is",
+				"isTheUserNameAlreadyUsed"
+			],
+			[
+				"Book",
+				"BookOwner"
+			],
+			[
+				"curre",
+				"currentUser"
+			],
+			[
+				"Current",
+				"CurrentUser"
+			],
+			[
+				"Profiles",
+				"PROFILES"
+			],
+			[
+				"current",
+				"currentUserId"
+			],
+			[
+				"cur",
+				"currentUserId"
+			],
+			[
+				"statut",
+				"statutcible"
+			],
+			[
+				"A",
+				"Abookhasjustbeenadded"
+			],
+			[
+				"thu",
+				"smallThumbnail"
+			],
+			[
+				"s",
+				"statutcible"
+			],
+			[
+				"u",
+				"update"
+			],
+			[
+				"Chang",
+				"ChangeStatut"
+			],
+			[
+				"ch",
+				"Change"
+			],
+			[
+				"Se",
+				"SelectedBook_Id"
+			],
+			[
+				"GET",
+				"getAttribute"
+			],
+			[
+				"data",
+				"data-x"
+			],
+			[
+				"dat",
+				"data-y"
+			],
+			[
+				"do",
+				"dropzoneElement"
+			],
+			[
+				"drag",
+				"draggableElement"
+			],
+			[
+				"_",
+				"_id"
+			],
+			[
+				"inter",
+				"interact2"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lib/colibry.html",
+			"settings":
+			{
+				"buffer_size": 458,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/colibry.js",
+			"settings":
+			{
+				"buffer_size": 1296,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "colibry.css",
+			"settings":
+			{
+				"buffer_size": 1063,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "login-register.html",
+			"settings":
+			{
+				"buffer_size": 2122,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "login-register.js",
+			"settings":
+			{
+				"buffer_size": 4457,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "main.html",
+			"settings":
+			{
+				"buffer_size": 2668,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "main.js",
+			"settings":
+			{
+				"buffer_size": 494,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "profile.html",
+			"settings":
+			{
+				"buffer_size": 895,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "profile.js",
+			"settings":
+			{
+				"buffer_size": 53,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Borrow.html",
+			"settings":
+			{
+				"buffer_size": 72,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Borrow.js",
+			"settings":
+			{
+				"buffer_size": 52,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lend.js",
+			"settings":
+			{
+				"buffer_size": 15681,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lend.html",
+			"settings":
+			{
+				"buffer_size": 7221,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Martin/Meteor/colibry/colibry.js",
+		"/Users/Martin/Meteor/colibry/colibry.html",
+		"/Users/Martin/Meteor/colibry/client/validation/user.js",
+		"/Users/Martin/Meteor/colibry/Profiles.html",
+		"/Users/Martin/Meteor/colibry/profile.html",
+		"/Users/Martin/Meteor/Metaplan/Metaplan.js",
+		"/Users/Martin/Meteor/Metaplan/Metaplan.html",
+		"/Users/Martin/Meteor/Metaplan/Metaplan.css",
+		"/Users/Martin/Meteor/leaderboard/leaderboard.js",
+		"/Users/Martin/Meteor/colibry/dropzones.css",
+		"/Users/Martin/Meteor/colibry/colibry.css",
+		"/Users/Martin/Meteor/colibry/css/dropzones.css",
+		"/Users/Martin/Meteor/colibry/packages.json",
+		"/Users/Martin/Meteor/colibry/dropzones.js",
+		"/Users/Martin/Meteor/colibry/packages/interact.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"each",
+			"DisplayG",
+			"googleBooksSearchFIND",
+			"booksSearch",
+			"REmove",
+			"var",
+			"ISBN",
+			"Gbook",
+			"Googl",
+			"google",
+			"GBOOKS",
+			"DisplayBooks",
+			"BOOKS",
+			"route",
+			"usernam",
+			"username",
+			"LoginRegister",
+			"login",
+			"register",
+			"login",
+			"register",
+			"userNam",
+			"username",
+			"userN",
+			"currentUser",
+			"Meteor",
+			"else",
+			"submi",
+			"inser",
+			"currentuser",
+			"user",
+			"id",
+			"if",
+			"id",
+			"find",
+			"return",
+			"GBOOK",
+			"subscr",
+			"bouh",
+			"users",
+			"Meteor.us",
+			"users",
+			"meteor.call",
+			"ddthis",
+			"addthis",
+			"bookimage",
+			"bookima",
+			"borrow",
+			"register",
+			"user",
+			"id",
+			"current",
+			"profile",
+			"login",
+			"Meteor",
+			"User",
+			"borro",
+			"if",
+			"ig",
+			"Abookhasjustbeenadded",
+			"Abookhas",
+			"alert",
+			"Hasa",
+			"Abook",
+			"dht",
+			"alert",
+			"Gse",
+			"publisher",
+			"Snippet",
+			"Publisher",
+			"AverageRat",
+			"authors",
+			"title",
+			"Author",
+			"Authors",
+			"thumb",
+			"Title",
+			"#if",
+			"src",
+			"if",
+			"hei",
+			"public",
+			"thumb",
+			"th",
+			"thumb",
+			"if",
+			"ChangeStatut",
+			"meteor.call(",
+			" Meteor.call(",
+			"dragga",
+			"_id",
+			"dropz",
+			"_id",
+			"id='1",
+			"id-'1",
+			"upda",
+			"ChangeStat",
+			"Playerli",
+			"this",
+			"Abook",
+			"session.",
+			"if",
+			"event",
+			"dragg",
+			"dropzon",
+			"dropwone",
+			"ondrop",
+			"window",
+			"drag",
+			"Gse",
+			"Login",
+			"Carousel2",
+			"form",
+			"home",
+			"Meteor",
+			"inte",
+			"Interact",
+			"router",
+			"Hasabookbeenadded",
+			"drop"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"googleBooksSearch",
+			"displayMyPhysicalBooks"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 11,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lib/colibry.html",
+					"settings":
+					{
+						"buffer_size": 458,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								458,
+								458
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/colibry.js",
+					"settings":
+					{
+						"buffer_size": 1296,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								275,
+								291
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "colibry.css",
+					"settings":
+					{
+						"buffer_size": 1063,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								59,
+								59
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "login-register.html",
+					"settings":
+					{
+						"buffer_size": 2122,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1376,
+								1381
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "login-register.js",
+					"settings":
+					{
+						"buffer_size": 4457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								383,
+								383
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2443.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "main.html",
+					"settings":
+					{
+						"buffer_size": 2668,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								255,
+								255
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "main.js",
+					"settings":
+					{
+						"buffer_size": 494,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "profile.html",
+					"settings":
+					{
+						"buffer_size": 895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "profile.js",
+					"settings":
+					{
+						"buffer_size": 53,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "Borrow.html",
+					"settings":
+					{
+						"buffer_size": 72,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "Borrow.js",
+					"settings":
+					{
+						"buffer_size": 52,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "lend.js",
+					"settings":
+					{
+						"buffer_size": 15681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8892,
+								8892
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3000.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "lend.html",
+					"settings":
+					{
+						"buffer_size": 7221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								726,
+								726
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

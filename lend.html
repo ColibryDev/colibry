@@ -5,12 +5,12 @@
   <body>
   <div class="container-fluid">
   <h5>MY COLLABORATIVE LIBRARY</h5>
-  <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, GSearch affiche la fonctionnalité de recherche de livres dans Google Books -->
+  <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, searchGoogleBooks affiche la fonctionnalité de recherche de livres dans Google Books -->
   <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-8"> {{> displayMyPhysicalBooks}}
   </div>
   <div class="center-block">
-  <div class="col-xs-6 col-md-4"> <!--{{> DisplaySelectedBook}}--> {{> GSearch}} 
+  <div class="col-xs-6 col-md-4"> {{> displaySelectedBook}} {{> searchGoogleBooks}} 
     </div>
   </div>
   </div>
@@ -20,24 +20,22 @@
 </template>
 
 <!-- TEMPLATE pour afficher le livre actuellement sélectionné.  -->
-<template name="DisplaySelectedBook">
-	 {{#each MySelectedBook}}
+<template name="displaySelectedBook">
+  {{#if mySelectedBook}}
 <div class="thumbnail">
-      <img class="ThumbBooks" src="{{Thumb}}" width="100" height="140">
+      <img class="thumb-books" src="{{mySelectedBook.thumb}}" width="100" height="140">
       <div class="caption">
-        <h3>{{Title}} by {{Authors}}</h3>
-        <p>{{Snippet}}</p>
+        <h3>{{mySelectedBook.title}} by {{mySelectedBook.authors}}</h3>
+        <p>{{mySelectedBook.snippet}}</p>
         <p class="text-center">
-          <!-- Le bouton remove est actif grâce à la class EraseBook -->
-        <p><a class="btn btn-danger EraseBook" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
+          <!-- Le bouton remove est actif grâce à la class erase-book -->
+        <p><a class="btn btn-danger erase-book" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
           <!-- Le bouton étoile n'est pas actif pour le moment, voulait m'en servir pour ajouter aux favoris -->
         <a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Add</a></p>
      	</p>
       </div>
     </div>
-
-	{{/each}}
-
+    {{/if}}
 </template>
 
 
@@ -50,11 +48,11 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         <!-- Un petit badge bien indiqué le nombre de livres dans chque partie de la bibliothèque -->
-        Books available for lending <span class="badge">{{MyPublicBooks.count}}</span>
+        Books available for lending <span class="badge">{{myPublicBooks.count}}</span>
       </h4>
     <div class="panel-body">
         <div class="row">
-         {{#each MyPublicBooks}}
+         {{#each myPublicBooks}}
           <a class="img-thumbnail img-responsive">
           <div class="draggable drag-drop">
             <!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
@@ -74,12 +72,12 @@
   <div id="0" class="dropzone panel panel-warning">
     <div class="panel-heading">
       <h4 class="panel-title">
-          Private books, unavailable for lending <span class="badge">    {{MyPrivateBooks.count}}</span>
+          Private books, unavailable for lending <span class="badge">    {{myPrivateBooks.count}}</span>
    </h4>
     <div class="panel-body">
         <div class="row">
-        {{#if MyPrivateBooks.count}}
-         {{#each MyPrivateBooks}}
+        {{#if myPrivateBooks.count}}
+         {{#each myPrivateBooks}}
           <a class="img-thumbnail img-responsive">
           <div class="draggable drag-drop">
            {{> bookimage}}
@@ -101,13 +99,13 @@
   <div id="2" class="dropzone panel panel-danger">
     <div class="panel-heading">
       <h4 class="panel-title">
-          Lent books <span class="badge">    {{MyLendedBooks.count}}
+          Lent books <span class="badge">    {{myLentBooks.count}}
     </span>
      </h4>
     <div class="panel-body">
         <div class="row">
-         {{#if MyLendedBooks.count}}
-         {{#each MyLendedBooks}}
+         {{#if myLentBooks.count}}
+         {{#each myLentBooks}}
           <a class="img-thumbnail img-responsive">
             <div class="draggable drag-drop">
              {{> bookimage}}
@@ -129,7 +127,7 @@
 
  <!-- TEMPLATE GSEARCH POUR AFFICHER LA FONCTIONNALITÉ DE RECHERCHE DE LIVRE A AJOUTER DANS SA BIBLIOTHEQUE -->
 
-<template name="GSearch">
+<template name="searchGoogleBooks">
  <form>
     <div class="input-group">
       <input type="text" class="form-control" name="query" placeholder="ISBN, title, author, theme, etc.">
@@ -144,15 +142,15 @@
   </form>
 <br> 
 <!-- Affichage de "searching" pendant la recherche à l'API -->
-{{#if ActualGSearch}}
+{{#if actualGoogleBooksSearch}}
   {{#if searching}}
     <p>Searching...</p>
   {{else}}
   <!-- Affichage des résultats dans un tableauy -->
-    {{#if googleBooksSearchFind.count}}
+    {{#if GOOGLE_BOOKS_SEARCHFind.count}}
       <hr>  
       <table>
-        {{#each googleBooksSearchFind}}
+        {{#each GOOGLE_BOOKS_SEARCHFind}}
         <!-- Appel au template DisplaySearchGbook pour afficher individuellement les livres de la recherche Google BOOKS-->
           {{> displaySearchGoogleBooks}}
         {{/each}}
@@ -166,17 +164,17 @@
 
 <template name="displaySearchGoogleBooks">  
   <tr>
-    <!-- Class Addthisbook pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
-    <td class="image Addthisbook">
+    <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
+    <td class="image add-this-book">
       {{> bookimage}}
 	</td>
     <blockquote>
-	<strong>{{Title}}</strong> by {{Authors}}
-	<small>{{Snippet}}</small>
-	{{AverageRating}} / 5
+	<strong>{{title}}</strong> by {{authors}}
+	<small>{{snippet}}</small>
+	{{averageRating}} / 5
     </blockquote>
-    <!-- Class Addthisbook pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
-	<button type="button" id="myButton" data-loading-text="Loading..." class="Addthisbook btn btn-primary" autocomplete="off">
+    <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
+	<button type="button" id="myButton" data-loading-text="Loading..." class="add-this-book btn btn-primary" autocomplete="off">
   			Add to my Library
 		</button>
 
@@ -197,10 +195,10 @@
 <!-- TEMPLATE POUR AFFICHER L'IMAGE D'UN LIVRE-->
 <template name="bookimage">
   <!-- La fonction imageornot vient m'indiquer s'il y a une image ou pas à afficher. Si il n'y avait pas d'image sur l'API GOogle alors on affiche un écran gris avec le titre dedans-->
-  {{#if Imageornot}}
-   <img class="ThumbBooks" src="{{Thumb}}" alt={{Title}} height="110">
+  {{#if imageOrNot}}
+   <img class="thumb-books" src="{{thumb}}" alt={{title}} height="110">
   {{else}}
-  <img class="ThumbBooks gris"  alt={{Title}} >
+  <img class="thumb-books gris"  alt={{title}} >
 
   {{/if}}
 </template>

@@ -1,6 +1,6 @@
 
 <!-- Template pour la Barre de navigation-->
-<template name="NavBar">
+<template name="navBar">
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -22,7 +22,6 @@
         <li class="active"><a href="{{pathFor route='lend'}}">Lend<span class="sr-only">(current)</span></a></li>
         <li><a href="{{pathFor route='borrow'}}">Borrow</a></li>
         
-
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -34,13 +33,20 @@
         <ul class="nav navbar-nav navbar-right">
         	<!-- Si un utilisateur est actuellement connecté-->
         {{#if currentUser}}
-         <li><!--  Affichage d'un petit icône type profile avec le nom de l'utilisateur-->
-          <a href="{{pathFor route='profile'}}">{{currentUser.username}}  
-         <span class="glyphicon glyphicon-user"> 
-        </span>
-        </a>
-        </li>
-        <li><a href="#" class="logout">Logout</a></li>
+        <!--Menu dropdown avec en majeur le nom de l'utilisateur puis lorsqu'on clique dessus : sous menu profile et log-out-->
+      <li class="dropdown open">
+              <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+              <span class="glyphicon glyphicon-user"> </span>
+              {{currentUser.profile.firstName}}  
+              <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="drop2">
+                <li><a href="{{pathFor route='profile'}}">Profile</a></li>
+                <li><a href="{{pathFor route='lend'}}">My Library</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" class="logout">Logout</a></li>
+              </ul>
+            </li>
         <!-- Si aucun utilisateur n'est connecté -->
        {{else}}
         <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
@@ -61,6 +67,6 @@
 <!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
 <template name="main">
       {{> yield}}
-     {{> NavBar}} 
+     {{> navBar}} 
     <p class="text-right">Copyright &copy; Colibry, 2015-2016.</p>
 </template>

@@ -1,9 +1,6 @@
-
 Schema = {};
-
 // Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 //ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
-
 
 Schema.UserProfile = new SimpleSchema({
     
