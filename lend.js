@@ -1,16 +1,18 @@
 
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
-  Meteor.subscribe('theBooks');
+  Meteor.subscribe('allBooksInformation');
+  Meteor.subscribe('myPhysicalBooks');
+
 
   Session.setDefault('searching', false);
-  Session.setDefault('ActualGSearch', false);
-  Session.setDefault('statutcible', "no move");
+  Session.setDefault('actualGoogleBooksSearch', false);
+  Session.setDefault('targetedStatus', "no move");
 
   // fonction liée à la reserche sur l'API Google Books
   Tracker.autorun(function() {  
   if (Session.get('query')) {
-    var searchHandle = Meteor.subscribe('booksSearch', Session.get('query'));
+    var searchHandle = Meteor.subscribe('GOOGLE_BOOKS_SEARCH', Session.get('query'));
     Session.set('searching', ! searchHandle.ready());
   }
   });
@@ -90,11 +92,9 @@ interact('.dropzone').dropzone({
     //EN DEHORS d'UNE ZONE !!!
     // remove the drop feedback style
     var dropzoneElement = event.target,
-   statutcible = dropzoneElement.id;
+        targetedStatus = dropzoneElement.id;
 
-    Session.set('statutcible',statutcible);
-    console.log(statutcible);
-
+    Session.set('targetedStatus',targetedStatus);
     var draggableElement = event.relatedTarget;
     event.target.classList.remove('drop-target');
     event.relatedTarget.classList.remove('can-drop');
@@ -104,24 +104,23 @@ interact('.dropzone').dropzone({
   },
   ondrop: function (event) {
     // LORSQU'ON LACHE L'ITEM
- 
     // Change le statut du livre
-   var selectedbook = Session.get('selectedbook');
-   var statutcible = Session.get('statutcible');
+   var selectedPhysicalBook = Session.get('selectedPhysicalBook');
+   var targetedStatus = Session.get('targetedStatus');
 
    //On peut passer de la 3eme section à la première.
    //effet visuel zab. Il revient toujours à sa place.
     //Que faire quand on ne le change pas de place ?
 
-   if (statutcible == "no move") {}
+   if (targetedStatus == "no move") {}
     else {
-    Meteor.call('ChangeStatut', selectedbook, statutcible);
-    var Etagerecible = "available for lending !";
-    if (statutcible == "0") {Etagerecible = "unavailable for lending !"}
-    if (statutcible == "2") {Etagerecible = "declared as lent !"}
-    dhtmlx.message({type:"dhtmlxsucess", text:"This book is now "+Etagerecible, expire: 1000});
+    Meteor.call('statusChange', selectedPhysicalBook, targetedStatus);
+    var targetedShelf = "available for lending !";
+    if (targetedStatus == "0") {targetedShelf = "unavailable for lending !"}
+    if (targetedStatus == "2") {targetedShelf = "declared as lent !"}
+    dhtmlx.message({type:"dhtmlxsucess", text:"This book is now "+targetedShelf, expire: 1000});
   }
-    Session.set('statutcible',"no move")
+    Session.set('targetedStatus',"no move")
 
     //event.relatedTarget.textContent = 'Dropped';
   },
@@ -134,14 +133,21 @@ interact('.dropzone').dropzone({
 
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
+Template.lend.events({
+  'click': function(){
+    // idéalement je voudrais essayer d'isoler les clics en dehors des images pour que cela annule le session.set et arrête ainsi d'afficher le template Myselectedbook...
+     // Session.set('selectedPhysicalBook', "none");
+      console.log("clic quelque part");
+    }
+})
 
 
-// Fonctions events sur le template DisplaySelectedBook
-Template.DisplaySelectedBook.events({
-// Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template DisplaySelectedBook)
-'click .EraseBook' : function(){
-    // on récupère l'ID du livre grâce au sessionget selectedbook qui change lorsque quelqu'un clique sur un livre.
-    var SelectedBook_Id = Session.get('selectedbook');
+// Fonctions events sur le template displaySelectedBook
+Template.displaySelectedBook.events({
+// Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template displaySelectedBook)
+'click .erase-book' : function(){
+    // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
+    var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
     dhtmlx.message({
     type:"confirm",
@@ -150,47 +156,53 @@ Template.DisplaySelectedBook.events({
       // Si l'utilisateur clique sur ok, affichage d'un message
     dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
     // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
-    Meteor.call('RemoveBook', SelectedBook_Id);
+    Meteor.call('removeBook', selectedPhysicalBook_Id);
   }
 });
     }
 });
 
-// Fonctions helpers sur le template DisplaySelectedBook
-Template.DisplaySelectedBook.helpers({
- 'MySelectedBook': function(){  
+// Fonctions helpers sur le template displaySelectedBook
+Template.displaySelectedBook.helpers({
+ 'mySelectedBook': function(){  
   // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
-  var selectedbook = Session.get('selectedbook');
+  var selectedPhysicalBook = Session.get('selectedPhysicalBook');
   // renvoie toutes les infos sur le livre
-  return BOOKS.find({_id:selectedbook})
-  },
+  // ATTENTION, ICI CELA RENVOIE UNE ERREUR DANS LA CONSOLE' Je ne sais pas pourquoi, mais ca marche
+  var selectedBookRef;
+  selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
+ // console.log(selectedBookRef);
+// console.log(selectedBookRef.bookRef);
 
- 'showselectedbook': function()
+  return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
+  }
+/*
+ 'showSelectedBook': function()
   {    
   // renvoit l'ID du livre actuellement sélectionné (FONCTION EN DOUBLE ?)
-  var selectedbook = Session.get('selectedbook');
-  return selectedbook;
-  //if (selectedbook == actualbook){return true} else {return false}
+  var selectedPhysicalBook = Session.get('selectedPhysicalBook');
+  return selectedPhysicalBook;
   }
+  */
 });
 
-// Fonctions events sur le template DisplayGbook
-Template.DisplaySearchGbook.events({ 
-  // clique sur class Addthisbook (c'est à dire sur la photo d'un livre GSearch ou sur le boutton ajouter)
- 'click .Addthisbook': function(){
+// Fonctions events sur le template displaySearchGoogleBooks
+Template.displaySearchGoogleBooks.events({ 
+  // clique sur class add-this-book (c'est à dire sur la photo d'un livre searchGoogleBooks ou sur le boutton ajouter)
+ 'click .add-this-book': function(){
   // on récupèere les infos de ce sur quoi on a cliqué
-  var selectedGBook = this;
+  var selectedBookFromGSearch = this;
   // On appelle côté serveur pour ajouter le livre. On envoie toutes les infos et on indique que le livre est actuellement disponible
   Meteor.call(
     //dans le meteor call on envoie une fonction pour qu'il nous revienne une erreur si le livre existe déjà dans la biblio
-    'InsertBook',selectedGBook.ISBN,selectedGBook.Title,selectedGBook.Authors,selectedGBook.Publisher,"1",selectedGBook.Snippet,selectedGBook.Thumb,
+    'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,
     function(error, result)
     {
     if (error) {dhtmlx.message({type:"error", text:"Error", expire: 2000});}
     // Si validation de l'opération, book ajouté
     if (result == "oui") {dhtmlx.message({type:"dhtmlxsucess", text:"This book has been added to your library", expire: 1500});
-    // permet de remettre la recherche à zéro, les résultats de la GSearch s'efface pour ne pas qu'il restenet à l'écran alors que la recherche a été fructueuse...
-  Session.set('ActualGSearch', false);}
+    // permet de remettre la recherche à zéro, les résultats de la searchGoogleBooks s'efface pour ne pas qu'il restenet à l'écran alors que la recherche a été fructueuse...
+  Session.set('actualGoogleBooksSearch', false);}
     // sinon, erreur déjà dans biblio, affichage message avec DHTMLX et rien ne se passe cçoté serveur
     if (result == "error") {dhtmlx.message({type:"error", text:"This book is already in your library", expire: 2000});}
   }
@@ -200,30 +212,62 @@ Template.DisplaySearchGbook.events({
 });
 
 
-// Fonctions events sur le template DisplayBooks
-Template.DisplayBooks.events({
-    'click .ThumbBooks': function(){
-      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre dans la cariable selectedbook (afin que celui ci soit affiché)
-    var selectedbook = this._id;
-    Session.set('selectedbook', selectedbook);
-    },
+// Fonctions events sur le template displayMyPhysicalBooks
+Template.displayMyPhysicalBooks.events({
+    'click .thumb-books': function(){
+    var currentUserId = Meteor.userId();
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
+    var selectedBook = this._id;
+    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
+    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
+    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
+          console.log("clic bbok");
+
+    }
+
+    
 
     });
 
-// Fonctions helpers sur le template DisplayBooks
-  Template.DisplayBooks.helpers({
+// Fonctions helpers sur le template displayMyPhysicalBooks
+  Template.displayMyPhysicalBooks.helpers({
     // Fonctions pour aller chercher les infos des 3 parties de la bibliothèques. Trié par titre et date de publication
-  'MyPrivateBooks': function(){  return BOOKS.find({Statut:"0"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyPublicBooks': function(){  return BOOKS.find({Statut:"1"}, {sort: {Title:1,PublicationDate:1}})},
-  'MyLendedBooks': function(){  return BOOKS.find({Statut:"2"}, {sort: {Title:1,PublicationDate:1}})}
-  });
+  'myPrivateBooks': function(){ 
+    var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  PHYSICAL_BOOKS.find({bookOwner:currentUserId, status:"0"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return BOOKS_INFOS.find({_id:{ $in:differentBooks}});
+  },
+
+
+  'myPublicBooks': function(){ 
+  var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  PHYSICAL_BOOKS.find({bookOwner:currentUserId, status:"1"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return BOOKS_INFOS.find({_id:{ $in:differentBooks}});
+  },
+
+  'myLentBooks': function(){ 
+      var currentUserId = Meteor.userId();
+  // Créé un tableau dans lequel on vient renseigner tous les bookRef des livres détenus dans la biblio en statut 1
+  var differentBooks = [];
+  PHYSICAL_BOOKS.find({bookOwner:currentUserId, status:"2"}).forEach(function(element) {differentBooks.push(element.bookRef);});
+  // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
+    return BOOKS_INFOS.find({_id:{ $in:differentBooks}});
+  }
+
+});
   
 
 // Fonctions helpers sur le template bookimage
 Template.bookimage.helpers({
-Imageornot: function() {
+imageOrNot: function() {
   // fonction interrogée pour savoir si le livre en question a une image propre ou une image par défaut type (pas d,image available)
-    if (this.Thumb == "/na.png")
+    if (this.thumb == "/na.png")
       {return false;}
     else
       {return true;}
@@ -231,13 +275,13 @@ Imageornot: function() {
 });
 
 
-// Fonctions events sur le template GSearch
-Template.GSearch.events({ 
+// Fonctions events sur le template searchGoogleBooks
+Template.searchGoogleBooks.events({ 
   'submit form': function(event, template) {
     event.preventDefault();
     // met la variable à true pour afficher les résultats
-    Session.set('ActualGSearch', true);
-    // lance la recherhce sur GSEARCH côté serveur
+    Session.set('actualGoogleBooksSearch', true);
+    // lance la recherhce sur SearchGoogleBooks côté serveur
     var query = template.$('input[type=text]').val();
     if (query)
       Session.set('query', query);
@@ -245,35 +289,24 @@ Template.GSearch.events({
   });
 
 
-// Fonctions helpers sur le template GSearch
-Template.GSearch.helpers({  
+// Fonctions helpers sur le template searchGoogleBooks
+Template.searchGoogleBooks.helpers({  
   // Afficher les résultats de la recherche Gbooks
-  GBOOKSFIND: function() {
-    return GBOOKS.find();
+  GOOGLE_BOOKS_SEARCHFind: function() {
+    return GOOGLE_BOOKS_SEARCH.find();
   },
   //Afficher la variable Searching or not
   searching: function() {
     return Session.get('searching');
   },
   // Fonction pour savoir s'il y a un recherche actuellement affichée sur l'écran
-  ActualGSearch: function() {
-  return Session.get('ActualGSearch');
+  actualGoogleBooksSearch: function() {
+  return Session.get('actualGoogleBooksSearch');
   }
   
 });
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Côté serveur
@@ -283,31 +316,60 @@ if (Meteor.isServer) {
  var ChildProcess = Npm.require('child_process').exec;
 
 
-// fonction publish qui renvoit juste les livres de l'utilisateur actuellement connecté
-  Meteor.publish('theBooks',function(){
+// fonction publish qui renvoit les informations sur la détention en livre d'un utilisateur
+  Meteor.publish('myPhysicalBooks',function(){
     var currentUserId = this.userId;
-    return BOOKS.find({BookOwner: currentUserId}, {sort: {PublicationDate: 1}})
+    return PHYSICAL_BOOKS.find({bookOwner: currentUserId});
   });
 
+// fonction publish qui renvoit les infos sur tous les livres enregistrés sur le site.
+  Meteor.publish('allBooksInformation',function(){
+    return BOOKS_INFOS.find();
+  });
 
   Meteor.methods({
     // POur insérer un livre dans la collection BOOK
-  'InsertBook': function(ISBN,Title,Authors,Publisher,Statut,Snippet,Thumb,error){
-  var currentUserId = Meteor.userId();
-  // Met dans une variable le nombre de livre qui comporte le même ISBN et qui est dans la librairie de la personne connectée (est ce que le livre est en double)
-  var Isthisbookalreadyinthelibrary = BOOKS.find({BookOwner: currentUserId,ISBN: ISBN}).count();
-  // Si pas de livre identique dans la biblio de l'utilisateur
-  if (Isthisbookalreadyinthelibrary == 0) {
-    BOOKS.insert({
+  'InsertBook': function(ISBN,title,authors,publisher,status,snippet,thumb,error){
+  // var pour l'id de l'utiisateur
+  var currentUserId = this.userId;
+  // variable ou est stocké l'id unique du livre de la DBMongo BOOKS_INFOS
+  var bookRef;
+     //VOIR ENSUITE POUR ACTUALISER LES INFORMATIONS ISSUES DE GBOOKS !!! V2
+    // VOIR ENSUITE SI ON PEUT VALIDER L'ISBN + FIABLEMENT !!! V2
+
+//PARTIE 1
+      //var pour voir si le bouquin est déjèa référencé dans la base de données
+  var isThisBookAlreadyInTheDatabase = BOOKS_INFOS.find({ISBN: ISBN}).count();
+  if (isThisBookAlreadyInTheDatabase == 0) {
+    //Si aucun document ne ressort alors on le créé
+  // le callback permet de récupérer l'id lorsque l'insertion a réussi
+    bookRef = BOOKS_INFOS.insert({
     ISBN: ISBN,
-    Authors: Authors,
-    Title: Title,
-    Publisher: Publisher,
-    BookOwner: currentUserId,
-    PublicationDate: new Date(),
-    Statut: Statut,
-    Snippet:Snippet,
-    Thumb:Thumb
+    authors: authors,
+    title: title,
+    publisher: publisher,    
+    snippet:snippet,
+    thumb:thumb
+    });
+  }
+  else
+  {
+    // SInon, on renvoit l'_id du bouquin unique de la base de données pour les fonctions suivantes
+    bookRef = BOOKS_INFOS.findOne({ISBN:ISBN})._id;
+  }
+
+
+//PARTIE 2
+  // Met dans une variable le nombre de livre qui comporte le même ISBN et qui est dans la librairie de la personne connectée (est ce que le livre est en double)
+  var isThisABookAlreadyInTheLibrary = PHYSICAL_BOOKS.find({bookOwner: currentUserId,bookRef: bookRef}).count();
+  // Si pas de livre identique dans la biblio de l'utilisateur
+  if (isThisABookAlreadyInTheLibrary == 0) {
+// Ajoute une nouvelle entrée dans la base de données PHYSICAL_BOOKS pour indiquer que cet utilisateur possède un exemplaire de ce livre portant cet ISBN la. Le statut de base donné est ladisponbile.
+    PHYSICAL_BOOKS.insert({
+    bookRef: bookRef,
+    bookOwner: currentUserId,
+    publicationDate: new Date(),
+    status: status
     });
     return "oui";
     }
@@ -318,19 +380,19 @@ if (Meteor.isServer) {
 
   },
 
-  'RemoveBook': function(SelectedBook_Id){
+  'removeBook': function(selectedBook_Id){
     //suppression d'un livre de la bibliothèque
-  BOOKS.remove(SelectedBook_Id);
+  PHYSICAL_BOOKS.remove(selectedBook_Id);
   },
 
-  'ChangeStatut': function(selectedbook,statutcible){
+  'statusChange': function(selectedPhysicalBook,targetedStatus){
 // Fonction utilisée par le drag and drop pour changer le statut du livre (1 = available, 0 = private, 2 = lent)
-  BOOKS.update(selectedbook, {$set: {Statut: statutcible}});
+  PHYSICAL_BOOKS.update(selectedPhysicalBook, {$set: {status: targetedStatus}});
   },
 
 });
 
- Meteor.publish('booksSearch', function(query) {  
+ Meteor.publish('GOOGLE_BOOKS_SEARCH', function(query) {  
   // FONCTION DE RECHERCHE DANS L'API GOOGLE BOOKS
   var self = this;
   try {
@@ -350,13 +412,13 @@ if (Meteor.isServer) {
       if (item.volumeInfo.imageLinks != undefined)
       {
       var doc = {
-        Thumb: item.volumeInfo.imageLinks.smallThumbnail,
-        Authors: item.volumeInfo.authors,
-        Title: item.volumeInfo.title,
-        AverageRating: item.volumeInfo.averageRating,
-        Publisher: item.volumeInfo.publisher,
+        thumb: item.volumeInfo.imageLinks.smallThumbnail,
+        authors: item.volumeInfo.authors,
+        title: item.volumeInfo.title,
+        averageRating: item.volumeInfo.averageRating,
+        publisher: item.volumeInfo.publisher,
         ISBN: item.volumeInfo.industryIdentifiers,
-        Snippet: item.searchInfo && item.searchInfo.textSnippet
+        snippet: item.searchInfo && item.searchInfo.textSnippet
       };
       // ajoute à la collection Gbooks.
       self.added('GBooks', Random.id(), doc);
@@ -366,13 +428,13 @@ if (Meteor.isServer) {
     else
       {
       var doc = {
-        Thumb: "/na.png",
-        Authors: item.volumeInfo.authors,
-        Title: item.volumeInfo.title,
-        AverageRating: item.volumeInfo.averageRating,
-        Publisher: item.volumeInfo.publisher,
+        thumb: "/na.png",
+        authors: item.volumeInfo.authors,
+        title: item.volumeInfo.title,
+        averageRating: item.volumeInfo.averageRating,
+        publisher: item.volumeInfo.publisher,
         ISBN: item.volumeInfo.industryIdentifiers,
-        Snippet: item.searchInfo && item.searchInfo.textSnippet
+        snippet: item.searchInfo && item.searchInfo.textSnippet
       };
       
       self.added('GBooks', Random.id(), doc);

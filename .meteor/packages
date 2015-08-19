@@ -20,3 +20,7 @@ mrt:dhtmlx-message
 aldeed:autoform
 aldeed:simple-schema
 aldeed:collection2
+useraccounts:bootstrap
+accounts-base
+accounts-google
+email

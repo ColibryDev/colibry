@@ -1,76 +1,20 @@
 <!-- TEMPLATE POUR L'AFFICHAGE DE l'ECRAN REGISTER. -->
-<template name="register">
-  <!-- Affiche le Caroussel, voir plus bas-->
-{{> carousel}}
-<div style="position: absolute; top: 40%;">
-  <!-- div de bootstrap pour mettre les éléments de connexion au centre -->
-     <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="row">
-      <div class="col-xs-2 col-sm-3">
-      </div>
-      <div class="col-xs-6 col-sm-9">
-<!--  Deux boutons de login et de register Lorsqu'on appuie sur un bouton on change de template login vs register -->
-      <ul class="nav nav-pills nav-justified">
-  <li role="presentation" ><a href="{{pathFor route='login'}}">Login</a></li>
-  <li role="presentation" class="active"><a href="{{pathFor route='register'}}">Register</a></li>
-</ul>
-<form class="register">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">@</span>
-    <input type="email" class="form-control" placeholder="E-mail" aria-describedby="basic-addon1" name="email">
-        </div><!-- /input-group -->
-
-    <div class="input-group">
-      <input type="password" name="password" class="form-control" placeholder="password">
-      <span class="input-group-btn">
-        <button class="btn btn-default" value="Register" type="submit">Register !</button>
-      </span>
-    </div><!-- /input-group -->
-     </form>
-   </div>  
-    </div>
-  </div><!-- /.col-lg-6 -->
-</div>
-</div><!-- /.row -->
-
-</template>
-
-
-<!-- TEMPLATE POUR L'AFFICHAGE DE l'ECRAN LOGIN. -->
-<template name="login">
+<template name="loginregister"> 
    {{> carousel}}
-<div style="position: absolute; top: 40%;">
-  
-     <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="row">
-      <div class="col-xs-2 col-sm-3">
-      </div>
-      <div class="col-xs-6 col-sm-9">
 
-      <ul class="nav nav-pills nav-justified">
-  <li role="presentation" class="active"><a href="{{pathFor route='login'}}">Login</a></li>
-  <li role="presentation"><a href="{{pathFor route='register'}}">Register</a></li>
-</ul>
-<form class="login">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">@</span>
-    <input type="email" class="form-control" placeholder="E-mail" aria-describedby="basic-addon1" name="email">
-        </div><!-- /input-group -->
 
-    <div class="input-group">
-      <input type="password" name="password" class="form-control" placeholder="password">
-      <span class="input-group-btn">
-        <button class="btn btn-default" value="Login" type="submit">Login !</button>
-      </span>
-    </div><!-- /input-group -->
-     </form>
-   </div>  
-    </div>
-  </div><!-- /.col-lg-6 -->
+<div class="container">
+    <div class="row row-centered" >
+    <div class="panel panel-default center-block col-centered" style="position: absolute; top:20%">
+  <div class="panel-body center-block col-centered">
+   <!--  appelle le module de connexion !-->
+       {{> atForm}}
+
+
 </div>
-</div><!-- /.row -->
+</div>
+</div>
+</div>
 </template>
 
 
