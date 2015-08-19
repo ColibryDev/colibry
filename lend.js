@@ -133,6 +133,13 @@ interact('.dropzone').dropzone({
 
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
+Template.lend.events({
+  'click': function(){
+    // idéalement je voudrais essayer d'isoler les clics en dehors des images pour que cela annule le session.set et arrête ainsi d'afficher le template Myselectedbook...
+     // Session.set('selectedPhysicalBook', "none");
+      console.log("clic quelque part");
+    }
+})
 
 
 // Fonctions events sur le template displaySelectedBook
@@ -161,9 +168,14 @@ Template.displaySelectedBook.helpers({
   // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
   var selectedPhysicalBook = Session.get('selectedPhysicalBook');
   // renvoie toutes les infos sur le livre
-  var selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
-  return BOOKS_INFOS.findOne({BookRef:selectedBookRef.bookRef});
-  },
+  // ATTENTION, ICI CELA RENVOIE UNE ERREUR DANS LA CONSOLE' Je ne sais pas pourquoi, mais ca marche
+  var selectedBookRef;
+  selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
+ // console.log(selectedBookRef);
+// console.log(selectedBookRef.bookRef);
+
+  return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
+  }
 /*
  'showSelectedBook': function()
   {    
@@ -203,13 +215,17 @@ Template.displaySearchGoogleBooks.events({
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
     'click .thumb-books': function(){
+    var currentUserId = Meteor.userId();
       // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
     var selectedBook = this._id;
     // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
-    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookRef:selectedBook});
+    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
     Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
-      console.log(selectedPhysicalBook._id);
-    },
+          console.log("clic bbok");
+
+    }
+
+    
 
     });
 

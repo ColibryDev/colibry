@@ -33,12 +33,6 @@ Schema.UserProfile = new SimpleSchema({
 
 // deuxieme schema. Schema principale de Meteor.users dans lequel on inclue dans profile le schema ci-dessus
 Schema.User = new SimpleSchema({
-     username: {
-        type: String,
-        optional:true,
-        unique:true,
-        regEx: /^[a-z0-9A-Z_]{3,15}$/
-    },
     emails: {
         type: [Object],
         // this must be optional if you also use other login services like facebook,
@@ -96,14 +90,6 @@ var pwd = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 AccountsTemplates.addFields([
   {
-   _id: 'username',
-    type: 'text',
-    required: true,
-    re: /^[a-z0-9A-Z_]{3,15}$/,
-    errStr: 'Please use only alphanumeric username between 3 and 15 caracters',
-
-},
-  {
       _id: 'email',
       type: 'email',
       required: true,
@@ -111,6 +97,22 @@ AccountsTemplates.addFields([
       re: /.+@(.+){2,}\.(.+){2,}/,
       errStr: 'Invalid email',
   },
+
+  {
+   _id: 'firstName',
+    type: 'text',
+    required: true,
+    displayName: "First Name",
+    re: /^[a-zA-Z-]{2,25}$/
+},
+ {
+   _id: 'lastName',
+    type: 'text',
+    required: true,
+    displayName: "Last Name",
+    re: /^[a-zA-Z-]{2,25}$/
+},
+  
   pwd
 ]);
 
@@ -200,9 +202,10 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
 
   //vérification de l'unicité du username
+  /*
 Meteor.methods({
         "userExists": function(username){
             return !!Meteor.users.findOne({username: username});
         },
-    });
+    });*/
 }
