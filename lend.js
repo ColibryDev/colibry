@@ -2,7 +2,6 @@
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
   Meteor.subscribe('allBooksInformation');
-  Meteor.subscribe('myPhysicalBooks');
 
 
   Session.setDefault('searching', false);
