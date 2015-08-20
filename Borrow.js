@@ -13,7 +13,16 @@ if (Meteor.isClient) {
   	})
 
   	Template.searchToBorrow.events({
-   
+    // Recuperation de la valeur recherchée
+    'submit form': function(event){
+   	 	event.preventDefault();
+   	 	var searchedBookVar = event.target.searchedBook.value;
+   	 	console.log("Form submitted");
+   	 	Session.set('searchedBookSession', searchedBookVar);
+   	 	Session.set('tryToSearch', true);
+   	 	console.log(searchedBookVar)
+   	 	
+    }
 	});
 
 	Template.displaySearchedBooks.helpers({
