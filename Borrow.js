@@ -29,11 +29,12 @@ if (Meteor.isClient) {
 	Template.displaySearchedBooks.helpers({
 		'searchInAllAvailableBooks': function(){
 		// FOnction pour montrer les infos des livres au statut 1 et dont le titre correspond à la requête
-		var searchedBookVar2 = Session.get('searchedBookSession')
-		console.log(searchedBookVar2)
+		var searchedBookVar2 = Session.get('searchedBookSession');
+		console.log(searchedBookVar2);
    		// Créé un tableau dans lequel on vient renseigner les ISBN des livres avec ce titre. On va chercher l'info dans BOOKS_INFO
    		var differentBooks = [];
-   		BOOKS_INFOS.find({title:searchedBookVar2}).forEach(function(element) {differentBooks.push(element._id);});
+   		BOOKS_INFOS.find({title:{
+                     $regex : new RegExp(searchedBookVar2, "i") }}).forEach(function(element) {differentBooks.push(element._id);});
   		// renvoi les infos des livres dont les id sont contenus dans le tableau précédent
     	return PHYSICAL_BOOKS.find({bookRef: { $in:differentBooks}});
 
