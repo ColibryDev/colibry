@@ -18,6 +18,8 @@ if (Meteor.isClient) {
     'submit form': function(event){
    	 	event.preventDefault();
    	 	Session.set('tryToSearch', true);
+   	 	var tryToSearch = Session.get('tryToSearch');
+   	 	console.log(tryToSearch);
    	 	var searchedBookVar1 = event.target.searchedBook.value;
    	 	console.log("Form submitted");
    	 	Session.set('searchedBookSession',searchedBookVar1);
@@ -27,7 +29,7 @@ if (Meteor.isClient) {
 
 
 	Template.displaySearchedBooks.helpers({
-		'searchInAllAvailableBooks': function(){
+		searchInAllAvailableBooks: function() {
 		// FOnction pour montrer les infos des livres au statut 1 et dont le titre correspond à la requête
 		var searchedBookVar2 = Session.get('searchedBookSession');
 		console.log(searchedBookVar2);
@@ -37,9 +39,11 @@ if (Meteor.isClient) {
                      $regex : new RegExp(searchedBookVar2, "i") }}).forEach(function(element) {differentBooks.push(element._id);});
   		// renvoi les infos des livres dont les id sont contenus dans le tableau précédent
     	return PHYSICAL_BOOKS.find({bookRef: { $in:differentBooks}});
+		},
 
-		}
-     	
+		tryToSearch: function() {
+    		return Session.get('tryToSearch');
+  		}
 	});
 }
 

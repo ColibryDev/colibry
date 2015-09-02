@@ -37,17 +37,22 @@
 	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
 	 <div class="panel-body">
       	<div class="row">
-	      	{{#if searchInAllAvailableBooks.count}}
-	      	 {{#each searchInAllAvailableBooks}}
-	    			<a class="img-thumbnail img-responsive">
-	     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
-	           {{> bookimage}}         
-	    			</a>
-	  			{{/each}}
-	  		{{else}}
-	         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
-	         Désolé mais ce livre n'est pas disponible
-	        {{/if}}
+	      	{{#if tryToSearch}}
+		      	{{#if searchInAllAvailableBooks.count}}
+		      	 {{#each searchInAllAvailableBooks}}
+		    			<a class="img-thumbnail img-responsive">
+		     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+		           {{> bookimage}}         
+		    			</a>
+		  			{{/each}}
+		  		{{else}}
+		         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
+		         Désolé mais ce livre n'est pas disponible
+		        {{/if}}
+		    {{else}}
+		    <!-- Phrase avant de faire une recherche...-->
+		         Vas y cherche !
+		    {{/if}}
   		</div>	
   	</div>
 </template>
