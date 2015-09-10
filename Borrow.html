@@ -1,28 +1,30 @@
 <template name="borrow">
- 	<h1>Find a Book around you</h1>
-      <h7>(En cours de construction)</h7>
+ 	<h2>Le livre que vous cherchez est sûrement disponible près de chez vous !</h2>
 
 	{{> searchToBorrow}}
-
+	
 	{{> displayAvailableBooks}}
-
 </template>
 
 <template name="searchToBorrow">
-	<h5>Barre de recherche du livre</h5>
+	<h5>Un titre en tête?</h5>
 	 <form>
         <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
         <input type="submit" value="Recherchez dans Colibry">
     </form>
 
-    {{> displaySearchedBooks}}
-
-    {{> displayChosenBook}}
-
+    <div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-8"> {{> displaySearchedBooks}}
+	</div>
+	<div class="center-block">
+	<div class="col-xs-6 col-md-4"> {{> displayChosenBook}}
+    </div>
+    </div>
+    </div>
 </template>
 
 <template name="displayAvailableBooks">
-	<h5>Liste des livres disponibles dans la communauté</h5>
+	<h5>L'ensemble des livres disponibles dans la communauté</h5>
 	<div class="panel-body">
       	<div class="row">
       	 {{#each availableBooks}}
@@ -67,15 +69,10 @@
       <div class="caption">
         <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
         <p>{{myChosenBook.snippet}}</p>
-        <p class="text-center">
-          <!-- Le bouton remove est actif grâce à la class erase-book -->
-        <p><a class="btn btn-danger erase-book" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
-          <!-- Le bouton étoile n'est pas actif pour le moment, voulait m'en servir pour ajouter aux favoris -->
-        <a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Add</a></p>
-     	</p>
-     	<h3>Certains utilisateurs peuvent te le préter :</h3>
+        <p class="text-center"></p>
+     	<h5>Certains utilisateurs peuvent te le préter :</h5>
      	{{#each usersWhoShareIt}}
-    		{{bookOwner}}
+    		<li>{{bookOwner}}</li>
 		{{/each}}
       </div>
     </div>
