@@ -65,31 +65,53 @@
 <template name="displayChosenBook">
 	{{#if myChosenBook}}
 		{{#if currentUser}}
-			<div class="thumbnail">
-		      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
-		      <div class="caption">
-		        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
-		        <p>{{myChosenBook.snippet}}</p>
-		        <p class="text-center"></p>
-		     	<h5>Certains utilisateurs peuvent te le préter :</h5>
-		     	{{#each usersWhoShareIt}}
-		    		<li>{{bookOwner}}</li>
-				{{/each}}
-		      </div>
-		    </div>
+			<!-- on valide que le livre est bien disponible  -->
+			{{#if usersWhoShareIt.count}}
+					<div class="thumbnail">
+				      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+				      <div class="caption">
+				        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+				        <p>{{myChosenBook.snippet}}</p>
+				        <p class="text-center"></p>
+				     	<h5>Certains utilisateurs peuvent te le préter :</h5>
+				     	{{#each usersWhoShareIt}}
+				    		<li>{{bookOwner}}</li>
+						{{/each}}
+				      </div>
+				    </div>
+			<!-- si le livre n'est pas disponible, on fait en sorte de l'ajouter à la wishliste -->
+			{{else}}
+				<div class="thumbnail">
+				    <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+				    <div class="caption">
+				        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+				        <p>{{myChosenBook.snippet}}</p>
+				     	<h5>Ce livre est victime de son succès, tous les exemplaires sont présentement prêtés. Ajoute-le à ta wishliste et nous te préviendrons dès qu'un exemplaire sera disponible près de chez toi.</h5>
+				    </div>
+				    <p class="text-center">
+				    <!-- même bouton étoile que dans le Lend -->
+        			<a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Ajouter à ma Wishliste</a></p>
+				</div>
+			{{/if}}
 	    {{else}}
-	    	<div class="thumbnail">
-		      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
-		      <div class="caption">
-		        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
-		        <p>{{myChosenBook.snippet}}</p>
-		        <p class="text-center"></p>
-		     	<h5>Ce livre est disponible et {{usersWhoShareIt.count}} utilisateurs peuvent te le prêter</h5>
-		     	<h5>Connecte-toi vite pour les contacter!</h5>
-		     	<!-- Le bouton remove est actif grâce à la class erase-book -->
-        		<p><a class="se connecter" role="button"> Se connecter</a> </p> <p><a class="s'inscrire" role="button"> S'inscrire</a> </p>          		
-		     </div>
-		    </div>
+	    	<!-- on valide que le livre est bien disponible  -->
+	    	{{#if usersWhoShareIt.count}}
+		    	<div class="thumbnail">
+			      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+			      <div class="caption">
+			        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+			        <p>{{myChosenBook.snippet}}</p>
+			        <p class="text-center"></p>
+			     	<h5>Ce livre est disponible et {{usersWhoShareIt.count}} utilisateurs peuvent te le prêter</h5>
+			     	<h5>Connecte-toi vite pour les contacter!</h5>
+			     	<!-- Les bouton s'enregistrer et se connecter ne sont pas actifs pour l'instant -->
+	        		<p><a class="se connecter" role="button"> Se connecter</a> </p> <p><a class="s'inscrire" role="button"> S'inscrire</a> </p>          		
+			     </div>
+			    </div>
+			<!-- si le livre n'est pas disponible, on dit qu'il le sera bientôt et on fait en sorte que l'utilisateur s'enregistre pour commencer une wishliste  -->
+			{{else}}
+				<h3>caca pour user non connecté</h3>
+			{{/if}}
     	{{/if}}
     {{/if}}
 </template>
