@@ -8,7 +8,7 @@
 
 <template name="searchToBorrow">
 	<h5>Un titre en tête?</h5>
-	 <form>
+	<form>
         <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
         <input type="submit" value="Recherchez dans Colibry">
     </form>
@@ -73,7 +73,7 @@
 				        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
 				        <p>{{myChosenBook.snippet}}</p>
 				        <p class="text-center"></p>
-				     	<h5>Certains utilisateurs peuvent te le préter :</h5>
+				     	<h5>Génial, ce livre est disponible ! Tu peux contacter les utilisateurs suivants :</h5>
 				     	{{#each usersWhoShareIt}}
 				    		<li>{{bookOwner}}</li>
 						{{/each}}
