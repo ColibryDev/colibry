@@ -1,26 +1,33 @@
 <template name="borrow">
- 	<h1>Find a Book around you</h1>
-      <h7>(En cours de construction)</h7>
+
+ 	<h2>Le livre que vous cherchez est sûrement disponible près de chez vous !</h2>
 
 	{{> searchToBorrow}}
-
+	
 	{{> displayAvailableBooks}}
-
 </template>
 
 <template name="searchToBorrow">
-	<h5>Barre de recherche du livre</h5>
-	 <form>
+	<h5>Un titre en tête?</h5>
+	<form>
+
         <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
         <input type="submit" value="Recherchez dans Colibry">
     </form>
 
-    {{> displaySearchedBooks}}
-
+    <div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-8"> {{> displaySearchedBooks}}
+	</div>
+	<div class="center-block">
+	<div class="col-xs-6 col-md-4"> {{> displayChosenBook}}
+    </div>
+    </div>
+    </div>
 </template>
 
 <template name="displayAvailableBooks">
-	<h5>Liste des livres disponibles dans la communauté</h5>
+	<h5>L'ensemble des livres disponibles dans la communauté</h5>
+
 	<div class="panel-body">
       	<div class="row">
       	 {{#each availableBooks}}
@@ -37,18 +44,78 @@
 	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
 	 <div class="panel-body">
       	<div class="row">
-	      	{{#if searchInAllAvailableBooks.count}}
-	      	 {{#each searchInAllAvailableBooks}}
-	    			<a class="img-thumbnail img-responsive proutprout">
-	     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
-	           {{> bookimage}}         
-	           {{title}}
-	    			</a>
-	  			{{/each}}
-	  		{{else}}
-	         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
-	         Désolé mais ce livre n'est pas disponible
-	        {{/if}}
+
+	      	{{#if tryToSearch}}
+		      	{{#if searchInAllAvailableBooks.count}}
+		      	 {{#each searchInAllAvailableBooks}}
+		    			<a class="img-thumbnail img-responsive proposedBook">
+		     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+		           {{> bookimage}}         
+		    			</a>
+		  			{{/each}}
+		  		{{else}}
+		         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
+		         Désolé! Aucun livre de notre base de donnéee ne correspond à votre recherche!
+		        {{/if}}
+		    {{else}}
+		    <!-- Phrase avant de faire une recherche...-->
+		         Vas y cherche !
+		    {{/if}}
   		</div>	
   	</div>
+</template>
+
+<!-- TEMPLATE pour afficher le livre actuellement sélectionné dans la proposition suite à la recherche  -->
+<template name="displayChosenBook">
+	{{#if myChosenBook}}
+		{{#if currentUser}}
+			<!-- on valide que le livre est bien disponible  -->
+			{{#if usersWhoShareIt.count}}
+					<div class="thumbnail">
+				      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+				      <div class="caption">
+				        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+				        <p>{{myChosenBook.snippet}}</p>
+				        <p class="text-center"></p>
+				     	<h5>Génial, ce livre est disponible ! Tu peux contacter les utilisateurs suivants :</h5>
+				     	{{#each usersWhoShareIt}}
+				    		<li>{{bookOwner}}</li>
+						{{/each}}
+				      </div>
+				    </div>
+			<!-- si le livre n'est pas disponible, on fait en sorte de l'ajouter à la wishliste -->
+			{{else}}
+				<div class="thumbnail">
+				    <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+				    <div class="caption">
+				        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+				        <p>{{myChosenBook.snippet}}</p>
+				     	<h5>Ce livre est victime de son succès, tous les exemplaires sont présentement prêtés. Ajoute-le à ta wishliste et nous te préviendrons dès qu'un exemplaire sera disponible près de chez toi.</h5>
+				    </div>
+				    <p class="text-center">
+				    <!-- même bouton étoile que dans le Lend -->
+        			<a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Ajouter à ma Wishliste</a></p>
+				</div>
+			{{/if}}
+	    {{else}}
+	    	<!-- on valide que le livre est bien disponible  -->
+	    	{{#if usersWhoShareIt.count}}
+		    	<div class="thumbnail">
+			      <img class="thumb-books" src="{{myChosenBook.thumb}}" width="100" height="140">
+			      <div class="caption">
+			        <h3>{{myChosenBook.title}} by {{myChosenBook.authors}}</h3>
+			        <p>{{myChosenBook.snippet}}</p>
+			        <p class="text-center"></p>
+			     	<h5>Ce livre est disponible et {{usersWhoShareIt.count}} utilisateurs peuvent te le prêter</h5>
+			     	<h5>Connecte-toi vite pour les contacter!</h5>
+			     	<!-- Les bouton s'enregistrer et se connecter ne sont pas actifs pour l'instant -->
+	        		<p><a class="se connecter" role="button"> Se connecter</a> </p> <p><a class="s'inscrire" role="button"> S'inscrire</a> </p>          		
+			     </div>
+			    </div>
+			<!-- si le livre n'est pas disponible, on dit qu'il le sera bientôt et on fait en sorte que l'utilisateur s'enregistre pour commencer une wishliste  -->
+			{{else}}
+				<h3>caca pour user non connecté</h3>
+			{{/if}}
+    	{{/if}}
+    {{/if}}
 </template>
