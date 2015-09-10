@@ -2,7 +2,7 @@
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
   Meteor.subscribe('allBooksInformation');
-  Meteor.subscribe('myPhysicalBooks');
+ Meteor.subscribe('myPhysicalBooks');
 
 
   Session.setDefault('searching', false);
@@ -171,8 +171,8 @@ Template.displaySelectedBook.helpers({
   // ATTENTION, ICI CELA RENVOIE UNE ERREUR DANS LA CONSOLE' Je ne sais pas pourquoi, mais ca marche
   var selectedBookRef;
   selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
- // console.log(selectedBookRef);
-// console.log(selectedBookRef.bookRef);
+  //console.log(selectedBookRef);
+  //console.log(selectedBookRef.bookRef);
 
   return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
   }
@@ -338,7 +338,7 @@ if (Meteor.isServer) {
     // VOIR ENSUITE SI ON PEUT VALIDER L'ISBN + FIABLEMENT !!! V2
 
 //PARTIE 1
-      //var pour voir si le bouquin est déjèa référencé dans la base de données
+      //var pour voir si le bouquin est déjà référencé dans la base de données
   var isThisBookAlreadyInTheDatabase = BOOKS_INFOS.find({ISBN: ISBN}).count();
   if (isThisBookAlreadyInTheDatabase == 0) {
     //Si aucun document ne ressort alors on le créé

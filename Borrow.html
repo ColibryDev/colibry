@@ -1,3 +1,54 @@
 <template name="borrow">
-      <h2>En construction !</h2>
+ 	<h1>Find a Book around you</h1>
+      <h7>(En cours de construction)</h7>
+
+	{{> searchToBorrow}}
+
+	{{> displayAvailableBooks}}
+
+</template>
+
+<template name="searchToBorrow">
+	<h5>Barre de recherche du livre</h5>
+	 <form>
+        <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
+        <input type="submit" value="Recherchez dans Colibry">
+    </form>
+
+    {{> displaySearchedBooks}}
+
+</template>
+
+<template name="displayAvailableBooks">
+	<h5>Liste des livres disponibles dans la communauté</h5>
+	<div class="panel-body">
+      	<div class="row">
+      	 {{#each availableBooks}}
+    			<a class="img-thumbnail img-responsive">
+     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+           {{> bookimage}}         
+    			</a>
+  			{{/each}}
+  		</div>	
+  	</div>
+</template>
+
+<template name="displaySearchedBooks">
+	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
+	 <div class="panel-body">
+      	<div class="row">
+	      	{{#if searchInAllAvailableBooks.count}}
+	      	 {{#each searchInAllAvailableBooks}}
+	    			<a class="img-thumbnail img-responsive proutprout">
+	     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+	           {{> bookimage}}         
+	           {{title}}
+	    			</a>
+	  			{{/each}}
+	  		{{else}}
+	         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
+	         Désolé mais ce livre n'est pas disponible
+	        {{/if}}
+  		</div>	
+  	</div>
 </template>
