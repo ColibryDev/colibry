@@ -1,7 +1,44 @@
+/*// Connecte à l'API GOOGLE MAPS POUR AFFICHER UNE CARTE SEULEMENT SUR borrow et lend 
+// Attention sur Profile, cela fait un doublon de merde. Dur a regler...
+Router.onBeforeAction(function() {
+  GoogleMaps.load();
+  this.next();
+}, { only: "borrow" });
+if (Meteor.isClient) {
+// Le code tout simple que je te propose pour afficher des cartes.
+// Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
+// A mon avis, on peut tout faire avec ca !
+Template.map.helpers({
+  exampleMapOptions: function() {
+    // Make sure the maps API has loaded
+    if (GoogleMaps.loaded()) {
+      // Map initialization options
+      return {
+        center: new google.maps.LatLng(-37.8136, 144.9631),
+        zoom: 8
+      };
+    }
+  }
+});
+
+
+	Template.map.onCreated(function() {
+  // We can use the `ready` callback to interact with the map API once the map is ready.
+  GoogleMaps.ready('exampleMap', function(map) {
+    // Add a marker to the map once it's ready
+    var marker = new google.maps.Marker({
+      position: map.options.center,
+      map: map.instance
+    });
+  });
+});
+}
+*/
 if (Meteor.isClient) {
 
 	Meteor.subscribe('allAvailableBooks');
 	
+
 
 	Template.displayAvailableBooks.helpers({
     // Fonctions pour montrer toutes les infos des livres de PHYSICAL_BOOKS qui ont un statut 1
@@ -11,7 +48,7 @@ if (Meteor.isClient) {
    		 // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
    		 return BOOKS_INFOS.find({_id:{ $in:differentBooks}});
    		 }
-  	})
+  	});
 
 
 

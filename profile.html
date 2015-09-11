@@ -3,6 +3,7 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 </head>
 
+
 <!-- TEMPLATE POUR AFFICHER LE PROFILE DE L'UTILISATEUR ET LUI PERMETTRE DE MODIFIER SES INFORMATIONS PERSONNELLES -->
 <template name="profile">
  <!--
@@ -23,7 +24,16 @@ Hello {{currentUser.profile.firstName}} !
    {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
    {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
   <button type="submit" class="btn btn-primary">Update</button>
+
+
+
+{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
+  <button type="submit" class="btn btn-primary">Update</button>
+
  {{/autoForm}}
+
+
+
 
 
 </template>
