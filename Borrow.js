@@ -15,6 +15,7 @@ if (Meteor.isClient) {
 
 
 
+
   	Template.searchToBorrow.events({
     	// Recuperation de la valeur recherchée par l'utilisateur
     	'submit form': function(event){
@@ -28,10 +29,12 @@ if (Meteor.isClient) {
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
    	 		Session.set('searchedBookSession',searchedBookVar1);
    	 	}   	 	
+
 	});
 
 
 	Template.displaySearchedBooks.helpers({
+
 		searchInAllAvailableBooks: function() {
 		// Fonction pour montrer les llivres en base de donnée qui correspondent à la recherche par titre
 		// on récupère la valeur recherchée

@@ -1,6 +1,52 @@
 Schema = {};
 // Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 //ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
+//SimpleSchema.debug =true;   //TESTING
+
+//Création d'un schema pour l'adresse. Ne pas touché, utilisé par le package gérant les adresses
+Schema.AddressSchema =new SimpleSchema({
+  fullAddress: {
+    type: String,
+    optional: true
+  },
+  lat: {
+    type: Number,
+    decimal: true,
+    optional: true
+  },
+  lng: {
+    type: Number,
+    decimal: true,
+    optional: true
+  },
+  street: {
+    type: String,
+    max: 100,
+    optional: true
+  },
+  city: {
+    type: String,
+    max: 50,
+    optional: true
+  },
+  state: {
+    type: String,
+    // Source d'erreur pour le package. 
+  //  regEx: /^A[LKSZRAEP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]$/,
+    optional: true
+  },
+  zip: {
+    type: String,
+        // Source d'erreur pour le package. 
+    //regEx: /^[0-9]{5}$/,
+    optional: true
+  },
+  country: {
+    type: String,
+    optional: true
+  }
+});
+
 
 Schema.UserProfile = new SimpleSchema({
     
@@ -27,6 +73,16 @@ Schema.UserProfile = new SimpleSchema({
   birthday: {
     type: Date,
     label: "Birthday",
+    optional: true
+  },
+  address1: {
+    type: Schema.AddressSchema,
+    label: 'Personal address',
+    optional: true
+  },
+  address2: {
+    type: Schema.AddressSchema,
+    label: 'Work address',
     optional: true
   }
 });

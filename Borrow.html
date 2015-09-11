@@ -1,4 +1,5 @@
 <template name="borrow">
+
  	<h2>Le livre que vous cherchez est sûrement disponible près de chez vous !</h2>
 
 	{{> searchToBorrow}}
@@ -9,6 +10,7 @@
 <template name="searchToBorrow">
 	<h5>Un titre en tête?</h5>
 	<form>
+
         <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
         <input type="submit" value="Recherchez dans Colibry">
     </form>
@@ -25,6 +27,7 @@
 
 <template name="displayAvailableBooks">
 	<h5>L'ensemble des livres disponibles dans la communauté</h5>
+
 	<div class="panel-body">
       	<div class="row">
       	 {{#each availableBooks}}
@@ -41,6 +44,7 @@
 	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
 	 <div class="panel-body">
       	<div class="row">
+
 	      	{{#if tryToSearch}}
 		      	{{#if searchInAllAvailableBooks.count}}
 		      	 {{#each searchInAllAvailableBooks}}
