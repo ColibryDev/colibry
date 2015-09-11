@@ -59,9 +59,6 @@ if (Meteor.isClient) {
    		 }
   	});
 
-
-
-
   	Template.searchToBorrow.events({
     	// Recuperation de la valeur recherchée par l'utilisateur
     	'submit form': function(event){
@@ -74,8 +71,7 @@ if (Meteor.isClient) {
    	 		console.log("Form submitted");
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
    	 		Session.set('searchedBookSession',searchedBookVar1);
-   	 	}   	 	
-
+   	 	}
 	});
 
 
@@ -128,7 +124,5 @@ if (Meteor.isServer) {
 	// fonction publish qui renvoit la liste de tous les livres available, quel que soit l'utilisateur
 	Meteor.publish('allAvailableBooks',function(){
     return PHYSICAL_BOOKS.find({status: "1"});
-  });
-
-	
+  });	
 }
