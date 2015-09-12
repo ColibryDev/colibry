@@ -89,12 +89,12 @@ Schema.UserProfile = new SimpleSchema({
   },
   pic: {
     type: String,
+    label: 'Profile Picture',
+    optional : true,
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
-        collection: 'Images',
-        label: 'Profile Picture', 
-        optional : true
+        collection: 'IMAGES'
       }}
       }
 });

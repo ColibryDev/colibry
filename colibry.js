@@ -4,10 +4,9 @@
 BOOKS_INFOS = new Mongo.Collection('allBooksInformation');
 PHYSICAL_BOOKS = new Mongo.Collection('myPhysicalBooks');
 GOOGLE_BOOKS_SEARCH = new Mongo.Collection('GBooks');
-
 // Création d'une collection d'images FS
-var IMAGES = new FS.Collection(
-  "images", {stores: [new FS.Store.GridFS("images", {path: "~/uploads"})]
+IMAGES = new FS.Collection(
+  "images", {stores: [new FS.Store.GridFS("images", {})]
   });
 
 
@@ -19,6 +18,7 @@ Router.route('/borrow');
 Router.route('/profile'/*, {waitOn: function() {
     return Meteor.subscribe('images');
   }}*/);
+
 
 // Fonction iron:router pour indiquer que sur n'importe quelle page (excepté Lend), si l'utilisateur n'est pas connecté à son compte, iron:router le renvoie vers la page de login
 Router.onBeforeAction(function(){
@@ -52,6 +52,9 @@ IMAGES.allow({
   'insert': function (userId, doc) {
     // add custom authentication code here
     return true;
+  },
+  update: function(userId, doc, fieldNames, modifier) {
+  return true;
   },
   'download': function (userId) {
     // add custom authentication code here
