@@ -30,7 +30,7 @@
 
 
 
-<nav class="navbar bg-primary navbar-fixed-top navbar-light" style="background-color: #003366;">
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #003366;">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -69,7 +69,7 @@
               <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
               <!-- Si l'utilisateur a mis une Profile Pic alors a travers la fonction getProfilePic, on va chercher l'ID de l'utilisateur, puis l'Id de son image qu'on va ensuite chercher dans la BD IMAGES puis qu'on renvoit. On appelle ensuite. ProfilePic.url pour avoir l'image dans src ... :)-->
               {{#if currentUser.profile.pic}}
-              <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="40" width="40">
+              <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
               {{else}}
               <span class="glyphicon glyphicon-user"> </span>
               {{/if}}
