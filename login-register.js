@@ -1,7 +1,9 @@
 Schema = {};
 // Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 //ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
-//SimpleSchema.debug =true;   //TESTING
+
+SimpleSchema.debug =true;   //TESTING
+
 
 //Création d'un schema pour l'adresse. Ne pas touché, utilisé par le package gérant les adresses
 Schema.AddressSchema =new SimpleSchema({
@@ -84,7 +86,17 @@ Schema.UserProfile = new SimpleSchema({
     type: Schema.AddressSchema,
     label: 'Work address',
     optional: true
-  }
+  },
+  pic: {
+    type: String,
+    label: 'Profile Picture',
+    optional : true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'IMAGES'
+      }}
+      }
 });
 
 // deuxieme schema. Schema principale de Meteor.users dans lequel on inclue dans profile le schema ci-dessus
