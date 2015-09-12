@@ -2,7 +2,7 @@ Schema = {};
 // Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
 //ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
 
-SimpleSchema.debug =true;   //TESTING
+// SimpleSchema.debug =true;   //TESTING
 
 
 //Création d'un schema pour l'adresse. Ne pas touché, utilisé par le package gérant les adresses

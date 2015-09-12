@@ -1,7 +1,36 @@
 
 <!-- Template pour la Barre de navigation-->
 <template name="navBar">
-<nav class="navbar navbar-default navbar-fixed-top">
+
+<!-- Futur NavBar sous BootStrap 4
+<nav class="navbar navbar-light bg-faded">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <a class="navbar-brand" href="#">Responsive navbar</a>
+    <ul class="nav navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+-->
+
+
+
+<nav class="navbar bg-primary navbar-fixed-top navbar-light" style="background-color: #003366;">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -38,7 +67,12 @@
 
       <li class="dropdown closed">
               <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+              <!-- Si l'utilisateur a mis une Profile Pic alors a travers la fonction getProfilePic, on va chercher l'ID de l'utilisateur, puis l'Id de son image qu'on va ensuite chercher dans la BD IMAGES puis qu'on renvoit. On appelle ensuite. ProfilePic.url pour avoir l'image dans src ... :)-->
+              {{#if currentUser.profile.pic}}
+              <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="40" width="40">
+              {{else}}
               <span class="glyphicon glyphicon-user"> </span>
+              {{/if}}
               {{currentUser.profile.firstName}}  
               <span class="caret"></span>
               </a>
