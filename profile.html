@@ -6,6 +6,22 @@
 
 <!-- TEMPLATE POUR AFFICHER LE PROFILE DE L'UTILISATEUR ET LUI PERMETTRE DE MODIFIER SES INFORMATIONS PERSONNELLES -->
 <template name="profile">
+<div class="container">
+<div class="row">
+<div class="col-xs-6 col-md-4">
+	{{> photoProfile}}
+</div>
+<div class="col-xs-6 col-md-4">
+	{{> infoProfile}}
+</div>
+<div class="col-xs-6 col-md-4">
+	{{> profileStats}}
+</div>
+</div>
+</div>
+</template>
+
+<template name="infoProfile">
  <!--
   {{> quickForm collection="Meteor.users" doc=currentUser id="user-profile-form" type="update" omitFields="emails,createdAt, services"}}
 https://github.com/yogiben/meteor-autoform-file
@@ -14,6 +30,11 @@ https://github.com/yogiben/meteor-autoform-file
 <!-- AUTOFORM, du package aldeed:autoform pour afficher automatiquement un formulaire issu d'un schéma d'une collection-->
 
 Hello {{currentUser.profile.firstName}} !
+
+
+
+
+
 {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm' autosave=true}}
 
   {{> afQuickField name="profile.firstName"}}
@@ -24,13 +45,56 @@ Hello {{currentUser.profile.firstName}} !
    {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
    {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
   <button type="submit" class="btn btn-primary">Update</button>
-
-{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
-    <button type="submit" class="btn btn-primary">Update</button>
-
-
-
  {{/autoForm}}
 
+</template>
 
+
+<template name="photoProfile">
+{{#if currentUser.profile.pic}}
+<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
+{{else}}
+<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+{{/if}}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+ Update my profile picture
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='photoForm' autosave=true}}
+       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Update my profile picture</h4>
+      </div>
+      <div class="modal-body">
+       
+		{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
+		 		
+      </div>
+      <div class="modal-footer">
+	  <button type="submit" class="btn btn-primary">Update</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      
+        {{/autoForm}}
+    </div>
+  </div>
+</div>
+
+
+
+
+</template>
+
+
+<template name="profileStats">
+<div class="well">
+	on pourrait mettre des stats la...
+<span class="badge">{{myPublicBooks.count}}</span> books available for lending 
+</div>
 </template>

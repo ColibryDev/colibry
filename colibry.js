@@ -44,7 +44,8 @@ process.env.MAIL_URL="smtp://thecolibry%40gmail.com:Plouf123*@smtp.gmail.com:465
 
 
 Meteor.publish('images',function(){
-    return IMAGES.FIND;
+    var currentUserId = this.userId;
+    return IMAGES.find({owner: currentUserId});
   });
 
 

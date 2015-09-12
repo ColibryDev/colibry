@@ -4,10 +4,12 @@
   {{#if currentUser}}
   <body>
   <div class="container-fluid">
-  <h5>MY COLLABORATIVE LIBRARY</h5>
+  
   <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, searchGoogleBooks affiche la fonctionnalité de recherche de livres dans Google Books -->
   <div class="row">
-  <div class="col-xs-12 col-sm-6 col-md-8"> {{> displayMyPhysicalBooks}}
+  <div class="col-xs-12 col-md-8"> 
+    <h5>MY COLLABORATIVE LIBRARY</h5>
+    {{> displayMyPhysicalBooks}}
   </div>
   <div class="center-block">
   <div class="col-xs-6 col-md-4"> {{> displaySelectedBook}} {{> searchGoogleBooks}} 
@@ -44,6 +46,7 @@
   <!-- Système de panneau BOOTSTRAP -->
   <!-- l'ID est récupéré par les fonctions INTERACT (drag & drop) pour savoir dans quel partie de la bibliothèque ranger le livre.
   ID : 1 = livre actuellement disponible -->
+  <div class="container-fluid">
   <div id="1" class="panel panel-success dropzone">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -120,6 +123,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 

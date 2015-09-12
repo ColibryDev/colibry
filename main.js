@@ -9,6 +9,15 @@ Template.navBar.events({
     }
 });
 
+Template.navBar.helpers({
+	getProfilePic: function () {
+	var currentUser = Meteor.user();
+	var profilePicId = currentUser.profile.pic;
+    return IMAGES.findOne({_id:profilePicId}); // Where Images is an FS.Collection instance
+  }
+});
+
+
 }
 
 
