@@ -1,10 +1,19 @@
-/*// Connecte à l'API GOOGLE MAPS POUR AFFICHER UNE CARTE SEULEMENT SUR borrow et lend 
+// Connecte à l'API GOOGLE MAPS POUR AFFICHER UNE CARTE SEULEMENT SUR borrow et lend 
 // Attention sur Profile, cela fait un doublon de merde. Dur a regler...
-Router.onBeforeAction(function() {
-  GoogleMaps.load();
-  this.next();
-}, { only: "borrow" });
+
+
 if (Meteor.isClient) {
+
+// LANCE L'API GOOGLE MAPS (LA CLÉ EST CACHÉE, lors du deploy, mettre la clé (essai gratuit)
+// Clé Google Maps API : AIzaSyAqZ2hAdfBQdyoUZresoDfRPrDKoqMF0vE
+// Colibry, autorisation pour colibry.meteor.com
+Meteor.startup(function() {
+GoogleMaps.load({ v: '3', 
+//key: 'AIzaSyAqZ2hAdfBQdyoUZresoDfRPrDKoqMF0vE', 
+	libraries: 'geometry,places' });
+});
+
+
 // Le code tout simple que je te propose pour afficher des cartes.
 // Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
 // A mon avis, on peut tout faire avec ca !
@@ -33,7 +42,7 @@ Template.map.helpers({
   });
 });
 }
-*/
+
 if (Meteor.isClient) {
 
 	Meteor.subscribe('allAvailableBooks');
