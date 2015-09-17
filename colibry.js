@@ -15,9 +15,9 @@ Router.configure({layoutTemplate: 'main'});
 Router.route('/', function(){this.render('lend');}, {name: 'lend'});
 Router.route('/loginregister');
 Router.route('/borrow');
-Router.route('/profile'/*, {waitOn: function() {
-    return Meteor.subscribe('images');
-  }}*/);
+Router.route('/profile');
+
+
 
 
 // Fonction iron:router pour indiquer que sur n'importe quelle page (excepté Lend), si l'utilisateur n'est pas connecté à son compte, iron:router le renvoie vers la page de login

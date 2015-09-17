@@ -1,3 +1,6 @@
+<head>
+	
+</head>
 <template name="borrow">
 
  	<h2>Le livre que vous cherchez est sûrement disponible près de chez vous !</h2>
@@ -5,6 +8,9 @@
 	{{> searchToBorrow}}
 	
 	{{> displayAvailableBooks}}
+
+
+	{{> map}}
 </template>
 
 <template name="searchToBorrow">
@@ -121,8 +127,10 @@
 </template>
 
 <!-- Template pour afficher une carte, a personnaliser !
-	https://github.com/dburles/meteor-google-maps#examples
+	https://github.com/dburles/meteor-google-maps#examples-->
 <template name="map">
+
+	  <div class="map-container">
        {{> googleMap name="exampleMap" options=exampleMapOptions}}
-caca
-</template> -->
+   </div>
+</template> 
