@@ -1,6 +1,7 @@
 
 if (Meteor.isClient) {
 Meteor.subscribe('images');
+Session.setDefault('updatingProfile', false);
 
 
 	Template.infoProfile.helpers({
@@ -16,8 +17,6 @@ Meteor.subscribe('images');
     }
   },
 
-
-
 // données de configuration de la map qu'on affiche sur le profile
   addressesMapOptions: function() {
     // Make sure the maps API has loaded
@@ -30,14 +29,17 @@ Meteor.subscribe('images');
         scrollwheel: false,
          // Apply the map style array to the map.
     	styles: styleArray,
-        zoom: 8
+        zoom: 15
       };
     }
+  },
+
+	'actuallyUpdatingProfile' : function(){
+	var updatingProfile = Session.get('updatingProfile');
+	return updatingProfile;
   }
 
 });
-
-
 
 
 Template.infoProfile.onCreated(function() {
@@ -84,11 +86,41 @@ Template.infoProfile.onCreated(function() {
 	
 
 	Template.photoProfile.helpers({
-	getProfilePic: function () {
+	'getProfilePic': function () {
 	var currentUser = Meteor.user();
 	var profilePicId = currentUser.profile.pic;
     return IMAGES.findOne({_id:profilePicId}); // Where Images is an FS.Collection instance
+  },
+
+	'actuallyUpdatingProfile' : function(){
+	var updatingProfile = Session.get('updatingProfile');
+	return updatingProfile;
   }
+});
+
+Template.profileActions.helpers({
+	'actuallyUpdatingProfile' : function(){
+	var updatingProfile = Session.get('updatingProfile');
+	return updatingProfile;
+  }
+});
+
+
+
+Template.profileActions.events({
+	'click .updateProfile' : function(){
+	Session.set('updatingProfile', true);
+	
+	},
+
+	'click .saveProfile' : function(){
+	Session.set('updatingProfile', false);
+	
+	},
+
+	'click .suppressAccount' : function(){
+	dhtmlx.message({type:"error", text:"Dumn, you thought you could leave like that ? ", expire: 1000});
+	}  
 });
 
 }

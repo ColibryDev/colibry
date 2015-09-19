@@ -8,6 +8,7 @@ if (Meteor.isClient) {
   Session.setDefault('searching', false);
   Session.setDefault('actualGoogleBooksSearch', false);
   Session.setDefault('targetedStatus', "no move");
+  Session.setDefault('selectedPhysicalBook', "");
 
   // fonction liée à la reserche sur l'API Google Books
   Tracker.autorun(function() {  
@@ -168,13 +169,12 @@ Template.displaySelectedBook.helpers({
   // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
   var selectedPhysicalBook = Session.get('selectedPhysicalBook');
   // renvoie toutes les infos sur le livre
-  // ATTENTION, ICI CELA RENVOIE UNE ERREUR DANS LA CONSOLE' Je ne sais pas pourquoi, mais ca marche
+  if (selectedPhysicalBook != "")
+  {
   var selectedBookRef;
   selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
-  //console.log(selectedBookRef);
-  //console.log(selectedBookRef.bookRef);
-
   return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
+  }
   }
 /*
  'showSelectedBook': function()
