@@ -49,6 +49,10 @@ Hello {{currentUser.profile.firstName}} !
   <button type="submit" class="btn btn-primary">Update</button>
  {{/autoForm}}
 
+  <div class="map-container">
+ {{> googleMap name="addressesMap" options=addressesMapOptions}}
+</div>
+
 </template>
 
 
