@@ -9,8 +9,6 @@
 	
 	{{> displayAvailableBooks}}
 
-
-	{{> map}}
 </template>
 
 <template name="searchToBorrow">
@@ -29,6 +27,7 @@
     </div>
     </div>
     </div>
+    {{> map}}
 </template>
 
 <template name="displayAvailableBooks">
@@ -118,6 +117,7 @@
 	        		<p><a class="se connecter" role="button"> Se connecter</a> </p> <p><a class="s'inscrire" role="button"> S'inscrire</a> </p>          		
 			     </div>
 			    </div>
+
 			<!-- si le livre n'est pas disponible, on dit qu'il le sera bientôt et on fait en sorte que l'utilisateur s'enregistre pour commencer une wishliste  -->
 			{{else}}
 				<h3>caca pour user non connecté</h3>
