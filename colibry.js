@@ -24,12 +24,6 @@ Router.onBeforeAction(function() {
   this.next();
 }, { only: ['borrow', 'profile'] });
 
-
-Router.route('/', function(){this.render('lend');}, {name: 'lend'});
-Router.route('/loginregister');
-Router.route('/borrow');
-Router.route('/profile');
-
 // Fonction iron:router pour indiquer que sur n'importe quelle page (excepté Lend), si l'utilisateur n'est pas connecté à son compte, iron:router le renvoie vers la page de login
 Router.onBeforeAction(function(){
     var currentUser = Meteor.userId();
@@ -41,6 +35,13 @@ Router.onBeforeAction(function(){
 }, {
     only: "lend"
 });
+
+Router.route('/', function(){this.render('lend');}, {name: 'lend'});
+Router.route('/loginregister');
+Router.route('/borrow');
+Router.route('/profile');
+
+
 
 
 

@@ -55,22 +55,18 @@
 {{#if actuallyUpdatingProfile}}
 {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm' autosave=true}}
 
+	{{> afQuickField name="profile.firstName"}}
+	{{> afQuickField name="profile.lastName"}}
   {{> afQuickField name="profile.birthday"}}
   <!-- Package lukemadera/meteor-autoform-googleplace permettant de placer des champs autoform pour adresse. Connexion API automatique puis enregistrement côté serveur de l'adresse décomposée, voir meteor.users.profile.adress1 
 	A noter que l'autoupdate ne fonctionne pas pour l'adresse. Pas grave selon moi dans v1 -->
    {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
    {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
-  <button type="submit" class="btn btn-primary">Update</button>
- {{/autoForm}}
+	<button type="submit" class="btn btn-warning btn-block btn-md saveProfile">Save my profile</button> {{/autoForm}}
 
  <!-- Si pas en train d'actualiser le profile -->
  {{else}}
-<blockquote>
-	<p>
-  {{currentUser.profile.emails.address}}<br>
 
-  {{currentUser.profile.birthday}}<br>
-</p>
 
 
 {{#if currentUser.profile.address1}}
@@ -88,15 +84,15 @@
   {{currentUser.profile.address2.city}}, {{currentUser.profile.address2.state}}  {{currentUser.profile.address2.zip}}, {{currentUser.profile.address2.country}}<br>
 </address>
 {{/if}}
-</blockquote>
+
 <div class="map-container">
  {{> googleMap name="addressesMap" options=addressesMapOptions}}
 </div>
 
- {{/if}}
+{{/if}}
 
-  
 
+ 
 </template>
 
 
@@ -110,6 +106,16 @@
  {{/autoForm}}
 <!-- Si pas actuellement en train d'update le profil -->
 {{else}}
+<h3>
+	{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}<br>
+	</h3>
+  {{currentUser.emails.[0].address}}<br>
+  {{#if currentUser.profile.birthday}}
+  Born the {{birthdayDateFormat}}<br>
+  Registered from {{timeFromInscription}}
+  {{/if}}
+  <br>
+
 <!-- Si il y a une image de profile -->
 {{#if currentUser.profile.pic}}
 <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
@@ -123,7 +129,7 @@
 
 <template name="profileStats">
 <div class="well">
-	on pourrait mettre des stats la...
+
 <span class="badge">{{myPublicBooks.count}}</span> books available for lending 
 </div>
 </template>
