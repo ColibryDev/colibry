@@ -22,11 +22,14 @@ Template.map.helpers({
   'usersCoordinates': function(){
 		// Récupère l'ID du livre choisi et sauvegarde dans un tableau les utilisateurs qui peuvent le prêter
 		// pour l'instant la fonction renvoie les coordonnées des utilisateurs qui peuvent prêter
+		// setting dans une session également au cas où une sytaxe paticulière demanderai l'appel d'une session plutôt que d'une fonction
 		var chosenBookId = Session.get('chosenBookSession');
 		console.log(chosenBookId);
+		// recupération des ID des users qui peuvent partager
 		var userWhoCanShare = [];
 			PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"}).forEach(function(element) {userWhoCanShare.push(element.bookOwner);});
 		Session.set('usersWhoShareSession',userWhoCanShare);
+		// recupération des coordonnées des users récupérés dans la ligne du dessus
 		var userWhoCanShareCoordinates = [];
 			Meteor.users.find({_id:{ $in:userWhoCanShare}}).forEach(function(element) {userWhoCanShareCoordinates.push(element.profile.address2.lat , element.profile.address2.lng);});
 		Session.set('usersWhoShareCoordinatesSession',userWhoCanShareCoordinates);
