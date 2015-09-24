@@ -8,34 +8,48 @@ if (Meteor.isClient) {
 // Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
 // A mon avis, on peut tout faire avec ca !
 Template.map.helpers({
+  
+  'usersCoordinates': function(){
+		// Récupère l'ID du livre choisi et sauvegarde dans un tableau les utilisateurs qui peuvent le prêter
+		// pour l'instant la fonction renvoie les coordonnées des utilisateurs qui peuvent prêter
+		// setting dans une session également au cas où une sytaxe paticulière demanderai l'appel d'une session plutôt que d'une fonction
+		var chosenBookId = Session.get('chosenBookSession');
+		console.log(chosenBookId);
+		// recupération des ID des users qui peuvent partager
+		var userWhoCanShare = [];
+			PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"}).forEach(function(element) {userWhoCanShare.push(element.bookOwner);});
+		Session.set('usersWhoShareSession',userWhoCanShare);
+		// recupération des coordonnées des users récupérés dans la ligne du dessus
+		var userWhoCanShareCoordinates = [];
+			Meteor.users.find({_id:{ $in:userWhoCanShare}}).forEach(function(element) {userWhoCanShareCoordinates.push(element.profile.address2.lat , element.profile.address2.lng);});
+		Session.set('usersWhoShareCoordinatesSession',userWhoCanShareCoordinates);
+		console.log(userWhoCanShareCoordinates);
+		return userWhoCanShareCoordinates;
+		
+	},
+
   exampleMapOptions: function() {
     // Make sure the maps API has loaded
     if (GoogleMaps.loaded()) {
       // Map initialization options
       return {
-        center: new google.maps.LatLng(-37.8136, 144.9631),
-        zoom: 8
+        center: new google.maps.LatLng(45.498072,-73.570322),
+        zoom: 11
+
       };
     }
   }
 });
 
 
-	Template.map.onCreated(function() {
-  // We can use the `ready` callback to interact with the map API once the map is ready.
-  GoogleMaps.ready('exampleMap', function(map) {
-    // Add a marker to the map once it's ready
-    var marker = new google.maps.Marker({
-      position: map.options.center,
-      map: map.instance
-    });
-  });
-});
+
+
 }
 
 if (Meteor.isClient) {
 
 	Meteor.subscribe('allAvailableBooks');
+	Meteor.subscribe('usersInfo');
 	
 
 
@@ -105,6 +119,7 @@ if (Meteor.isClient) {
 			var chosenBookId = Session.get('chosenBookSession');
 			return PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"});
 		}
+
 	});
 	
 }
@@ -114,5 +129,8 @@ if (Meteor.isServer) {
 	// fonction publish qui renvoit la liste de tous les livres available, quel que soit l'utilisateur
 	Meteor.publish('allAvailableBooks',function(){
     return PHYSICAL_BOOKS.find({status: "1"});
-  });	
+  });
+  //Meteor.publish('usersInfo',function(){
+    //return Meteor.users.find();
+  //});	
 }
