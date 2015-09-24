@@ -21,6 +21,7 @@ Template.map.helpers({
   
   'usersCoordinates': function(){
 		// Récupère l'ID du livre choisi et sauvegarde dans un tableau les utilisateurs qui peuvent le prêter
+		// pour l'instant la fonction renvoie les coordonnées des utilisateurs qui peuvent prêter
 		var chosenBookId = Session.get('chosenBookSession');
 		console.log(chosenBookId);
 		var userWhoCanShare = [];
@@ -41,26 +42,14 @@ Template.map.helpers({
       return {
         center: new google.maps.LatLng(45.498072,-73.570322),
         zoom: 11
+
       };
     }
   }
 });
 
-Template.map.onCreated(function() {
-  // We can use the `ready` callback to interact with the map API once the map is ready.
-  	GoogleMaps.ready('exampleMap', function(map) {
-	    // Add a marker to the map once it's ready
-	    var coordinates = usersCoordinates();
-	    coordinates.forEach(function (element) {
-		    var marker = new google.maps.Marker({
-		        position: new google.maps.LatLng(element.profile.address2.lat, element.profile.address2.lng),
-		        title: element.firstName,
-		        postId: element._id
-		    });
-		    marker.setMap(map);
-		});
-	});
- });
+
+
 
 }
 
@@ -148,7 +137,7 @@ if (Meteor.isServer) {
 	Meteor.publish('allAvailableBooks',function(){
     return PHYSICAL_BOOKS.find({status: "1"});
   });
-  Meteor.publish('usersInfo',function(){
-    return users.find();
-  });	
+  //Meteor.publish('usersInfo',function(){
+    //return Meteor.users.find();
+  //});	
 }
