@@ -130,7 +130,10 @@
 	https://github.com/dburles/meteor-google-maps#examples-->
 <template name="map">
 
+<!-- pour l'instant on affiche ici les coordonnées des utilisateurs qui peuvent preter-->
+	{{usersCoordinates}}
 	  <div class="map-container">
        {{> googleMap name="exampleMap" options=exampleMapOptions}}
+
    </div>
 </template> 
