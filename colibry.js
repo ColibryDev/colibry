@@ -9,9 +9,6 @@ IMAGES = new FS.Collection(
   "images", {stores: [new FS.Store.GridFS("images", {})]
   });
 
-//permet de stocker des marqueurs pour la carte
-Markers = new Mongo.Collection('markers');  
-
 
 // Configuration du routeur iron:router, chaque page doit être mentionnée ici ! grâce à Router.route
 Router.configure({layoutTemplate: 'main'});
