@@ -21,11 +21,21 @@ Template.map.helpers({
 		Session.set('usersWhoShareSession',userWhoCanShare);
 		// recupération des coordonnées des users récupérés dans la ligne du dessus
 		var userWhoCanShareCoordinates = [];
-			Meteor.users.find({_id:{ $in:userWhoCanShare}}).forEach(function(element) {userWhoCanShareCoordinates.push(element.profile.address2.lat , element.profile.address2.lng);});
-		Session.set('usersWhoShareCoordinatesSession',userWhoCanShareCoordinates);
+		Meteor.users.find({
+			_id: {
+				$in : userWhoCanShare
+			}
+		}).forEach(function(element) {
+			userWhoCanShareCoordinates.push({
+				lat : element.profile.address2.lat,
+				lng : element.profile.address2.lng
+			});
+		});
+
 		console.log(userWhoCanShareCoordinates);
+		Session.set('usersWhoShareCoordinatesSession',userWhoCanShareCoordinates);
+
 		return userWhoCanShareCoordinates;
-		
 	},
 
   exampleMapOptions: function() {
@@ -39,6 +49,19 @@ Template.map.helpers({
       };
     }
   }
+});
+
+Template.map.onCreated(function(){
+	GoogleMaps.ready('exampleMap', function(map){
+		Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
+			new google.maps.Marker({
+		      draggable: true,
+		      animation: google.maps.Animation.DROP,
+		      position: new google.maps.LatLng(coordinates.lat, coordinates.lng),
+		      map: map.instance
+		    });
+		});
+	});
 });
 
 
