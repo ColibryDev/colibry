@@ -192,7 +192,7 @@ var mySubmitFunc = function(error, state){
 
     }
     if (state === "signUp") {
-          Router.go('profile');
+          Router.go('profilepage');
           Session.set('updatingProfile', true);
 
     }

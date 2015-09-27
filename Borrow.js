@@ -50,7 +50,7 @@ Template.map.helpers({
     }
   }
 });
-
+// https://developers.google.com/maps/documentation/javascript/examples/layer-fusiontables-simple
 Template.map.onCreated(function(){
 	GoogleMaps.ready('exampleMap', function(map){
 		Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
@@ -95,7 +95,6 @@ if (Meteor.isClient) {
    	 		var tryToSearch = Session.get('tryToSearch');
    	 		console.log(tryToSearch);
    	 		var searchedBookVar1 = event.target.searchedBook.value;
-   	 		console.log("Form submitted");
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
    	 		Session.set('searchedBookSession',searchedBookVar1);
    	 	}
