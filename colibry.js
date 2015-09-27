@@ -22,7 +22,7 @@ Router.onBeforeAction(function() {
 //key: 'AIzaSyAqZ2hAdfBQdyoUZresoDfRPrDKoqMF0vE', 
 	libraries: 'geometry,places' });
   this.next();
-}, { only: ['borrow', 'profile'] });
+}, { only: ['borrow', 'profilepage'] });
 
 // Fonction iron:router pour indiquer que sur n'importe quelle page (excepté Lend), si l'utilisateur n'est pas connecté à son compte, iron:router le renvoie vers la page de login
 Router.onBeforeAction(function(){
@@ -33,13 +33,13 @@ Router.onBeforeAction(function(){
         this.render("loginregister");
     }
 }, {
-    only: "lend"
+    only: ['lend', 'profilepage']
 });
 
 Router.route('/', function(){this.render('lend');}, {name: 'lend'});
 Router.route('/loginregister');
 Router.route('/borrow');
-Router.route('/profile');
+Router.route('/profilepage');
 
 
 
