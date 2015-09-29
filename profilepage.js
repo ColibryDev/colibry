@@ -83,8 +83,20 @@ Template.profilepage.events({
 	},
 
 	'click .saveProfile' : function(event){
+  var userId = Meteor.userId();
 	document.getElementById('save-pic').click();
 	document.getElementById('save-profileInfo').click();
+
+  // Récupère les valeurs qui sont dans les champs addresses
+  var address1 = document.getElementById('address1Field').value;
+  var address2 = document.getElementById('address2Field').value;
+  // si elles sont nulles alors cela supprime les addresses dans la BD Meteor.usesrs
+  if (address1 == ""){
+    Meteor.users.update( userId, { $unset: { 'profile.address1': "" } } );
+  }
+  if (address2 == ""){
+    Meteor.users.update( userId, { $unset: { 'profile.address2': "" } } );
+  }
 
 	// Appelle la fonction SetMaps que j'ai créé pour recréer les maps avec les bons cercles
   setMaps();
