@@ -42,21 +42,22 @@
 {{else}}
 <img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
 {{/if}}
+
+{{#if currentUser.profile.address1.lat}}
 <br>
-
-
  <center><h5>Personal Address</h5></center>
 <div class="map-container">
  {{> googleMap name="address1Map" options=addressesMapOptions}}
 </div>
+{{/if}}
 
+{{#if currentUser.profile.address2.lat}}
 <br>
-
  <center><h5>Work Address</h5></center>
 <div class="map-container">
  {{> googleMap name="address2Map" options=addressesMapOptions}}
 </div>
-
+{{/if}}
 
 
 
@@ -79,17 +80,10 @@
   {{> afQuickField name="profile.birthday"}}
   <!-- Package lukemadera/meteor-autoform-googleplace permettant de placer des champs autoform pour adresse. Connexion API automatique puis enregistrement côté serveur de l'adresse décomposée, voir meteor.users.profile.adress1 
 	A noter que l'autoupdate ne fonctionne pas pour l'adresse. Pas grave selon moi dans v1 -->
-   {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
+   {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace id="address1Field"}}
          
-<br>
-
-
-	<!-- La je pourrais rajouter une fonction si profile.nbAddresses = 2, alors afficher le champ et un bouton remove 2eme addresse, sinon afficher juste un bouton, avoir une seconde addresse -->
-
-
-
-   {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace}}
-                 <a href="#" class="address2-remove"><i class="fa fa-times"></i> Remove</a>
+   {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace id="address2Field"}}
+         
 
 		<!-- Je cache le bouton mais utilise son ID pour le déclencher quand j'appuie sur le bouton principal Save -->
 	<button type="submit" class="btn btn-warning btn-block btn-md hidden" id="save-profileInfo">Save my profile</button> 
@@ -116,7 +110,7 @@
     <br><br>
   
 
-{{#if currentUser.profile.address1}}
+{{#if currentUser.profile.address1.lat}}
 <address>
   <strong>Personal address</strong><br>
   {{currentUser.profile.address1.street}}<br>
@@ -124,7 +118,7 @@
 </address>
 {{/if}}
 
-{{#if currentUser.profile.address2}}
+{{#if currentUser.profile.address2.lat}}
 <address>
   <strong>Work address</strong><br>
   {{currentUser.profile.address2.street}}<br>

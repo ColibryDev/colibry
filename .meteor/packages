@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 accounts-password
 http
 accounts-facebook
@@ -25,8 +24,22 @@ accounts-google
 email
 lukemadera:autoform-googleplace
 dburles:google-maps
-yogiben:autoform-file
 cfs:standard-packages
 cfs:gridfs
 twbs:bootstrap
 momentjs:moment
+softwarerero:accounts-t9n
+autoform-file
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check

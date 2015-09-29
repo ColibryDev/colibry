@@ -91,18 +91,16 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
-
 </template>
-
-
-
-
 
 
 <!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
 <template name="main">
-      {{> yield}}
+    <body style="background-color:#eee">
+
+    {{> yield}}
      {{> navBar}} 
     <p class="text-right">Copyright &copy; Colibry, 2015-2016.</p>
+   
+      </body>
 </template>

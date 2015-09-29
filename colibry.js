@@ -21,7 +21,7 @@ Router.onBeforeAction(function() {
   GoogleMaps.load({ v: '3', 
 //key: 'AIzaSyAqZ2hAdfBQdyoUZresoDfRPrDKoqMF0vE', 
 	libraries: 'geometry,places' });
-  this.next();
+ this.next();
 }, { only: ['borrow', 'profilepage'] });
 
 // Fonction iron:router pour indiquer que sur n'importe quelle page (excepté Lend), si l'utilisateur n'est pas connecté à son compte, iron:router le renvoie vers la page de login
