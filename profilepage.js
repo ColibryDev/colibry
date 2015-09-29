@@ -103,6 +103,14 @@ Template.profilepage.events({
   Session.set('updatingProfile', false);
 	},
 
+  // Si l'utilisateur presse entrée (code 13)
+  'keypress input': function(event) {
+        if (event.charCode == 13) {
+            document.getElementById('save-button').click();
+            event.stopPropagation();
+        }
+    },
+
 	'click .suppressAccount' : function(){
 	dhtmlx.message({type:"error", text:"Dumb, you thought you could leave like that ? ", expire: 1000});
 	}  
