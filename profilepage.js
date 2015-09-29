@@ -82,25 +82,9 @@ Template.profilepage.events({
 	Session.set('updatingProfile', true);
 	},
 
-  'click .address1-remove' : function(){
-    // SUPPRIMER l'ADDRESSE 1
-    var userId = Meteor.userId();
-    Meteor.users.update( userId, { $unset: { 'profile.address1': "" } } );
-
-  },
-
-   'click .address2-remove' : function(){
-    // SUPPRIMER l'ADDRESSE 2
-    var userId = Meteor.userId();
-    Meteor.users.update( userId, { $unset: { 'profile.address2': "" } } );
-
-  },
-
 	'click .saveProfile' : function(event){
 	document.getElementById('save-pic').click();
 	document.getElementById('save-profileInfo').click();
-
-
 
 	// Appelle la fonction SetMaps que j'ai créé pour recréer les maps avec les bons cercles
   setMaps();
@@ -158,6 +142,11 @@ Template.profilepage.events({
 	'actuallyUpdatingProfile' : function(){
 	var updatingProfile = Session.get('updatingProfile');
 	return updatingProfile;
+  },
+
+  'getSecondAddress' : function(){
+  var secondAddress = Session.get('secondAddress');
+  return secondAddress;
   },
 
 		// Permet d'afficher la photo de profile

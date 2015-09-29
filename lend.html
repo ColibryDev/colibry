@@ -2,22 +2,24 @@
 <template name="lend">
 <!-- Même si déjà défini par iron router, rien ne s'affiche si l'utilisateur n'est pas connecté -->
   {{#if currentUser}}
-  <body>
-  <div class="container-fluid">
+  <div class="container panel-defaults panel">
   
   <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, searchGoogleBooks affiche la fonctionnalité de recherche de livres dans Google Books -->
   <div class="row">
   <div class="col-xs-12 col-md-8"> 
-    <h5>MY COLLABORATIVE LIBRARY</h5>
+   <p class="text-center">
+  <h3>MY COLLABORATIVE LIBRARY</h3></p>
     {{> displayMyPhysicalBooks}}
   </div>
   <div class="center-block">
-  <div class="col-xs-6 col-md-4"> {{> displaySelectedBook}} {{> searchGoogleBooks}} 
+  <div class="col-xs-6 col-md-4"> 
+    <br><br>
+    {{> displaySelectedBook}} 
+    {{> searchGoogleBooks}} 
     </div>
   </div>
   </div>
   </div>
-</body>
 {{/if}}
 </template>
 
