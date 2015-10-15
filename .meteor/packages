@@ -29,7 +29,6 @@ cfs:gridfs
 twbs:bootstrap
 momentjs:moment
 softwarerero:accounts-t9n
-autoform-file
 standard-minifiers
 meteor-base
 mobile-experience
@@ -43,3 +42,4 @@ random
 ejson
 spacebars
 check
+yogiben:autoform-file
