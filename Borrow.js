@@ -27,8 +27,8 @@ Template.map.helpers({
 			}
 		}).forEach(function(element) {
 			userWhoCanShareCoordinates.push({
-				lat : element.profile.address2.lat,
-				lng : element.profile.address2.lng
+				lat : element.profile.address1.lat,
+				lng : element.profile.address1.lng
 			});
 		});
 

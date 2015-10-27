@@ -135,10 +135,25 @@ interact('.dropzone').dropzone({
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
 Template.lend.events({
-  'click': function(){
-    // idéalement je voudrais essayer d'isoler les clics en dehors des images pour que cela annule le session.set et arrête ainsi d'afficher le template Myselectedbook...
-     // Session.set('selectedPhysicalBook', "none");
-      console.log("clic quelque part");
+  'click': function(event){
+   // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
+    var classDoc = event.target.classList;
+          //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
+      if (classDoc == "thumb-books")
+     {
+  var currentUserId = Meteor.userId();
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
+    var selectedBook = this._id;
+    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
+    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
+    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
+     }
+     else
+     {
+      //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
+    Session.set('selectedPhysicalBook', "");
+
+     } 
     }
 })
 
@@ -214,19 +229,7 @@ Template.displaySearchGoogleBooks.events({
 
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
-    'click .thumb-books': function(){
-    var currentUserId = Meteor.userId();
-      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
-    var selectedBook = this._id;
-    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
-    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
-    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
-          console.log("clic bbok");
-
-    }
-
-    
-
+   
     });
 
 // Fonctions helpers sur le template displayMyPhysicalBooks
