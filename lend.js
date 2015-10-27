@@ -24,31 +24,30 @@ if (Meteor.isClient) {
 
 //////////////////////////////////////////// INTERACT //////////////////////////////////////////////////////
 // Fonctions pour gérer le drag & drop //
+// http://interactjs.io/docs/#snap
 interact('.draggable')
   .draggable({
     // enable inertial throwing
-    inertia: true,
+    // http://interactjs.io/docs/#snap
+    inertia: false,
     // keep the element within the area of it's parent
     restrict: {
       restriction: "parent",
       endOnly: true,
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    },
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1}
+
+  },
 
     // call this function on every dragmove event
     onmove: dragMoveListener,
     // call this function on every dragend event
     onend: function (event) {
-      var textEl = event.target.querySelector('p');
-
-      textEl && (textEl.textContent =
-        'moved a distance of '
-        + (Math.sqrt(event.dx * event.dx +
-                     event.dy * event.dy)|0) + 'px');
+  // fonction fin
     }
   });
 
   function dragMoveListener (event) {
+    console.log("fonction1");
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -62,7 +61,6 @@ interact('.draggable')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-
   }
 
   // this is used later in the resizing demo
@@ -77,10 +75,14 @@ interact('.dropzone').dropzone({
   // listen for drop related events:
 
   ondropactivate: function (event) {
+        console.log("fonction2");
+
     // add active dropzone feedback
     event.target.classList.add('drop-active');
   },
   ondragenter: function (event) {
+        console.log("fonction3");
+
     var draggableElement = event.relatedTarget,
         dropzoneElement = event.target;
 
@@ -89,6 +91,7 @@ interact('.dropzone').dropzone({
     draggableElement.classList.add('can-drop');
    // draggableElement.textContent = 'Dragged in';
   },
+
   ondragleave: function (event) {
     //EN DEHORS d'UNE ZONE !!!
     // remove the drop feedback style
@@ -106,12 +109,16 @@ interact('.dropzone').dropzone({
   ondrop: function (event) {
     // LORSQU'ON LACHE L'ITEM
     // Change le statut du livre
+   
+
+
+
+
+
+            console.log("fonction5");
+
    var selectedPhysicalBook = Session.get('selectedPhysicalBook');
    var targetedStatus = Session.get('targetedStatus');
-
-   //On peut passer de la 3eme section à la première.
-   //effet visuel zab. Il revient toujours à sa place.
-    //Que faire quand on ne le change pas de place ?
 
    if (targetedStatus == "no move") {}
     else {
@@ -125,6 +132,7 @@ interact('.dropzone').dropzone({
 
     //event.relatedTarget.textContent = 'Dropped';
   },
+
   ondropdeactivate: function (event) {
     // remove active dropzone feedback
     event.target.classList.remove('drop-active');
@@ -134,11 +142,27 @@ interact('.dropzone').dropzone({
 
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
+// Attention, fonction mousedown, ca marche quand 
 Template.lend.events({
-  'click': function(){
-    // idéalement je voudrais essayer d'isoler les clics en dehors des images pour que cela annule le session.set et arrête ainsi d'afficher le template Myselectedbook...
-     // Session.set('selectedPhysicalBook', "none");
-      console.log("clic quelque part");
+  'mousedown': function(event){
+   // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
+    var classDoc = event.target.classList;
+          //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
+      if (classDoc == "thumb-books")
+     {
+  var currentUserId = Meteor.userId();
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
+    var selectedBook = this._id;
+    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
+    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
+    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
+     }
+     else
+     {
+      //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
+    Session.set('selectedPhysicalBook', "");
+
+     } 
     }
 })
 
@@ -214,19 +238,7 @@ Template.displaySearchGoogleBooks.events({
 
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
-    'click .thumb-books': function(){
-    var currentUserId = Meteor.userId();
-      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
-    var selectedBook = this._id;
-    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
-    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
-    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
-          console.log("clic bbok");
-
-    }
-
-    
-
+   
     });
 
 // Fonctions helpers sur le template displayMyPhysicalBooks

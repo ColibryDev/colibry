@@ -57,6 +57,7 @@
       </h4>
     <div class="panel-body">
         <div class="row">
+       {{#if myPublicBooks.count}}
          {{#each myPublicBooks}}
           <a class="img-thumbnail img-responsive">
           <div class="draggable drag-drop">
@@ -65,7 +66,10 @@
          </div>
           </a>
         {{/each}} 
-      
+        {{else}}
+         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
+          Drag & drop or add books here to share them !
+          {{/if}}
     </div>
   
       </div>
