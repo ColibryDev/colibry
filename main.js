@@ -10,6 +10,8 @@ Template.navBar.events({
         dhtmlx.message({ type:"error", text:"You logged out", expire: 1500}); 
         AccountsTemplates.logout();
         Router.go('loginregister');
+        Session.set('selectedPhysicalBook', "");
+
     }
 });
 

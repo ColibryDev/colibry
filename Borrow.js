@@ -1,8 +1,26 @@
-// Connecte à l'API GOOGLE MAPS POUR AFFICHER UNE CARTE SEULEMENT SUR borrow et lend 
-// Attention sur Profile, cela fait un doublon de merde. Dur a regler...
+PBIndex = new EasySearch.Index(
+	{
+    collection: PHYSICAL_BOOKS,
+    fields: ['bookOwner', 'status'],
+    engine: new EasySearch.MongoDB()
+  	}
+);
 
+// On créé un index Easy Search pour la DB BOOKS_INFOS
+// https://atmospherejs.com/matteodem/easy-search
+BIIndex = new EasySearch.Index(
+	{
+    collection: BOOKS_INFOS,
+    fields: ['title', 'authors', 'publisher'],
+    engine: new EasySearch.MongoDB()
+  	}
+);
 
 if (Meteor.isClient) {
+
+	Meteor.subscribe('allAvailableBooks');
+//	Meteor.subscribe('usersInfo');
+	
 
 // Le code tout simple que je te propose pour afficher des cartes.
 // Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
@@ -65,17 +83,6 @@ Template.map.onCreated(function(){
 });
 
 
-
-
-}
-
-if (Meteor.isClient) {
-
-	Meteor.subscribe('allAvailableBooks');
-	Meteor.subscribe('usersInfo');
-	
-
-
 	Template.displayAvailableBooks.helpers({
     // Fonctions pour montrer toutes les infos des livres de PHYSICAL_BOOKS qui ont un statut 1
   		'availableBooks': function(){  
@@ -100,6 +107,12 @@ if (Meteor.isClient) {
    	 	}
 	});
 
+// Fonction qui renvoit l'index de BOOKS_INFOS. Cette fonction est utilisée dans la recherche
+  	Template.searchToBorrow.helpers({
+  	  		biIndex: function(){
+  			return BIIndex;
+  		}
+	});
 
 	Template.displaySearchedBooks.helpers({
 

@@ -2,18 +2,67 @@
 	
 </head>
 <template name="borrow">
+
   <div class="container panel-defaults panel">
+	<div class="row">
+  <div class="col-xs-12 col-md-8"> 
+   <p class="text-center">
+  <h3>The book you're searching is certainly in your neighbourhood ! </h3></p>
+    	{{> searchToBorrow}}
+  </div>
+  <div class="center-block">
+  <div class="col-xs-6 col-md-4"> 
 
- 	<h2>Le livre que vous cherchez est sûrement disponible près de chez vous !</h2>
+    
+<br> <br>
+    {{> map}}
+    {{> displayChosenBook}}
+    </div>
+  </div>
+  </div>
 
-	{{> searchToBorrow}}
+
+
+ 	<h2>T</h2>
+
 	
 	{{> displayAvailableBooks}}
 </div>
 </template>
 
+
+
 <template name="searchToBorrow">
 	<h5>Un titre en tête?</h5>
+
+	<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
+  {{> EasySearch.Input index=biIndex class='form-control'}}
+
+<!-- Renders the content when the input that's associated with the index is empty. Allows multiple indexes. -->
+{{#EasySearch.IfInputEmpty index=biIndex}}
+  <div>Start searching!</div>
+{{/EasySearch.IfInputEmpty}}
+
+<!-- Renders the content when the associated input is being searched. Allows multiple indexes. -->
+{{#EasySearch.IfSearching index=biIndex}}
+  <div>Searching...</div>
+{{/EasySearch.IfSearching}}
+
+ <!-- Affiche tous les bouquins correspondant à la recherche -->
+{{#EasySearch.Each index=biIndex}}
+<a class="img-thumbnail img-responsive">
+{{> bookimage}}         
+</a>
+{{/EasySearch.Each}}
+   
+<!-- Ça les charge 10 par 10, si il y en a besoin de plus... il suffit de cliquer -->
+<br>
+{{> EasySearch.LoadMore index=biIndex}}
+
+ {{#EasySearch.IfNoResults index=biIndex}}
+    <div class="no-results">No results found!</div>
+  {{/EasySearch.IfNoResults}}
+
 	<form>
 
         <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
@@ -130,6 +179,8 @@
 <!-- Template pour afficher une carte, a personnaliser !
 	https://github.com/dburles/meteor-google-maps#examples-->
 <template name="map">
+
+
 
 <!-- pour l'instant on affiche ici les coordonnées des utilisateurs qui peuvent pret-->
 	{{usersCoordinates}}
