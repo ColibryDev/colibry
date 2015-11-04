@@ -4,7 +4,7 @@ if (Meteor.isClient) {
   Meteor.subscribe('allBooksInformation');
  Meteor.subscribe('myPhysicalBooks');
 
-
+// A bannir si possible
   Session.setDefault('searching', false);
   Session.setDefault('actualGoogleBooksSearch', false);
   Session.setDefault('targetedStatus', "no move");
@@ -47,7 +47,6 @@ interact('.draggable')
   });
 
   function dragMoveListener (event) {
-    console.log("fonction1");
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -75,14 +74,10 @@ interact('.dropzone').dropzone({
   // listen for drop related events:
 
   ondropactivate: function (event) {
-        console.log("fonction2");
-
     // add active dropzone feedback
     event.target.classList.add('drop-active');
   },
   ondragenter: function (event) {
-        console.log("fonction3");
-
     var draggableElement = event.relatedTarget,
         dropzoneElement = event.target;
 
@@ -111,12 +106,6 @@ interact('.dropzone').dropzone({
     // Change le statut du livre
    
 
-
-
-
-
-            console.log("fonction5");
-
    var selectedPhysicalBook = Session.get('selectedPhysicalBook');
    var targetedStatus = Session.get('targetedStatus');
 
@@ -143,12 +132,12 @@ interact('.dropzone').dropzone({
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
 // Attention, fonction mousedown, ca marche quand 
-Template.lend.events({
+Template.displayMyPhysicalBooks.events({
   'mousedown': function(event){
    // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
     var classDoc = event.target.classList;
           //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
-      if (classDoc == "thumb-books")
+      if (classDoc.contains('thumb-books') == true)
      {
   var currentUserId = Meteor.userId();
       // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
@@ -171,6 +160,7 @@ Template.lend.events({
 Template.displaySelectedBook.events({
 // Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template displaySelectedBook)
 'click .erase-book' : function(){
+  console.log("hahaha");
     // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
     var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
@@ -182,6 +172,8 @@ Template.displaySelectedBook.events({
     dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
     // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
     Meteor.call('removeBook', selectedPhysicalBook_Id);
+    Session.set('selectedPhysicalBook', "");
+
   }
 });
     }
@@ -392,9 +384,22 @@ if (Meteor.isServer) {
 
   },
 
-  'removeBook': function(selectedBook_Id){
+  'removeBook': function(selectedPhysicalBook_Id){
+// on stocke la BookRef dans une variable afin de vérifier qu'il n'en existe pas d'autres. Si il n'en existe pas d'autre on suprrime aussi le bouquin de nos BOOKS_INFOS car personne d'autre ne l'a...
+console.log("l'Id du livre physique est ",selectedPhysicalBook_Id);
+var bookRef = PHYSICAL_BOOKS.findOne(selectedPhysicalBook_Id).bookRef;
+console.log("l'Id du livre courant est",bookRef);
+var nbBooksPossessed = PHYSICAL_BOOKS.find({bookRef:bookRef}).count();
+console.log(nbBooksPossessed);
+if (nbBooksPossessed == 1)
+{
+  BOOKS_INFOS.remove(bookRef);
+  console.log("supprimé de books_INFOS")
+}
     //suppression d'un livre de la bibliothèque
-  PHYSICAL_BOOKS.remove(selectedBook_Id);
+
+  PHYSICAL_BOOKS.remove(selectedPhysicalBook_Id);
+
   },
 
   'statusChange': function(selectedPhysicalBook,targetedStatus){
