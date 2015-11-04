@@ -167,16 +167,31 @@ Template.displaySelectedBook.events({
     dhtmlx.message({
     type:"confirm",
     text: "Delete this book from your library?",
-    callback: function() {
+    callback: function(confirmation) {
       // Si l'utilisateur clique sur ok, affichage d'un message
+    if (confirmation == true)
+    {
     dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
-    // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
+     // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
     Meteor.call('removeBook', selectedPhysicalBook_Id);
     Session.set('selectedPhysicalBook', "");
+  }
+   
 
   }
 });
     }
+});
+
+Template.lend.helpers({
+  'isTheAddressMissing':function()
+  {
+  var currentUser = Meteor.user();
+  if (currentUser.profile.address1 || currentUser.profile.address2)
+    {return false;}
+  else
+    {return true;  }
+  }
 });
 
 // Fonctions helpers sur le template displaySelectedBook

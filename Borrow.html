@@ -33,11 +33,9 @@
 
 
 <template name="searchToBorrow">
-	<h5>Un titre en tête?</h5>
-
 	<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
   {{> EasySearch.Input index=biIndex class='form-control'}}
-
+<br>
 <!-- Renders the content when the input that's associated with the index is empty. Allows multiple indexes. -->
 {{#EasySearch.IfInputEmpty index=biIndex}}
   <div>Start searching!</div>
@@ -59,6 +57,9 @@
 <br>
 {{> EasySearch.LoadMore index=biIndex}}
 
+
+<br><br> Ancienne version
+
  {{#EasySearch.IfNoResults index=biIndex}}
     <div class="no-results">No results found!</div>
   {{/EasySearch.IfNoResults}}
@@ -77,7 +78,6 @@
     </div>
     </div>
     </div>
-    {{> map}}
 </template>
 
 <template name="displayAvailableBooks">
@@ -179,8 +179,6 @@
 <!-- Template pour afficher une carte, a personnaliser !
 	https://github.com/dburles/meteor-google-maps#examples-->
 <template name="map">
-
-
 
 <!-- pour l'instant on affiche ici les coordonnées des utilisateurs qui peuvent pret-->
 	{{usersCoordinates}}

@@ -1,10 +1,4 @@
-PBIndex = new EasySearch.Index(
-	{
-    collection: PHYSICAL_BOOKS,
-    fields: ['bookOwner', 'status'],
-    engine: new EasySearch.MongoDB()
-  	}
-);
+
 
 // On créé un index Easy Search pour la DB BOOKS_INFOS
 // https://atmospherejs.com/matteodem/easy-search
