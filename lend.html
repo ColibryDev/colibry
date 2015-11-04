@@ -9,11 +9,19 @@
   <div class="col-xs-12 col-md-8"> 
    <p class="text-center">
   <h3>MY COLLABORATIVE LIBRARY</h3></p>
+  
     {{> displayMyPhysicalBooks}}
   </div>
   <div class="center-block">
   <div class="col-xs-6 col-md-4"> 
     <br><br>
+    {{#if isTheAddressMissing}}
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Your books are unavailable !</strong> Please update your address in your <a href="{{pathFor route='profilepage'}}">profile</a> so as to share them. Thanks :)
+    </div>
+
+  {{/if}}
     {{> displaySelectedBook}} 
     {{> searchGoogleBooks}} 
     </div>
