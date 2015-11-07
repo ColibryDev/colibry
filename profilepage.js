@@ -57,7 +57,6 @@ Session.setDefault('updatingProfile', false);
   GoogleMaps.maps.address1Map.instance.fitBounds(bounds);
   });
   }
-
 // Créé la map uniquement si l'addresse 2 existe
     if (currentUser.profile.address2) {
     // Définit la deuxième map pour l'addresse work
