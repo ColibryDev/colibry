@@ -1,5 +1,5 @@
 /* CSS declarations go here */
-body { padding-top: 52px; }
+body { padding-top: 30px; }
 
 .dhtmlx_message_area{
   
@@ -34,11 +34,11 @@ height:110px;
 .masthead {background-color: @brand-primary;}
 
 .dropzone {
-  border: dashed 4px transparent;
-  border-radius: 4px;
-  margin: 10px auto 30px;
-  padding: 10px;
-  width: 80%;
+  border: dashed 2px transparent;
+  border-radius: 2px;
+  /*margin: 10px auto 30px;*/
+  padding: 4px;
+  /*width: 80%;*/
   transition: background-color 0.3s;
 }
 
@@ -65,4 +65,17 @@ height:110px;
 
 .drag-drop.can-drop {
    color: #000;
+}
+
+
+.map-container {
+  width: 2000px;
+  max-width: 100%;
+  height: 400px;
+}
+
+.map-container-small {
+  width: 2000px;
+  max-width: 100%;
+  height: 200px;
 }

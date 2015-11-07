@@ -1,66 +1,4 @@
-Schema = {};
-// Création du premier Schéma (garder en haut de l'autre) qui est imbriqué dans le Meteor.users
-//ATTENTION, il se peut que le nouveau module de connexion nécessite de drop toute les collections de colibry... !
 
-Schema.UserProfile = new SimpleSchema({
-    
-   firstName: {
-    type: String,
-    label: 'First Name',
-    regEx: /^[a-zA-Z-]{2,25}$/,
-    optional: true,
-    autoform: {
-      'label-type': 'floating',
-      placeholder: 'First Name'
-    }
-  },
-  lastName: {
-    type: String,
-    label: 'Last Name',
-    regEx: /^[a-zA-Z-]{2,25}$/,
-    optional: true,
-    autoform: {
-      'label-type': 'floating',
-      placeholder: 'Last Name'
-    }
-  },
-  birthday: {
-    type: Date,
-    label: "Birthday",
-    optional: true
-  }
-});
-
-// deuxieme schema. Schema principale de Meteor.users dans lequel on inclue dans profile le schema ci-dessus
-Schema.User = new SimpleSchema({
-    emails: {
-        type: [Object],
-        // this must be optional if you also use other login services like facebook,
-        // but if you use only accounts-password, then it can be required
-        optional: true
-    },
-    "emails.$.address": {
-        type: String,
-        regEx: SimpleSchema.RegEx.Email
-    },
-    "emails.$.verified": {
-        type: Boolean
-    },
-    createdAt: {
-        type: Date
-
-    },
-    profile: {
-        type: Schema.UserProfile,
-        optional: true
-    },
-    services: {
-        type: Object,
-        optional: true,
-        blackbox: true
-    }
-
-  }); 
 
 // On attache le schema à la collection meteor.users.
 Meteor.users.attachSchema(Schema.User);
@@ -124,7 +62,10 @@ var mySubmitFunc = function(error, state){
 
     }
     if (state === "signUp") {
-          Router.go('profile');
+                Router.go('lend');
+
+         // Router.go('profilepage');
+         // Session.set('updatingProfile', false);
 
     }
   }

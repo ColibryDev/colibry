@@ -1,0 +1,177 @@
+<head>
+  <title>Colibry</title>
+<!-- PAS BESOIN' car appelée dans la partie colibry.js
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+-->
+</head>
+
+
+<!-- TEMPLATE POUR AFFICHER LE PROFILE DE L'UTILISATEUR ET LUI PERMETTRE DE MODIFIER SES INFORMATIONS PERSONNELLES -->
+<template name="profilepage">
+<div class="container">
+<div class="row">
+
+
+
+<!-- ENCART DE GAUCHE -->
+<div class="col-xs-6 col-md-4">
+<!-- Si actuellement en train d'updating le profile -->
+{{#if actuallyUpdatingProfile}}
+<!-- Autoform pour upload la photo, package yogiben -->
+ {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='photoForm' autosave=true}}
+{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
+	<!-- Je cache le bouton mais utilise son ID pour le déclencher quand j'appuie sur le bouton principal Save -->
+	  <button type="submit" class="btn btn-primary hidden" id="save-pic">
+	  Download my profile picture
+	</button>
+ {{/autoForm}}
+
+<!-- Si pas actuellement en train d'update le profil -->
+{{else}}
+	<p class="text-center">
+	<h3>
+	{{currentUser.profile.firstName}}
+	</h3>
+	</p>
+	
+  	<br>
+
+<!-- Si il y a une image de profile -->
+{{#if currentUser.profile.pic}}
+<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
+{{else}}
+<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+{{/if}}
+
+{{#if currentUser.profile.address1.lat}}
+<br>
+ <center><h5>Personal Address</h5></center>
+<div class="map-container-small">
+ {{> googleMap name="address1Map" options=addressesMapOptions}}
+</div>
+{{/if}}
+
+{{#if currentUser.profile.address2.lat}}
+<br>
+ <center><h5>Work Address</h5></center>
+<div class="map-container-small">
+ {{> googleMap name="address2Map" options=addressesMapOptions}}
+</div>
+{{/if}}
+
+
+
+{{/if}}
+
+</div>
+
+
+
+
+<!-- ENCART Du MILIEU -->
+<div class="col-xs-6 col-md-4">
+
+<!-- Si actuellement en train d'updating le profile -->
+{{#if actuallyUpdatingProfile}}
+{{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm' autosave=true}}
+
+	{{> afQuickField name="profile.firstName"}}
+	{{> afQuickField name="profile.lastName"}}
+  {{> afQuickField name="profile.birthday"}}
+  <!-- Package lukemadera/meteor-autoform-googleplace permettant de placer des champs autoform pour adresse. Connexion API automatique puis enregistrement côté serveur de l'adresse décomposée, voir meteor.users.profile.adress1 
+	A noter que l'autoupdate ne fonctionne pas pour l'adresse. Pas grave selon moi dans v1 -->
+   {{> afQuickField name="profile.address1" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace id="address1Field"}}
+         
+   {{> afQuickField name="profile.address2" type="googleplace" placeholder="Enter you personal address" opts=optsGoogleplace id="address2Field"}}
+         
+
+		<!-- Je cache le bouton mais utilise son ID pour le déclencher quand j'appuie sur le bouton principal Save -->
+	<button type="submit" class="btn btn-warning btn-block btn-md hidden" id="save-profileInfo">Save my profile</button> 
+
+	{{/autoForm}}
+
+ <!-- Si pas en train d'actualiser le profile -->
+ {{else}}
+
+	<div class="alert-danger jumbotron">
+		<h3><p class="text-center">
+	My private information
+</p></h3>
+	<br>
+
+	<h4>
+	{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}<br>
+	</h4>
+{{#if currentUser.profile.birthday}}
+  Born the {{birthdayDateFormat}}<br>
+  {{/if}}
+  {{currentUser.emails.[0].address}}<br>
+  Registered from {{timeFromInscription}}
+    <br><br>
+  
+
+{{#if currentUser.profile.address1.lat}}
+<address>
+  <strong>Personal address</strong><br>
+  {{currentUser.profile.address1.street}}<br>
+  {{currentUser.profile.address1.city}}, {{currentUser.profile.address1.state}}  {{currentUser.profile.address1.zip}}, {{currentUser.profile.address1.country}}<br>
+</address>
+{{/if}}
+
+{{#if currentUser.profile.address2.lat}}
+<address>
+  <strong>Work address</strong><br>
+  {{currentUser.profile.address2.street}}<br>
+  {{currentUser.profile.address2.city}}, {{currentUser.profile.address2.state}}  {{currentUser.profile.address2.zip}}, {{currentUser.profile.address2.country}}<br>
+</address>
+{{/if}}
+
+</div>
+{{/if}}
+ </div>
+
+
+
+
+
+
+<!-- ENCART DE DROITE -->
+<div class="col-xs-6 col-md-4">
+	<!-- ACTIONS POSSIBLE SUR LE PROFILE -->
+	<div class="jumbotron alert-info">
+
+	<h3><p class="text-center">Hello {{currentUser.profile.firstName}} !</p></h3>
+	<div class="progress">	
+	  <div class="progress-bar" role="progressbar" aria-valuenow="{{getProgressBarPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{getProgressBarPercentage}}%;">
+ 	   {{getProgressBarPercentage}}% fullfilled
+ 	 </div>
+	</div>
+
+	<br>
+	{{#if actuallyUpdatingProfile}}
+	<!-- Si actuellement en train d'update le Profile, alors on a un boutton pour save avec une class 'saveProfile' -->
+	<button type="button" class="btn btn-warning btn-block btn-md saveProfile" id="save-button">Save my profile</button>
+	{{else}}
+	<!-- Si pas en train d'update le Profile, alors on a un boutton pour update avec une class 'updateProfile' -->
+	<button type="button" class="btn btn-warning btn-block btn-md updateProfile">Update my profile</button>
+	<br>
+	<!-- + un Inactive button -->
+	<button type="button" class="btn btn-danger btn-block btn-md suppressAccount">Suppress my account</button>
+	{{/if}}
+	</div>
+
+		<!-- Appel au template ProfileStats -->
+	{{> profilestats}}
+</div>
+</div>
+</div>
+</template>
+
+
+
+<template name="profilestats">
+<div class="well">
+
+<span class="badge">{{myPublicBooks.count}}</span> books available for lending 
+</div>
+</template>

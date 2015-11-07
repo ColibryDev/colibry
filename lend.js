@@ -2,12 +2,13 @@
 if (Meteor.isClient) {
   // Suscribe collection BOOKS : tous les livres de l'utilisateur actuel
   Meteor.subscribe('allBooksInformation');
-  Meteor.subscribe('myPhysicalBooks');
+ Meteor.subscribe('myPhysicalBooks');
 
-
+// A bannir si possible
   Session.setDefault('searching', false);
   Session.setDefault('actualGoogleBooksSearch', false);
   Session.setDefault('targetedStatus', "no move");
+  Session.setDefault('selectedPhysicalBook', "");
 
   // fonction liée à la reserche sur l'API Google Books
   Tracker.autorun(function() {  
@@ -23,27 +24,25 @@ if (Meteor.isClient) {
 
 //////////////////////////////////////////// INTERACT //////////////////////////////////////////////////////
 // Fonctions pour gérer le drag & drop //
+// http://interactjs.io/docs/#snap
 interact('.draggable')
   .draggable({
     // enable inertial throwing
-    inertia: true,
+    // http://interactjs.io/docs/#snap
+    inertia: false,
     // keep the element within the area of it's parent
     restrict: {
       restriction: "parent",
       endOnly: true,
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    },
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1}
+
+  },
 
     // call this function on every dragmove event
     onmove: dragMoveListener,
     // call this function on every dragend event
     onend: function (event) {
-      var textEl = event.target.querySelector('p');
-
-      textEl && (textEl.textContent =
-        'moved a distance of '
-        + (Math.sqrt(event.dx * event.dx +
-                     event.dy * event.dy)|0) + 'px');
+  // fonction fin
     }
   });
 
@@ -61,7 +60,6 @@ interact('.draggable')
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-
   }
 
   // this is used later in the resizing demo
@@ -88,6 +86,7 @@ interact('.dropzone').dropzone({
     draggableElement.classList.add('can-drop');
    // draggableElement.textContent = 'Dragged in';
   },
+
   ondragleave: function (event) {
     //EN DEHORS d'UNE ZONE !!!
     // remove the drop feedback style
@@ -105,12 +104,10 @@ interact('.dropzone').dropzone({
   ondrop: function (event) {
     // LORSQU'ON LACHE L'ITEM
     // Change le statut du livre
+   
+
    var selectedPhysicalBook = Session.get('selectedPhysicalBook');
    var targetedStatus = Session.get('targetedStatus');
-
-   //On peut passer de la 3eme section à la première.
-   //effet visuel zab. Il revient toujours à sa place.
-    //Que faire quand on ne le change pas de place ?
 
    if (targetedStatus == "no move") {}
     else {
@@ -124,6 +121,7 @@ interact('.dropzone').dropzone({
 
     //event.relatedTarget.textContent = 'Dropped';
   },
+
   ondropdeactivate: function (event) {
     // remove active dropzone feedback
     event.target.classList.remove('drop-active');
@@ -133,11 +131,27 @@ interact('.dropzone').dropzone({
 
 //////////////////////// Fin fonctions INTERACT //////////////////////////////////
 
-Template.lend.events({
-  'click': function(){
-    // idéalement je voudrais essayer d'isoler les clics en dehors des images pour que cela annule le session.set et arrête ainsi d'afficher le template Myselectedbook...
-     // Session.set('selectedPhysicalBook', "none");
-      console.log("clic quelque part");
+// Attention, fonction mousedown, ca marche quand 
+Template.displayMyPhysicalBooks.events({
+  'mousedown': function(event){
+   // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
+    var classDoc = event.target.classList;
+          //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
+      if (classDoc.contains('thumb-books') == true)
+     {
+  var currentUserId = Meteor.userId();
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
+    var selectedBook = this._id;
+    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
+    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
+    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
+     }
+     else
+     {
+      //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
+    Session.set('selectedPhysicalBook', "");
+
+     } 
     }
 })
 
@@ -146,20 +160,38 @@ Template.lend.events({
 Template.displaySelectedBook.events({
 // Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template displaySelectedBook)
 'click .erase-book' : function(){
+  console.log("hahaha");
     // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
     var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
     dhtmlx.message({
     type:"confirm",
     text: "Delete this book from your library?",
-    callback: function() {
+    callback: function(confirmation) {
       // Si l'utilisateur clique sur ok, affichage d'un message
+    if (confirmation == true)
+    {
     dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
-    // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
+     // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
     Meteor.call('removeBook', selectedPhysicalBook_Id);
+    Session.set('selectedPhysicalBook', "");
+  }
+   
+
   }
 });
     }
+});
+
+Template.lend.helpers({
+  'isTheAddressMissing':function()
+  {
+  var currentUser = Meteor.user();
+  if (currentUser.profile.address1 || currentUser.profile.address2)
+    {return false;}
+  else
+    {return true;  }
+  }
 });
 
 // Fonctions helpers sur le template displaySelectedBook
@@ -168,13 +200,12 @@ Template.displaySelectedBook.helpers({
   // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
   var selectedPhysicalBook = Session.get('selectedPhysicalBook');
   // renvoie toutes les infos sur le livre
-  // ATTENTION, ICI CELA RENVOIE UNE ERREUR DANS LA CONSOLE' Je ne sais pas pourquoi, mais ca marche
+  if (selectedPhysicalBook != "")
+  {
   var selectedBookRef;
   selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
- // console.log(selectedBookRef);
-// console.log(selectedBookRef.bookRef);
-
   return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
+  }
   }
 /*
  'showSelectedBook': function()
@@ -214,19 +245,7 @@ Template.displaySearchGoogleBooks.events({
 
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
-    'click .thumb-books': function(){
-    var currentUserId = Meteor.userId();
-      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
-    var selectedBook = this._id;
-    // on remonte ensuite sur la DB PHYSICAL_BOOKS pour récupérer l'ID dans cette collection
-    var selectedPhysicalBook = PHYSICAL_BOOKS.findOne({bookOwner:currentUserId, bookRef:selectedBook});
-    Session.set('selectedPhysicalBook', selectedPhysicalBook._id);
-          console.log("clic bbok");
-
-    }
-
-    
-
+   
     });
 
 // Fonctions helpers sur le template displayMyPhysicalBooks
@@ -338,7 +357,7 @@ if (Meteor.isServer) {
     // VOIR ENSUITE SI ON PEUT VALIDER L'ISBN + FIABLEMENT !!! V2
 
 //PARTIE 1
-      //var pour voir si le bouquin est déjèa référencé dans la base de données
+      //var pour voir si le bouquin est déjà référencé dans la base de données
   var isThisBookAlreadyInTheDatabase = BOOKS_INFOS.find({ISBN: ISBN}).count();
   if (isThisBookAlreadyInTheDatabase == 0) {
     //Si aucun document ne ressort alors on le créé
@@ -380,9 +399,22 @@ if (Meteor.isServer) {
 
   },
 
-  'removeBook': function(selectedBook_Id){
+  'removeBook': function(selectedPhysicalBook_Id){
+// on stocke la BookRef dans une variable afin de vérifier qu'il n'en existe pas d'autres. Si il n'en existe pas d'autre on suprrime aussi le bouquin de nos BOOKS_INFOS car personne d'autre ne l'a...
+console.log("l'Id du livre physique est ",selectedPhysicalBook_Id);
+var bookRef = PHYSICAL_BOOKS.findOne(selectedPhysicalBook_Id).bookRef;
+console.log("l'Id du livre courant est",bookRef);
+var nbBooksPossessed = PHYSICAL_BOOKS.find({bookRef:bookRef}).count();
+console.log(nbBooksPossessed);
+if (nbBooksPossessed == 1)
+{
+  BOOKS_INFOS.remove(bookRef);
+  console.log("supprimé de books_INFOS")
+}
     //suppression d'un livre de la bibliothèque
-  PHYSICAL_BOOKS.remove(selectedBook_Id);
+
+  PHYSICAL_BOOKS.remove(selectedPhysicalBook_Id);
+
   },
 
   'statusChange': function(selectedPhysicalBook,targetedStatus){
