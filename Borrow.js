@@ -19,15 +19,22 @@ if (Meteor.isClient) {
 	Meteor.subscribe('allAvailableBooks');
 // SUBSCRIBE POUR RÉCUPÉRER TOUTES LES ADRESSES DES UTILISATEURS
 	Meteor.subscribe('UsersPublicInfos');
+	Deps.autorun(function () {
+  // will re subscribe every the 'center' session changes
+//  Meteor.subscribe("locations", Session.get('center'));
+	});
+
 	
 
 	// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
-  		function fromWhere(){
-  		var radioButtons = document.getElementsByName('borrowLoc');
-  		for(var i = 0; i < 3; i++){
-    	if(radioButtons[i].checked){
-        return radioButtons[i].id;}
-		}}
+  		function fromWhere(){  		
+    	if(document.getElementById('home').checked)
+    	{return 'home';}
+    	if(document.getElementById('work').checked)
+    	{return 'work';}
+    	if(document.getElementById('position').checked)
+    	{return 'position';}
+		}
 
 		function setBorrowMap(){
 		GoogleMaps.ready('mapUsers', function(map){
@@ -52,10 +59,47 @@ if (Meteor.isClient) {
 		title:"Work",
 		map: map.instance
 		});}
-		
 
+		setLenderCircles(map);
 		});
 		}
+
+		// fonction qui permet de dessiner un cercle sur la carte en question et de renvoyer les données bounds, c'est à dire pour déterminer ensuite le zoom et le center de la map
+ 		 // 3 arguments : le nom de la map, l'addresse à encercler ainsi que la couleur (rouge pour personal et bleu pour work)
+ 		function setLenderCircles(map) {
+ 		var lendersAddresses = [];
+ 		var currentUser = Meteor.user();
+ 		Meteor.users.find({_id:{$ne:currentUser._id}}).forEach(function(element) 
+ 		{
+ 		lendersAddresses.push({
+			address1:{
+			lat : element.profile.address1.lat,
+ 			lng : element.profile.address1.lng
+			},
+			address2:{
+			lat : element.profile.address2.lat,
+ 			lng : element.profile.address2.lng
+			} 			
+ 			});
+ 		});
+
+ 		// maintenant il faut créer un if pour savoir quel point est le plus proche et changer la couleur du cercle en fonction...
+ 		
+ 		for (var nb in lendersAddresses) {
+  		var lenderCircle = new google.maps.Circle({
+      	strokeColor: '#FF0000',
+      	strokeOpacity: 0.8,
+      	strokeWeight: 1,
+      	fillColor: '#FF0000',
+      	fillOpacity: 0.35,
+      	map: map.instance,
+      	center: lendersAddresses[nb].address2,
+      	radius: 80
+    	});
+    	console.log(lenderCircle);
+    	}
+  		//return addressCircles.getBounds();*/
+  		}
 
 Template.mapUsers.helpers({
   
@@ -104,7 +148,7 @@ Template.mapUsers.helpers({
      	{return {center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
         zoom: 14};
     	}
-    if (from == "my position")
+    if (from == "position")
      	{// A DEFINIR
      	return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
@@ -148,7 +192,7 @@ Template.mapUsers.onCreated(function(){
    	 	'change #work' : function(){
    	 		setBorrowMap();
    	 	},
-   	 	'change #my position' : function(){
+   	 	'change #position' : function(){
 		// lorsque je clique sur le 3 eme radio button
    	 	}
 	});
