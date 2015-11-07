@@ -15,15 +15,48 @@ if (Meteor.isClient) {
 
 	// Session pour savoir d'ou est effectuée la recherche. C'est lié au Radio box
 	Session.setDefault('SearchFrom', "fromHome");
-
-
+// SUBSCRIBE PHYSICAL BOOKS POUR RÉCUPÉRER TOUTES LES INFOS SUR LES LIVRES
 	Meteor.subscribe('allAvailableBooks');
+// SUBSCRIBE POUR RÉCUPÉRER TOUTES LES ADRESSES DES UTILISATEURS
 	Meteor.subscribe('UsersPublicInfos');
 	
 
-// Le code tout simple que je te propose pour afficher des cartes.
-// Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
-// A mon avis, on peut tout faire avec ca !
+	// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
+  		function fromWhere(){
+  		var radioButtons = document.getElementsByName('borrowLoc');
+  		for(var i = 0; i < 3; i++){
+    	if(radioButtons[i].checked){
+        return radioButtons[i].id;}
+		}}
+
+		function setBorrowMap(){
+		GoogleMaps.ready('mapUsers', function(map){
+		//Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
+		
+		var currentUser = Meteor.user();
+		var from =fromWhere();
+		if (currentUser.profile.address1 && from =="home")
+		{new google.maps.Marker({
+		draggable: false,
+		animation: google.maps.Animation.DROP,
+		position: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+		title:"Home",
+		map: map.instance
+		});}
+		
+		if (currentUser.profile.address2 && from =="work")
+		{new google.maps.Marker({
+		draggable: false,
+		animation: google.maps.Animation.DROP,
+		position: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
+		title:"Work",
+		map: map.instance
+		});}
+		
+
+		});
+		}
+
 Template.mapUsers.helpers({
   
   'usersCoordinates': function(){
@@ -59,26 +92,30 @@ Template.mapUsers.helpers({
     // Make sure the maps API has loaded
     if (GoogleMaps.loaded()) {
       // Map initialization options
-      return {
-        center: new google.maps.LatLng(45.498072,-73.570322),
-        zoom: 14
-
-      };
+      // on récupère l'info sur quel est le radio button qui est actif èa travers la fonction fromWhere()
+      var from = fromWhere();
+      // on récupère les infos de l'utilisateur actuellement connecté
+      var currentUser = Meteor.user();
+    if (from == "home")
+     	{return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+        zoom: 14};
+    	}
+    if (from == "work")
+     	{return {center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
+        zoom: 14};
+    	}
+    if (from == "my position")
+     	{// A DEFINIR
+     	return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+        zoom: 14};
+    	}
+      
     }
   }
 });
 // https://developers.google.com/maps/documentation/javascript/examples/layer-fusiontables-simple
 Template.mapUsers.onCreated(function(){
-	GoogleMaps.ready('mapUsers', function(map){
-		Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
-			new google.maps.Marker({
-		      draggable: true,
-		      animation: google.maps.Animation.DROP,
-		      position: new google.maps.LatLng(coordinates.lat, coordinates.lng),
-		      map: map.instance
-		    });
-		});
-	});
+	setBorrowMap();
 });
 
 
@@ -102,9 +139,17 @@ Template.mapUsers.onCreated(function(){
    	 		console.log(tryToSearch);
    	 		var searchedBookVar1 = event.target.searchedBook.value;
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
-   	 		Session.set('searchedBookSession',searchedBookVar1);
-   	 	
-		
+   	 		Session.set('searchedBookSession',searchedBookVar1);		
+   	 	},
+
+   	 	'change #home' : function(){
+   	 		setBorrowMap();
+   	 	},
+   	 	'change #work' : function(){
+   	 		setBorrowMap();
+   	 	},
+   	 	'change #my position' : function(){
+		// lorsque je clique sur le 3 eme radio button
    	 	}
 	});
 
@@ -122,17 +167,7 @@ Template.mapUsers.onCreated(function(){
   		//retourne les attributs de mon boutton EasySearch load more
   		moreButtonAttributes:function(){
   			return {'class':'btn btn-primary'};
-  		},
-
-  		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
-  		fromWhere:function(){
-  		var radioButtons = document.getElementsByName('borrowLoc');
-  		for(var i = 0; i < 3; i++){
-    	if(radioButtons[i].checked){
-        return radioButtons[i].id;}
-}
-
-  			}
+  		}
 	});
 
 	Template.displaySearchedBooks.helpers({
