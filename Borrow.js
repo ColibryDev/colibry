@@ -13,13 +13,14 @@ BIIndex = new EasySearch.Index(
 if (Meteor.isClient) {
 
 	Meteor.subscribe('allAvailableBooks');
+	Meteor.subscribe('UsersPublicInfos');
 //	Meteor.subscribe('usersInfo');
 	
 
 // Le code tout simple que je te propose pour afficher des cartes.
 // Tout est là dans le package que j'ai ajouté : https://github.com/dburles/meteor-google-maps#examples
 // A mon avis, on peut tout faire avec ca !
-Template.map.helpers({
+Template.mapUsers.helpers({
   
   'usersCoordinates': function(){
 		// Récupère l'ID du livre choisi et sauvegarde dans un tableau les utilisateurs qui peuvent le prêter
@@ -50,21 +51,21 @@ Template.map.helpers({
 		return userWhoCanShareCoordinates;
 	},
 
-  exampleMapOptions: function() {
+  mapUsersOptions: function() {
     // Make sure the maps API has loaded
     if (GoogleMaps.loaded()) {
       // Map initialization options
       return {
         center: new google.maps.LatLng(45.498072,-73.570322),
-        zoom: 11
+        zoom: 14
 
       };
     }
   }
 });
 // https://developers.google.com/maps/documentation/javascript/examples/layer-fusiontables-simple
-Template.map.onCreated(function(){
-	GoogleMaps.ready('exampleMap', function(map){
+Template.mapUsers.onCreated(function(){
+	GoogleMaps.ready('mapUsers', function(map){
 		Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
 			new google.maps.Marker({
 		      draggable: true,
@@ -159,6 +160,30 @@ if (Meteor.isServer) {
 	Meteor.publish('allAvailableBooks',function(){
     return PHYSICAL_BOOKS.find({status: "1"});
   });
+
+// Meteor Publish adresses (lat,lgn) des utillisateurs
+Meteor.publish('UsersPublicInfos',function(){
+
+/*Meteor.users.find().forEach(function(element) {
+
+			if (element.profile.address1 )
+			ADDRESSES.push({
+				_id : element._id
+				//add1Lat : element.profile.address1.lat,
+				//add1Lng : element.profile.address1.lng,
+				//add2Lat : element.profile.address2.lat,
+				//add2Lng : element.profile.address2.lng
+			});
+		});
+console.log(ADDRESSES);*/
+// Cela retourne tous les lat / lng des utilisateurs, sauf l'utilisateur actuel..
+        var currentUserId = this.userId;
+    return Meteor.users.find({_id:{$ne:currentUserId}},{fields:{'profile.address1.lat':1,'profile.address1.lng':1,'profile.address2.lat':1,'profile.address2.lng':1,}});
+  });
+
+
+
+
   //Meteor.publish('usersInfo',function(){
     //return Meteor.users.find();
   //});	

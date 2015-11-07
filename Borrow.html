@@ -15,7 +15,7 @@
 
     
 <br> <br>
-    {{> map}}
+    {{> mapUsers}}
     {{> displayChosenBook}}
     </div>
   </div>
@@ -178,12 +178,12 @@
 
 <!-- Template pour afficher une carte, a personnaliser !
 	https://github.com/dburles/meteor-google-maps#examples-->
-<template name="map">
+<template name="mapUsers">
 
 <!-- pour l'instant on affiche ici les coordonnées des utilisateurs qui peuvent pret-->
 	{{usersCoordinates}}
 	  <div class="map-container">
-       {{> googleMap name="exampleMap" options=exampleMapOptions coordinates=usersCoordinates}}
+       {{> googleMap name="mapUsers" options=mapUsersOptions coordinates=usersCoordinates}}
 
    </div>
 </template> 
