@@ -5,13 +5,11 @@
 
   <div class="container panel-defaults panel">
 	<div class="row">
-  <div class="col-xs-12 col-md-8"> 
-   <p class="text-center">
-  <h3>The book you're searching is certainly in your neighbourhood ! </h3></p>
+  <div class="col-xs-12 col-sm-6 col-md-8"> 
     	{{> searchToBorrow}}
   </div>
   <div class="center-block">
-  <div class="col-xs-6 col-md-4"> 
+  <div class="col-xs-6 col-sm-4"> 
 
     
 <br> <br>
@@ -34,12 +32,47 @@
 
 <template name="searchToBorrow">
 	<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
-  {{> EasySearch.Input index=biIndex class='form-control'}}
+    
+   <!-- Le time out permet d'attendre un peu avant d'actualiser. Meilleure expérience utilisateur 
+// cherche les attributs de mon input easySearch
+-->
 <br>
-<!-- Renders the content when the input that's associated with the index is empty. Allows multiple indexes. -->
-{{#EasySearch.IfInputEmpty index=biIndex}}
-  <div>Start searching!</div>
-{{/EasySearch.IfInputEmpty}}
+<div class="container panel-defaults panel">
+	<div class="row">
+<div class="center-block">
+  <div class="col-xs-6 col-sm-4"> 
+  	 <div class="input-group">
+ 	<span class=" input-group-addon">
+<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+ 	</span>
+  {{> EasySearch.Input index=biIndex timeout=400 attributes=inputAttributes}}
+</div>
+  	  	</div>
+  <div class="col-xs-6 col-sm-4"> 
+
+<!-- Radio buttons so as to know from which location he'd like to borrow books  -->
+  <div class="btn-group" data-toggle="buttons">
+
+<label class="btn btn-primary"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Borrow from </label>
+  <label class="btn btn-default active">
+    <input type="radio" name="borrowLoc" id="home" autocomplete="off" checked> home
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="borrowLoc" id="work" autocomplete="off"> work
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="borrowLoc" id="my position" autocomplete="off"> my position
+  </label>
+</div>
+
+  	</div>
+
+
+  	</div>
+  	</div>
+  </div>
+
+ <br>
 
 <!-- Renders the content when the associated input is being searched. Allows multiple indexes. -->
 {{#EasySearch.IfSearching index=biIndex}}
@@ -55,7 +88,7 @@
    
 <!-- Ça les charge 10 par 10, si il y en a besoin de plus... il suffit de cliquer -->
 <br>
-{{> EasySearch.LoadMore index=biIndex}}
+{{> EasySearch.LoadMore index=biIndex attributes=moreButtonAttributes}}
 
 
 <br><br> Ancienne version

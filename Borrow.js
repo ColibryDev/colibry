@@ -1,20 +1,24 @@
-
-
 // On créé un index Easy Search pour la DB BOOKS_INFOS
 // https://atmospherejs.com/matteodem/easy-search
 BIIndex = new EasySearch.Index(
 	{
     collection: BOOKS_INFOS,
     fields: ['title', 'authors', 'publisher'],
-    engine: new EasySearch.MongoDB()
+    engine: new EasySearch.MongoDB(),
+    defaultSearchOptions: {limit: 20}
   	}
 );
 
+
+
 if (Meteor.isClient) {
+
+	// Session pour savoir d'ou est effectuée la recherche. C'est lié au Radio box
+	Session.setDefault('SearchFrom', "fromHome");
+
 
 	Meteor.subscribe('allAvailableBooks');
 	Meteor.subscribe('UsersPublicInfos');
-//	Meteor.subscribe('usersInfo');
 	
 
 // Le code tout simple que je te propose pour afficher des cartes.
@@ -99,14 +103,36 @@ Template.mapUsers.onCreated(function(){
    	 		var searchedBookVar1 = event.target.searchedBook.value;
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
    	 		Session.set('searchedBookSession',searchedBookVar1);
+   	 	
+		
    	 	}
 	});
 
 // Fonction qui renvoit l'index de BOOKS_INFOS. Cette fonction est utilisée dans la recherche
   	Template.searchToBorrow.helpers({
-  	  		biIndex: function(){
+  	  	biIndex: function(){
   			return BIIndex;
-  		}
+  		},
+
+  		//retourne les attributs de mon input easySearch
+  		inputAttributes: function(){
+  			return {'class':'form-control', 'placeholder':'Search for a book in your neighbourhood ...'};
+  		},
+
+  		//retourne les attributs de mon boutton EasySearch load more
+  		moreButtonAttributes:function(){
+  			return {'class':'btn btn-primary'};
+  		},
+
+  		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
+  		fromWhere:function(){
+  		var radioButtons = document.getElementsByName('borrowLoc');
+  		for(var i = 0; i < 3; i++){
+    	if(radioButtons[i].checked){
+        return radioButtons[i].id;}
+}
+
+  			}
 	});
 
 	Template.displaySearchedBooks.helpers({
@@ -181,10 +207,4 @@ console.log(ADDRESSES);*/
     return Meteor.users.find({_id:{$ne:currentUserId}},{fields:{'profile.address1.lat':1,'profile.address1.lng':1,'profile.address2.lat':1,'profile.address2.lng':1,}});
   });
 
-
-
-
-  //Meteor.publish('usersInfo',function(){
-    //return Meteor.users.find();
-  //});	
 }

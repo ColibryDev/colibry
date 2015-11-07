@@ -46,7 +46,7 @@
 {{#if currentUser.profile.address1.lat}}
 <br>
  <center><h5>Personal Address</h5></center>
-<div class="map-container">
+<div class="map-container-small">
  {{> googleMap name="address1Map" options=addressesMapOptions}}
 </div>
 {{/if}}
@@ -54,7 +54,7 @@
 {{#if currentUser.profile.address2.lat}}
 <br>
  <center><h5>Work Address</h5></center>
-<div class="map-container">
+<div class="map-container-small">
  {{> googleMap name="address2Map" options=addressesMapOptions}}
 </div>
 {{/if}}
