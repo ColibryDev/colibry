@@ -1,0 +1,41 @@
+<head>
+</head>
+
+<template name="suggestions">
+
+  <div class="container panel-defaults panel">
+
+  <ul class="nav nav-justified nav-pills">
+  <li role="presentation"><a href="{{pathFor route='borrow'}}">Looking for a specific book !</a></li>
+  <li role="presentation" class="active"><a href="#">Looking for reading suggestions!</a></li>
+  </ul>
+  <br>
+ 
+
+  <h3><span class="label label-primary">1</span> <img src="/arrow.png" height="25">  Visit your neighboor's library!</h3>
+    {{> locationRadioButtons}}
+     <br>
+    {{> usersMap}}
+
+    <br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Choose a book in his library!</h3>
+    <br>
+
+    <br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Contact him!</h3>
+    <br>
+
+  </div>
+
+</template>
+
+<!-- ******************************************************** -->
+
+<!-- Carte qui affiche les utilisateurs présent autour de soi et qui permet de voir le nombre de livres dispos autour de chez soi-->
+<template name="usersMap">
+  {{usersCoordinates}}
+    <div class="map-container">
+       {{> googleMap name="usersMap" options=usersMapOptions}}
+
+   </div>
+</template> 

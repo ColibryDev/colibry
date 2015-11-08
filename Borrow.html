@@ -1,55 +1,75 @@
 <head>
-	
 </head>
+
 <template name="borrow">
 
   <div class="container panel-defaults panel">
+
+  <ul class="nav nav-justified nav-pills">
+  <li role="presentation" class="active"><a href="#">Looking for a specific book!</a></li>
+  <li role="presentation"><a href="{{pathFor route='suggestions'}}">Looking for reading suggestions!</a></li>
+  </ul>
+
+	<br>
+      <h3><span class="label label-primary">1</span> <img src="/arrow.png" height="25">  Search your next reading in your neighboorhood!</h3>
+      <!-- Affiche la SearchBar -->
+  	{{>searchBar}} <br>
+
 	<div class="row">
   <div class="col-xs-12 col-sm-6 col-md-8"> 
+ <!-- Affiche les résultats de la searchBar-->
     	{{> searchToBorrow}}
   </div>
   <div class="center-block">
   <div class="col-xs-6 col-sm-4"> 
 
     
-<br> <br>
-    {{> mapUsers}}
-    {{> displayChosenBook}}
     </div>
   </div>
   </div>
-
-
-
- 	<h2>T</h2>
-
 	
+	<br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Look for the best place to pick your book!</h3>
+    <!-- Affiche les boutons radios pour savoir ou est le centre de la carte -->
+    {{>locationRadioButtons}}
+    <!-- Affiche la carte des bouquins disponibles-->
+    {{>booksMap}}
+
+    <br>
+
+    <br>
+      <h3><span class="label label-primary">3</span> <img src="/arrow.png" height="25">  Contact your neighboor!</h3>
+    <br>
+
+ 	
+	    {{> displayChosenBook}}
+
 	{{> displayAvailableBooks}}
 </div>
 </template>
 
 
+<!-- ******************************************************** -->
 
-<template name="searchToBorrow">
-	<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
+<template name="searchBar">
+<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
     
    <!-- Le time out permet d'attendre un peu avant d'actualiser. Meilleure expérience utilisateur 
 // cherche les attributs de mon input easySearch
--->
-<br>
-<div class="container panel-defaults panel">
-
-  <div class="col-xs-6 col-sm-4"> 
-  	 <div class="input-group">
- 	<span class=" input-group-addon">
+-->	
+<div class="input-group">
+<span class="input-group-addon">
 <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
- 	</span>
-  {{> EasySearch.Input index=biIndex timeout=400 attributes=inputAttributes}}
+</span>
+{{> EasySearch.Input index=biIndex timeout=400 attributes=inputAttributes}}
 </div>
-  	  	</div>
-  <div class="col-xs-6 col-sm-4"> 
+</template>
+
+<!-- ******************************************************** -->
+
 
 <!-- Radio buttons so as to know from which location he'd like to borrow books  -->
+<template name="locationRadioButtons">
   <div class="btn-group" data-toggle="buttons" id="radioLocButtons">
 
 <label class="btn btn-primary"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Borrow from </label>
@@ -63,14 +83,11 @@
     <input type="radio" name="borrowLoc" id="position" autocomplete="off"> my position
   </label>
 </div>
+</template>
 
+<!-- ******************************************************** -->
 
-
-  	</div>
-  </div>
-
- <br>
-
+<template name="searchToBorrow">
 <!-- Renders the content when the associated input is being searched. Allows multiple indexes. -->
 {{#EasySearch.IfSearching index=biIndex}}
   <div>Searching...</div>
@@ -110,6 +127,8 @@
     </div>
 </template>
 
+<!-- ******************************************************** -->
+
 <template name="displayAvailableBooks">
 	<h5>L'ensemble des livres disponibles dans la communauté</h5>
 
@@ -124,6 +143,8 @@
   		</div>	
   	</div>
 </template>
+
+<!-- ******************************************************** -->
 
 <template name="displaySearchedBooks">
 	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
@@ -149,6 +170,8 @@
   		</div>	
   	</div>
 </template>
+
+<!-- ******************************************************** -->
 
 <!-- TEMPLATE pour afficher le livre actuellement sélectionné dans la proposition suite à la recherche  -->
 <template name="displayChosenBook">
@@ -206,15 +229,16 @@
     {{/if}}
 </template>
 
-<!-- Template pour afficher une carte, a personnaliser !
-	https://github.com/dburles/meteor-google-maps#examples-->
-<template name="mapUsers">
+<!-- ******************************************************** -->
 
-<!-- pour l'instant on affiche ici les coordonnées des utilisateurs qui peuvent pret-->
-	{{usersCoordinates}}
-	  <div class="map-container">
-       {{> googleMap name="mapUsers" options=mapUsersOptions coordinates=usersCoordinates}}
+<!-- TEMPLATE pour afficher la carte de la disponibilité d'un bouquin autour de chez moi  -->
+
+<template name="booksMap">
+
+	 <div class="map-container">
+       {{> googleMap name="booksMap" options=booksMapOptions coordinates=usersCoordinates}}
 
    </div>
-</template> 
+</template>
+
 
