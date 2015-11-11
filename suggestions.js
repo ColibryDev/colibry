@@ -122,7 +122,7 @@ if (Meteor.isServer) {
 Meteor.publish('UsersPublicInfos',function(){
 // Cela retourne tous les lat / lng des utilisateurs, sauf l'utilisateur actuel..
         var currentUserId = this.userId;
-    return Meteor.users.find({_id:{$ne:currentUserId}},{fields:{'profile.address1.lat':1,'profile.address1.lng':1,'profile.address2.lat':1,'profile.address2.lng':1,}});
+    return Meteor.users.find({_id:{$ne:currentUserId}},{fields:{'profile.firstName':1,'profile.address1.lat':1,'profile.address1.lng':1,'profile.address2.lat':1,'profile.address2.lng':1,}});
   });
 
 } // FIN SERVER SIDE

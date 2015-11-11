@@ -14,6 +14,9 @@ BIIndex = new EasySearch.Index(
 if (Meteor.isClient) {
 // SUBSCRIBE PHYSICAL BOOKS POUR RÉCUPÉRER TOUTES LES INFOS SUR LES LIVRES
 	Meteor.subscribe('allAvailableBooks');
+  	// Dans cette session se trouve l'ID (BOOK_INFOS) du bouquin sur lequel l'utilisateur a cliqué
+  	Session.setDefault('chosenBookId', "");
+
 
 		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
   		function fromWhere(){  		
@@ -26,9 +29,35 @@ if (Meteor.isClient) {
 		}
 
 
+/////// TEMPLATE BORROW EVENTS //////////////
+	Template.borrow.events({
+  	'click':function()
+  	{
+  	// on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
+    var classDoc = event.target.classList;
+    //si on a cliqué sur une image dont la class est "thumb-books", alors on affiche l'explication
+      if (classDoc.contains('thumb-books') == true)
+     {
+  	var currentUserId = Meteor.userId();
+      // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
+    var selectedBook = this.__originalId;
+    Session.set('chosenBookId', selectedBook);
+    console.log("caca ",selectedBook);
+     }
+     else
+     {
+      //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
+    Session.set('chosenBookId', "");
+     } 
+ 	}	
+	}); // Fin EVENTS template Borrow
+
 	// Lors de la création de la carte
 	Template.booksMap.onCreated(function(){
 	GoogleMaps.ready('booksMap', function(map){
+		// Avant tout, on lance la localisation de l'utilisateur pour savoir ou il est !
+		Location.getGPSState(success, failure, options);
+
 		//Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
 		// récupère mes infos perso
 		var currentUser = Meteor.user();
@@ -56,6 +85,24 @@ if (Meteor.isClient) {
 		});
 
 	}); // Fin Template
+
+
+
+/////////////// TEMPLATE Des radios buttons ////////////
+Template.locationRadioButtons.helpers({
+	isThisAnAddress:function()
+	{
+	var currentUser = Meteor.user();
+	if (currentUser.profile.address1.lat && currentUser.profile.address2)
+	{return {add1:true,add2:true};}
+	else if (currentUser.profile.address1.lat == undefined)
+	{return {add1:false,add2:true};}
+	else if (currentUser.profile.address2.lat == undefined)
+	{return {add1:true,add2:false};}
+	}
+}); // Fin Template
+
+
 
 /////////////// TEMPLATE DE LA MAP = booksMap ////////////
 Template.booksMap.helpers({
@@ -88,7 +135,7 @@ Template.booksMap.helpers({
 		// Récupère l'ID du livre choisi et sauvegarde dans un tableau les utilisateurs qui peuvent le prêter
 		// pour l'instant la fonction renvoie les coordonnées des utilisateurs qui peuvent prêter
 		// setting dans une session également au cas où une sytaxe paticulière demanderai l'appel d'une session plutôt que d'une fonction
-		var chosenBookId = Session.get('chosenBookSession');
+		var chosenBookId = Session.get('chosenBookId');
 		console.log(chosenBookId);
 		// recupération des ID des users qui peuvent partager
 		var userWhoCanShare = [];
@@ -131,9 +178,9 @@ Template.booksMap.onCreated(function(){
    		 }
   	});
 
-  	Template.searchToBorrow.events({
+  	Template.displaySearch.events({
     	// Recuperation de la valeur recherchée par l'utilisateur
-    	'submit form': function(event){
+    	/*'submit form': function(event){
    	 		event.preventDefault();
    	 		//passage à true de tryTosearch pour valider qu'une recherche est effectuée
    	 		Session.set('tryToSearch', true);
@@ -142,7 +189,7 @@ Template.booksMap.onCreated(function(){
    	 		var searchedBookVar1 = event.target.searchedBook.value;
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
    	 		Session.set('searchedBookSession',searchedBookVar1);		
-   	 	},
+   	 	},*/
 
    	 	'change #home' : function(){
    	 		setBorrowMap();
@@ -152,7 +199,26 @@ Template.booksMap.onCreated(function(){
    	 	},
    	 	'change #position' : function(){
 		// lorsque je clique sur le 3 eme radio button
-   	 	}
+   	 	},
+   	 	/*'click .searchBooks': function(){
+			// si on clique sur un livre proposé suite à la recherche, la fonction met l'ID du livre de la DB BOOKS_INFOS dans la variable selectedBook
+			var chosenBookId = this._id;
+			//Affiche l'ID BOOKS_INFOS du livre
+			console.log(chosenBookId);
+			Session.set('chosenBook',chosenBookId);
+    	}*/
+	});
+
+	Template.displaySearch.helpers({
+  	// Fonction qui renvoit l'index de BOOKS_INFOS. Cette fonction est utilisée dans la recherche
+	biIndex: function(){
+  	return BIIndex;
+  	},
+  	
+  	//retourne les attributs de mon boutton EasySearch load more
+  	moreButtonAttributes:function(){
+  	return {'class':'btn btn-primary'};
+  	}
 	});
 
 ///////////// HELPERS POUR LE TEMPLATE searchBar ////////////////
@@ -169,17 +235,7 @@ Template.booksMap.onCreated(function(){
   	}
   	});
 
-  	Template.searchToBorrow.helpers({
-  	// Fonction qui renvoit l'index de BOOKS_INFOS. Cette fonction est utilisée dans la recherche
-	biIndex: function(){
-  	return BIIndex;
-  	},
-  	
-  	//retourne les attributs de mon boutton EasySearch load more
-  	moreButtonAttributes:function(){
-  	return {'class':'btn btn-primary'};
-  	}
-	});
+  
 
 	Template.displaySearchedBooks.helpers({
 
@@ -199,29 +255,113 @@ Template.booksMap.onCreated(function(){
   		}
 	});
 
-	Template.displaySearchedBooks.events({
-		'click .proposedBook': function(){
-			// si on clique sur un livre proposé suite à la recherche, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedBook
-			var chosenBookId = this._id;
-			//Affiche l'ID BOOKS_INFOS du livre
-			console.log(chosenBookId);
-			Session.set('chosenBookSession',chosenBookId);
-    	}
-	});
-
 	Template.displayChosenBook.helpers({
 		'myChosenBook': function(){
 			// Récupère l'ID du livre choisi par l'utilisateur (sur lequel on a cliqué)
-			var chosenBookId = Session.get('chosenBookSession');
+			var chosenBookId = Session.get('chosenBookId');
 			// renvoie toutes les infos sur le livre
 			return BOOKS_INFOS.findOne({_id:chosenBookId});
 		},
 		'usersWhoShareIt': function(){
 			// Récupère l'ID du livre choisi par l'utilisateur (sur lequel on a cliqué) et renvoi la liste des physcal books correspondant
-			var chosenBookId = Session.get('chosenBookSession');
+			var chosenBookId = Session.get('chosenBookId');
+			console.log()
 			return PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"});
+		},
+		'userInfos': function(){
+		// Cette fonction 
+		// On met dans une variable
+		var bookOwner = this.bookOwner;
+		var actualUser = Meteor.users.findOne({_id:bookOwner});
+		console.log(actualUser);
+		
+		// Distance jusqu'à l'add 1 et l'add 2
+		var distanceToAdd1 = 1000000;
+		var distanceToAdd2 = 1000000;
+		var currentUser = Meteor.user();
+		var from = fromWhere();
+		console.log(from);
+		// si actualUser existe	
+	if (actualUser)
+	{
+		// Si le radio option = home
+		if (from == "home"){
+			if (currentUser.profile.address1 && actualUser.profile.address1.lat)
+				{
+				distanceToAdd1 = nearByLocation.getDistance({
+				latA: currentUser.profile.address1.lat,
+				latB: actualUser.profile.address1.lat,
+				lngA: currentUser.profile.address1.lng,
+				lngB: actualUser.profile.address1.lng
+				});
+				}
+			if (currentUser.profile.address1 && actualUser.profile.address2.lat)
+				{
+				distanceToAdd2 = nearByLocation.getDistance({
+				latA:currentUser.profile.address1.lat,
+				latB: actualUser.profile.address2.lat,
+				lngA: currentUser.profile.address1.lng,
+				lngB: actualUser.profile.address2.lng
+				});
+				}
+		}
+		if (from == "work"){
+			if (currentUser.profile.address2 && actualUser.profile.address1.lat)
+				{
+				distanceToAdd1 = nearByLocation.getDistance({
+				latA: currentUser.profile.address2.lat,
+				latB: actualUser.profile.address1.lat,
+				lngA: currentUser.profile.address2.lng,
+				lngB: actualUser.profile.address1.lng
+				});
+				}
+			if (currentUser.profile.address2 && actualUser.profile.address2.lat)
+				{
+				distanceToAdd2 = nearByLocation.getDistance({
+				latA: currentUser.profile.address2.lat,
+				latB: actualUser.profile.address2.lat,
+				lngA: currentUser.profile.address2.lng,
+				lngB: actualUser.profile.address2.lng
+				});
+				}
+		}
+		if (from == "position"){
+		// calculer la distance depuis ma position
+		// var distance = nearByLocation.getDistance({})
 		}
 
+		console.log(distanceToAdd2.distance);
+		console.log(distanceToAdd1.distance);
+		// On calcule qui est le plus proche.
+		if (distanceToAdd1.distance > distanceToAdd2.distance) 
+		{
+			if (distanceToAdd2.distance > 1) 
+			{	
+			return {firstName:actualUser.profile.firstName,distance:distanceToAdd2.distance.toFixed(1),unit:"km"};
+			}
+			else
+			{
+			return {firstName:actualUser.profile.firstName,distance:distanceToAdd2.distance.toFixed(3)*1000,unit:"m"};
+			}
+		}
+		else 
+		{	// on met en mètre si c'est inférieur à 1 km
+			if (distanceToAdd1.distance > 1) 
+			{	
+			return {firstName:actualUser.profile.firstName,distance:distanceToAdd1.distance.toFixed(1),unit:"km"};
+			}
+			else
+			{
+			return {firstName:actualUser.profile.firstName,distance:distanceToAdd1.distance.toFixed(3)*1000,unit:"m"};
+			}
+		}
+		
+	}
+	else
+	{
+	return {firstName:"User unavailable",distance:"0", unit:"m"};
+	}
+	}
 	});
 	
 }
