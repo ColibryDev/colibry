@@ -1,3 +1,25 @@
+<head>
+  <!-- Script Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-70151723-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
+<template name="main">
+
+    {{> yield}}
+     {{> navBar}} 
+    <p class="text-right">Copyright &copy; Colibry, 2015-2016.</p>
+</template>
+
 
 <!-- Template pour la Barre de navigation-->
 <template name="navBar">
@@ -25,46 +47,55 @@
     </ul>
   </div>
 </nav>
-
 -->
 
 
 
-<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #003366;">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <!-- Le titre colibry renvoie vers la page principale lend -->
-      <a class="navbar-brand" href="{{pathFor route='lend'}}">Colibry</a>
-    </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-      	<!-- Un boutton lend et un bouton borrow. ATTENTION, lorsqu'on clique sur borrow, le bouton ne s'active pas. A mon avis, il faut essayer de faire une fonction events qui lorsqu'on clique sur borrow ajoute une class à l'event puis la retire à l'autre... et inversement -->
+<div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+    <a class="navbar-brand" href="{{pathFor route='lend'}}">Colibry</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+             <!-- Un boutton lend et un bouton borrow. ATTENTION, lorsqu'on clique sur borrow, le bouton ne s'active pas. A mon avis, il faut essayer de faire une fonction events qui lorsqu'on clique sur borrow ajoute une class à l'event puis la retire à l'autre... et inversement -->
         <li><a href="{{pathFor route='lend'}}">Lend<span class="sr-only">(current)</span></a></li>
-        <li><a href="{{pathFor route='borrow'}}">Borrow</a></li>
-        
-      </ul>
+        <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="borrow">Borrow<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="themes">
+                <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
+                <li class="divider"></li>
+                <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
+              </ul>
+            </li>
+
+
+
+
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="ISBN, title, author, theme, etc.">
         </div>
         <button type="submit" class="btn btn-default">Borrow</button>
       </form>
-     <!-- Icônes de droite -->
-        <ul class="nav navbar-nav navbar-right">
-        	<!-- Si un utilisateur est actuellement connecté-->
+
+
+
+        
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+          
+
+<!-- Si un utilisateur est actuellement connecté-->
         {{#if currentUser}}
-
         <!--Menu dropdown avec en majeur le nom de l'utilisateur puis lorsqu'on clique dessus : sous menu profile et log-out-->
-
       <li class="dropdown closed">
               <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
               <!-- Si l'utilisateur a mis une Profile Pic alors a travers la fonction getProfilePic, on va chercher l'ID de l'utilisateur, puis l'Id de son image qu'on va ensuite chercher dans la BD IMAGES puis qu'on renvoit. On appelle ensuite. ProfilePic.url pour avoir l'image dans src ... :)-->
@@ -87,20 +118,19 @@
        {{else}}
         <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
         {{/if}} 
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+
+
+
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
 </template>
 
 
-<!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
-<template name="main">
-    <body style="background-color:#eee">
-
-    {{> yield}}
-     {{> navBar}} 
-    <p class="text-right">Copyright &copy; Colibry, 2015-2016.</p>
-   
-      </body>
-</template>

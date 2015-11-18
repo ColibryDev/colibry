@@ -26,7 +26,6 @@ lukemadera:autoform-googleplace
 dburles:google-maps
 cfs:standard-packages
 cfs:gridfs
-twbs:bootstrap
 momentjs:moment
 softwarerero:accounts-t9n
 standard-minifiers
@@ -44,3 +43,6 @@ spacebars
 check
 yogiben:autoform-file
 easy:search
+piyush:nearby
+mirrorcell:geolocation-plus
+twbs:bootstrap

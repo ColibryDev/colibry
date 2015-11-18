@@ -203,8 +203,8 @@ Template.profilepage.events({
  	'getProgressBarPercentage' : function(){
  	var percentage = 0;
  	var currentUser = Meteor.user();
- 	if (currentUser.profile.address1) {percentage = percentage +25;}
- 	if (currentUser.profile.address2) {percentage = percentage +25;}
+ 	if (currentUser.profile.address1.lat) {percentage = percentage +25;}
+ 	if (currentUser.profile.address2.lat) {percentage = percentage +25;}
  	if (currentUser.profile.birthday) {percentage = percentage +25;}
  	if (currentUser.profile.pic) {percentage = percentage +25;}
  	return percentage;

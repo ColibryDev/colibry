@@ -2,19 +2,13 @@
 <template name="lend">
 <!-- Même si déjà défini par iron router, rien ne s'affiche si l'utilisateur n'est pas connecté -->
   {{#if currentUser}}
-  <div class="container panel-defaults panel">
+  <div class="container-fluid">
   
   <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, searchGoogleBooks affiche la fonctionnalité de recherche de livres dans Google Books -->
   <div class="row">
-  <div class="col-xs-12 col-md-8"> 
-   <p class="text-center">
-  <h3>MY COLLABORATIVE LIBRARY</h3></p>
-  
-    {{> displayMyPhysicalBooks}}
-  </div>
-  <div class="center-block">
+
+<div class="center-block">
   <div class="col-xs-6 col-md-4"> 
-    <br><br>
     {{#if isTheAddressMissing}}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -22,10 +16,21 @@
     </div>
 
   {{/if}}
-    {{> displaySelectedBook}} 
+      <div class="container-fluid">
+
     {{> searchGoogleBooks}} 
+    {{> displaySelectedBook}} 
+  </div>
     </div>
   </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-8"> 
+    {{> displaySearchGoogleBooks}}
+   <p class="text-center">
+  <h4>MY COLLABORATIVE LIBRARY</h4></p>
+    {{> displayMyPhysicalBooks}}
+  </div>
+  
   </div>
   </div>
 {{/if}}
@@ -34,6 +39,7 @@
 <!-- TEMPLATE pour afficher le livre actuellement sélectionné.  -->
 <template name="displaySelectedBook">
   {{#if mySelectedBook}}
+        <hr>  
 <div class="thumbnail">
       <img class="thumb-books" src="{{mySelectedBook.thumb}}" width="100" height="140">
       <div class="caption">
@@ -67,7 +73,7 @@
         <div class="row">
        {{#if myPublicBooks.count}}
          {{#each myPublicBooks}}
-          <a class="img-thumbnail img-responsive">
+          <a class="img-thumbnail">
           <div class="draggable drag-drop">
             <!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
            {{> bookimage}}
@@ -146,67 +152,70 @@
  <!-- TEMPLATE GSEARCH POUR AFFICHER LA FONCTIONNALITÉ DE RECHERCHE DE LIVRE A AJOUTER DANS SA BIBLIOTHEQUE -->
 
 <template name="searchGoogleBooks">
- <form>
+ <form class="form-horizontal">
     <div class="input-group">
       <input type="text" class="form-control" name="query" placeholder="ISBN, title, author, theme, etc.">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">
-              <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-	Add to my library</button>
+              <span class="glyphicon glyphicon-book" aria-hidden="true"></span>	Add a book!</button>
       </span>
     </div><!-- /input-group -->
-  	
-
   </form>
-<br> 
-<!-- Affichage de "searching" pendant la recherche à l'API -->
+</template>
+
+<!-- Template pour afficher individuellement les livres de la recherche Google BOOKS-->
+
+<template name="displaySearchGoogleBooks">  
+
+  <!-- Affichage de "searching" pendant la recherche à l'API -->
 {{#if actualGoogleBooksSearch}}
   {{#if searching}}
     <p>Searching...</p>
   {{else}}
   <!-- Affichage des résultats dans un tableauy -->
     {{#if GOOGLE_BOOKS_SEARCHFind.count}}
-      <hr>  
       <table>
         {{#each GOOGLE_BOOKS_SEARCHFind}}
-        <!-- Appel au template DisplaySearchGbook pour afficher individuellement les livres de la recherche Google BOOKS-->
-          {{> displaySearchGoogleBooks}}
-        {{/each}}
+        
+        
+    <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
+
+    <div class="media">
+    <div class="media-left image add-this-book">
+    <a href="#" class="media-object ">
+      {{> bookimage}}
+    </a>
+  </div>
+
+  <div class="media-body">
+    <h4 class="media-heading">{{title}} by {{authors}}</h4>
+    {{snippet}}
+    <br>
+ <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
+      <button type="button" id="myButton" data-loading-text="Loading..." class="add-this-book btn btn-sm btn-primary" autocomplete="off">
+        Add to my Library
+    </button> 
+          <script>
+          $('#myButton').on('click', function () {
+          var $btn = $(this).button('loading')
+          // business logic...
+          $btn.button('reset')
+          })
+      </script>
+      <!-- cherche la fonction getAverageRating pour savoir s'il y a un rating sur ce livre. S'Il y en a un alors la fonction retourne un chiffre de 1 à 5 qui vient donc compléter le nom de l'image qu'on affiche -->
+      {{#if getAverageRating}}
+    <img src="{{getAverageRating}}star.png" height="20"> 
+    {{/if}} 
+  </div>
+
+</div>
+
+
+{{/each}}
       </table>
     {{/if}}
   {{/if}}
   {{/if}}
-</template>
-
-<!-- Template pour afficher individuellement les livres de la recherche Google BOOKS-->
-
-<template name="displaySearchGoogleBooks">  
-  <tr>
-    <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
-    <td class="image add-this-book">
-      {{> bookimage}}
-	</td>
-    <blockquote>
-	<strong>{{title}}</strong> by {{authors}}
-	<small>{{snippet}}</small>
-	{{averageRating}} / 5
-    </blockquote>
-    <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
-	<button type="button" id="myButton" data-loading-text="Loading..." class="add-this-book btn btn-primary" autocomplete="off">
-  			Add to my Library
-		</button>
-
-		<script>
-  		$('#myButton').on('click', function () {
-    	var $btn = $(this).button('loading')
-    	// business logic...
-    	$btn.button('reset')
-  		})
-		</script>
-
-	 </tr>
-	 <br>
-	 
 </template>  
 
 
@@ -215,9 +224,8 @@
 <template name="bookimage">
   <!-- La fonction imageornot vient m'indiquer s'il y a une image ou pas à afficher. Si il n'y avait pas d'image sur l'API GOogle alors on affiche un écran gris avec le titre dedans-->
   {{#if imageOrNot}}
-   <img class="thumb-books" src="{{thumb}}" alt={{title}} height="110">
+   <img class="thumb-books" src="{{thumb}}" alt={{title}} height="70">
   {{else}}
-  <img class="thumb-books gris"  alt={{title}} height="100">
-
+  <img class="thumb-books gris"  alt={{title}} height="70">
   {{/if}}
 </template>
