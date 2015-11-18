@@ -133,6 +133,7 @@ interact('.dropzone').dropzone({
 
 // Attention, fonction mousedown, ca marche quand 
 Template.displayMyPhysicalBooks.events({
+  // ontap sur mobile ????
   'mousedown': function(event){
    // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
     var classDoc = event.target.classList;
@@ -242,6 +243,37 @@ Template.displaySearchGoogleBooks.events({
   }
 });
 
+// Fonctions helpers sur le template displaySearchGoogleBooks
+Template.displaySearchGoogleBooks.helpers({ 
+  'getAverageRating':function(){
+    var averageRating = this.averageRating;
+    console.log("caca",averageRating);
+    if (averageRating == undefined) {return false;}
+    else if (averageRating > 0 && averageRating < 1,5)
+      {return "1";}
+    else if (averageRating >= 1,5 && averageRating < 2,5)
+      {return "2";}
+    else if (averageRating >= 2,5 && averageRating < 3,5)
+      {return "3";}
+    else if (averageRating >= 3,5 && averageRating < 4,5)
+      {return "4";}
+    else if (averageRating >= 4,5 )
+      {return "5";}
+    else {return false;}
+  },
+  // Afficher les résultats de la recherche Gbooks
+  GOOGLE_BOOKS_SEARCHFind: function() {
+    return GOOGLE_BOOKS_SEARCH.find();
+  },
+  //Afficher la variable Searching or not
+  searching: function() {
+    return Session.get('searching');
+  },
+  // Fonction pour savoir s'il y a un recherche actuellement affichée sur l'écran
+  actualGoogleBooksSearch: function() {
+  return Session.get('actualGoogleBooksSearch');
+  }
+});
 
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
@@ -310,18 +342,7 @@ Template.searchGoogleBooks.events({
 
 // Fonctions helpers sur le template searchGoogleBooks
 Template.searchGoogleBooks.helpers({  
-  // Afficher les résultats de la recherche Gbooks
-  GOOGLE_BOOKS_SEARCHFind: function() {
-    return GOOGLE_BOOKS_SEARCH.find();
-  },
-  //Afficher la variable Searching or not
-  searching: function() {
-    return Session.get('searching');
-  },
-  // Fonction pour savoir s'il y a un recherche actuellement affichée sur l'écran
-  actualGoogleBooksSearch: function() {
-  return Session.get('actualGoogleBooksSearch');
-  }
+  
   
 });
 

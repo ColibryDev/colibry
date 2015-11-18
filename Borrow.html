@@ -3,12 +3,9 @@
 
 <template name="borrow">
 
-  <div class="container panel-defaults panel">
+  <div class="container-fluid panel-defaults panel">
 
-  <ul class="nav nav-justified nav-pills">
-  <li role="presentation" class="active"><a href="#">Looking for a specific book!</a></li>
-  <li role="presentation"><a href="{{pathFor route='suggestions'}}">Looking for reading suggestions!</a></li>
-  </ul>
+
 
 	<br>
       <h3><span class="label label-primary">1</span> <img src="/arrow.png" height="25">  Search your next reading in your neighbourhood!</h3>
@@ -72,17 +69,15 @@
   <div class="btn-group" data-toggle="buttons" id="radioLocButtons">
 
 <label class="btn btn-primary"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Borrow from </label>
-	{{#if isThisAnAddress.add1}}
-  <label class="btn btn-default">
-    <input type="radio" name="borrowLoc" id="home" autocomplete="off" checked> home
+	<!-- Les boutons disparaissent s'il n'y a pas d'addresse de remplie-->
+  <label class="btn btn-default {{isThisAnAddress.add1Active}}">
+    <input type="radio" name="borrowLoc" display={{isThisAnAddress.add1}} id="home" autocomplete="off" checked> home
   </label>
-  {{/if}}
-  	{{#if isThisAnAddress.add2}}
-  <label class="btn btn-default">
-    <input type="radio" name="borrowLoc" id="work" autocomplete="off"> work
+  	<!-- Les boutons disparaissent s'il n'y a pas d'addresse de remplie-->
+  <label class="btn btn-default {{isThisAnAddress.add2Active}}">
+    <input type="radio" name="borrowLoc" display={{isThisAnAddress.add2}} id="work" autocomplete="off"> work
   </label>
-  {{/if}}
-  <label class="btn btn-default active">
+  <label class="btn btn-default {{isThisAnAddress.positionActive}}">
     <input type="radio" name="borrowLoc" id="position" autocomplete="off"> my position
   </label>
 </div>
