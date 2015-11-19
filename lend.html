@@ -5,12 +5,13 @@
   <div class="container-fluid">
   
   <!-- Disposition div BOOTSTRAP pour obtenir les 2 colonnes d'éléments, à gauche le template displayMyPhysicalBooks avec les 3 étagères, à droite, Displayselected book s'affiche lorsqu'un livre de la bibliothèque est sélectionné, ça vient l'afficher. Puis en dessous de ce template, searchGoogleBooks affiche la fonctionnalité de recherche de livres dans Google Books -->
+
   <div class="row">
 
 <div class="center-block">
-  <div class="col-xs-6 col-md-4"> 
+  <div class="col-xs-12 col-sm-6 col-md-4"> 
     {{#if isTheAddressMissing}}
-<div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <div class="alert alert-danger alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
       <strong>Your books are unavailable !</strong> Please update your address in your <a href="{{pathFor route='profilepage'}}">profile</a> so as to share them. Thanks :)
     </div>
@@ -45,6 +46,13 @@
       <div class="caption">
         <h3>{{mySelectedBook.title}} by {{mySelectedBook.authors}}</h3>
         <p>{{mySelectedBook.snippet}}</p>
+     
+        <!-- cherche la fonction getAverageRating pour savoir s'il y a un rating sur ce livre. S'Il y en a un alors la fonction retourne un chiffre de 1 à 5 qui vient donc compléter le nom de l'image qu'on affiche -->
+      {{#if getAverageRating}}
+    <img src="{{getAverageRating}}star.png" height="20"> 
+    {{/if}} 
+       <br>
+        <br>
         <p class="text-center">
           <!-- Le bouton remove est actif grâce à la class erase-book -->
         <p><a class="btn btn-danger erase-book" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
@@ -68,7 +76,8 @@
       <h4 class="panel-title">
         <!-- Un petit badge bien indiqué le nombre de livres dans chque partie de la bibliothèque -->
         Books available for lending <span class="badge">{{myPublicBooks.count}}</span>
-      </h4>
+      </h4>   
+       </div>
     <div class="panel-body">
         <div class="row">
        {{#if myPublicBooks.count}}
@@ -87,7 +96,6 @@
     </div>
   
       </div>
-    </div>
   </div>
 
 <!-- l'ID est récupéré par les fonctions INTERACT (drag & drop) pour savoir dans quel partie de la bibliothèque ranger le livre.
@@ -97,6 +105,8 @@
       <h4 class="panel-title">
           Private books, unavailable for lending <span class="badge">    {{myPrivateBooks.count}}</span>
    </h4>
+ </div>
+
     <div class="panel-body">
         <div class="row">
         {{#if myPrivateBooks.count}}
@@ -112,19 +122,20 @@
          <!-- Phrase si pas de livre dans cette partie de la biblio...-->
           If you'd like a book to be private onbly, drag & drop it here
           {{/if}}
-    </div>
       </div>
     </div>
   </div>
 
 <!-- l'ID est récupéré par les fonctions INTERACT (drag & drop) pour savoir dans quel partie de la bibliothèque ranger le livre.
   ID : 2 = livre prêté -->
-  <div id="2" class="dropzone panel panel-danger">
+  <div id="2" class="panel panel-danger dropzone">
     <div class="panel-heading">
       <h4 class="panel-title">
           Lent books <span class="badge">    {{myLentBooks.count}}
     </span>
      </h4>
+   </div>
+
     <div class="panel-body">
         <div class="row">
          {{#if myLentBooks.count}}
@@ -141,7 +152,6 @@
          {{/if}}
     </div>
       </div>
-    </div>
   </div>
 </div>
 </template>
@@ -152,7 +162,7 @@
  <!-- TEMPLATE GSEARCH POUR AFFICHER LA FONCTIONNALITÉ DE RECHERCHE DE LIVRE A AJOUTER DANS SA BIBLIOTHEQUE -->
 
 <template name="searchGoogleBooks">
- <form class="form-horizontal">
+ <form class="bs-component">
     <div class="input-group">
       <input type="text" class="form-control" name="query" placeholder="ISBN, title, author, theme, etc.">
       <span class="input-group-btn">
@@ -224,7 +234,7 @@
 <template name="bookimage">
   <!-- La fonction imageornot vient m'indiquer s'il y a une image ou pas à afficher. Si il n'y avait pas d'image sur l'API GOogle alors on affiche un écran gris avec le titre dedans-->
   {{#if imageOrNot}}
-   <img class="thumb-books" src="{{thumb}}" alt={{title}} height="70">
+   <img class="thumb-books" src="{{thumb}}" alt={{title}} height="80">
   {{else}}
   <img class="thumb-books gris"  alt={{title}} height="70">
   {{/if}}

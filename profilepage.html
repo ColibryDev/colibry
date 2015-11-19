@@ -12,64 +12,43 @@
 <div class="row">
 
 
-
 <!-- ENCART DE GAUCHE -->
-<div class="col-xs-6 col-md-4">
-<!-- Si actuellement en train d'updating le profile -->
-{{#if actuallyUpdatingProfile}}
-<!-- Autoform pour upload la photo, package yogiben -->
- {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='photoForm' autosave=true}}
-{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
-	<!-- Je cache le bouton mais utilise son ID pour le déclencher quand j'appuie sur le bouton principal Save -->
-	  <button type="submit" class="btn btn-primary hidden" id="save-pic">
-	  Download my profile picture
-	</button>
- {{/autoForm}}
+<div class="col-xs12 col-sm-6 col-md-4">
+	<!-- ACTIONS POSSIBLE SUR LE PROFILE -->
+	<div class="jumbotron alert-info">
 
-<!-- Si pas actuellement en train d'update le profil -->
-{{else}}
-	<p class="text-center">
-	<h3>
-	{{currentUser.profile.firstName}}
-	</h3>
-	</p>
-	
-  	<br>
+	<h3><p class="text-center">Hello {{currentUser.profile.firstName}} !</p></h3>
+	<div class="progress">	
+	  <div class="progress-bar" role="progressbar" aria-valuenow="{{getProgressBarPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{getProgressBarPercentage}}%;">
+ 	   {{getProgressBarPercentage}}% fullfilled
+ 	 </div>
+	</div>
 
-<!-- Si il y a une image de profile -->
-{{#if currentUser.profile.pic}}
-<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
-{{else}}
-<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
-{{/if}}
+	<br>
+	{{#if actuallyUpdatingProfile}}
+	<!-- Si actuellement en train d'update le Profile, alors on a un boutton pour save avec une class 'saveProfile' -->
+	<button type="button" class="btn btn-warning btn-block btn-md saveProfile" id="save-button">Save my profile</button>
+	{{else}}
+	<!-- Si pas en train d'update le Profile, alors on a un boutton pour update avec une class 'updateProfile' -->
+	<button type="button" class="btn btn-warning btn-block btn-md updateProfile">Update my profile</button>
+	<br>
+	<!-- + un Inactive button -->
+	<button type="button" class="btn btn-danger btn-block btn-md suppressAccount">Suppress my account</button>
+	{{/if}}
+	</div>
 
-{{#if currentUser.profile.address1.lat}}
-<br>
- <center><h5>Personal Address</h5></center>
-<div class="map-container-small">
- {{> googleMap name="address1Map" options=addressesMapOptions}}
+		<!-- Appel au template ProfileStats -->
+	{{> profilestats}}
 </div>
-{{/if}}
-
-{{#if currentUser.profile.address2.lat}}
-<br>
- <center><h5>Work Address</h5></center>
-<div class="map-container-small">
- {{> googleMap name="address2Map" options=addressesMapOptions}}
-</div>
-{{/if}}
 
 
 
-{{/if}}
-
-</div>
 
 
 
 
 <!-- ENCART Du MILIEU -->
-<div class="col-xs-6 col-md-4">
+<div class="col-xs12 col-sm-6 col-md-4">
 
 <!-- Si actuellement en train d'updating le profile -->
 {{#if actuallyUpdatingProfile}}
@@ -133,36 +112,66 @@
 
 
 
-
-
 <!-- ENCART DE DROITE -->
-<div class="col-xs-6 col-md-4">
-	<!-- ACTIONS POSSIBLE SUR LE PROFILE -->
-	<div class="jumbotron alert-info">
+<div class="col-xs12 col-sm-6 col-md-4">
+<!-- Si actuellement en train d'updating le profile -->
+{{#if actuallyUpdatingProfile}}
+<!-- Autoform pour upload la photo, package yogiben -->
+ {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='photoForm' autosave=true}}
+{{> afQuickField name="profile.pic" label="Choose file" remove-label="Remove"}}
+	<!-- Je cache le bouton mais utilise son ID pour le déclencher quand j'appuie sur le bouton principal Save -->
+	  <button type="submit" class="btn btn-primary hidden" id="save-pic">
+	  Download my profile picture
+	</button>
+ {{/autoForm}}
 
-	<h3><p class="text-center">Hello {{currentUser.profile.firstName}} !</p></h3>
-	<div class="progress">	
-	  <div class="progress-bar" role="progressbar" aria-valuenow="{{getProgressBarPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{getProgressBarPercentage}}%;">
- 	   {{getProgressBarPercentage}}% fullfilled
- 	 </div>
-	</div>
+<!-- Si pas actuellement en train d'update le profil -->
+{{else}}
+	<p class="text-center">
+	<h3>
+	{{currentUser.profile.firstName}}
+	</h3>
+	</p>
+	
+  	<br>
 
-	<br>
-	{{#if actuallyUpdatingProfile}}
-	<!-- Si actuellement en train d'update le Profile, alors on a un boutton pour save avec une class 'saveProfile' -->
-	<button type="button" class="btn btn-warning btn-block btn-md saveProfile" id="save-button">Save my profile</button>
-	{{else}}
-	<!-- Si pas en train d'update le Profile, alors on a un boutton pour update avec une class 'updateProfile' -->
-	<button type="button" class="btn btn-warning btn-block btn-md updateProfile">Update my profile</button>
-	<br>
-	<!-- + un Inactive button -->
-	<button type="button" class="btn btn-danger btn-block btn-md suppressAccount">Suppress my account</button>
-	{{/if}}
-	</div>
+<!-- Si il y a une image de profile -->
+{{#if currentUser.profile.pic}}
+<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
+{{else}}
+<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+{{/if}}
 
-		<!-- Appel au template ProfileStats -->
-	{{> profilestats}}
+{{#if currentUser.profile.address1.lat}}
+<br>
+ <center><h5>Personal Address</h5></center>
+<div class="map-container-small">
+ {{> googleMap name="address1Map" options=addressesMapOptions}}
 </div>
+{{/if}}
+
+{{#if currentUser.profile.address2.lat}}
+<br>
+ <center><h5>Work Address</h5></center>
+<div class="map-container-small">
+ {{> googleMap name="address2Map" options=addressesMapOptions}}
+</div>
+{{/if}}
+
+
+
+{{/if}}
+
+</div>
+
+
+
+
+
+
+
+
+
 </div>
 </div>
 </template>

@@ -2,7 +2,6 @@
 body { padding-top: 50px; }
 
 .dhtmlx_message_area{
-  
     padding-top: 52px;
 }
 
@@ -37,7 +36,7 @@ height:110px;
   border: dashed 2px transparent;
   border-radius: 2px;
   /*margin: 10px auto 30px;*/
-  padding: 4px;
+  padding: 0px;
   /*width: 80%;*/
   transition: background-color 0.3s;
 }

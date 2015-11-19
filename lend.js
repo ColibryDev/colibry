@@ -134,7 +134,7 @@ interact('.dropzone').dropzone({
 // Attention, fonction mousedown, ca marche quand 
 Template.displayMyPhysicalBooks.events({
   // ontap sur mobile ????
-  'mousedown': function(event){
+  'mousedown, touchstart': function(event){
    // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
     var classDoc = event.target.classList;
           //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
@@ -207,6 +207,32 @@ Template.displaySelectedBook.helpers({
   selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
   return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
   }
+  },
+
+  'getAverageRating':function(){
+    
+    // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
+  var selectedPhysicalBook = Session.get('selectedPhysicalBook');
+  // renvoie toutes les infos sur le livre
+  if (selectedPhysicalBook != "")
+  {
+  var selectedBookRef;
+  selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
+  var averageRating = BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef}).averageRating;
+  }
+
+    if (averageRating == undefined) {return false;}
+    else if (averageRating > 0 && averageRating < 1.5)
+      {return "1";}
+    else if (averageRating >= 1.5 && averageRating < 2.5)
+      {return "2";}
+    else if (averageRating >= 2.5 && averageRating < 3.5)
+      {return "3";}
+    else if (averageRating >= 3.5 && averageRating < 4.5)
+      {return "4";}
+    else if (averageRating >= 4.5 )
+      {return "5";}
+    else {return false;}
   }
 /*
  'showSelectedBook': function()
@@ -227,7 +253,7 @@ Template.displaySearchGoogleBooks.events({
   // On appelle côté serveur pour ajouter le livre. On envoie toutes les infos et on indique que le livre est actuellement disponible
   Meteor.call(
     //dans le meteor call on envoie une fonction pour qu'il nous revienne une erreur si le livre existe déjà dans la biblio
-    'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,
+    'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,selectedBookFromGSearch.averageRating,
     function(error, result)
     {
     if (error) {dhtmlx.message({type:"error", text:"Error", expire: 2000});}
@@ -249,15 +275,15 @@ Template.displaySearchGoogleBooks.helpers({
     var averageRating = this.averageRating;
     console.log("caca",averageRating);
     if (averageRating == undefined) {return false;}
-    else if (averageRating > 0 && averageRating < 1,5)
+    else if (averageRating > 0 && averageRating < 1.5)
       {return "1";}
-    else if (averageRating >= 1,5 && averageRating < 2,5)
+    else if (averageRating >= 1.5 && averageRating < 2.5)
       {return "2";}
-    else if (averageRating >= 2,5 && averageRating < 3,5)
+    else if (averageRating >= 2.5 && averageRating < 3.5)
       {return "3";}
-    else if (averageRating >= 3,5 && averageRating < 4,5)
+    else if (averageRating >= 3.5 && averageRating < 4.5)
       {return "4";}
-    else if (averageRating >= 4,5 )
+    else if (averageRating >= 4.5 )
       {return "5";}
     else {return false;}
   },
@@ -369,7 +395,7 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     // POur insérer un livre dans la collection BOOK
-  'InsertBook': function(ISBN,title,authors,publisher,status,snippet,thumb,error){
+  'InsertBook': function(ISBN,title,authors,publisher,status,snippet,thumb,averageRating,error){
   // var pour l'id de l'utiisateur
   var currentUserId = this.userId;
   // variable ou est stocké l'id unique du livre de la DBMongo BOOKS_INFOS
@@ -389,7 +415,8 @@ if (Meteor.isServer) {
     title: title,
     publisher: publisher,    
     snippet:snippet,
-    thumb:thumb
+    thumb:thumb,
+    averageRating:averageRating
     });
   }
   else
