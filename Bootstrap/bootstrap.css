@@ -1134,6 +1134,7 @@ img {
 }
 .img-thumbnail {
   padding: 0px;
+  margin-bottom: 4px; 
   line-height: 1.42857143;
   background-color: #fcfcfc;
   border: 0px solid #dddddd;
