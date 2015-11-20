@@ -6,6 +6,7 @@ Meteor.subscribe('images');
 
 // Variable est ce qu'on est en train d'upload le profile !
 Session.setDefault('updatingProfile', false);
+
 // Specify features and elements to define styles of my map
 // On peut jouer dedans...
  var styleArray = [
@@ -49,7 +50,7 @@ Session.setDefault('updatingProfile', false);
   function setMaps() {
     var currentUser = Meteor.user();
     // Créé la map uniquement si l'addresse 1 existe
-    if (currentUser.profile.address1) {
+    if (currentUser.profile.address1 != undefined) {
     // Définit la première map pour l'addresse personnelle
   GoogleMaps.ready('address1Map', function(map) {
   // appelle la fonction setCircl et récupère le bounds qui me permet de définir mon centre et mon zoom grace à la fonction fitBounds.
@@ -58,7 +59,7 @@ Session.setDefault('updatingProfile', false);
   });
   }
 // Créé la map uniquement si l'addresse 2 existe
-    if (currentUser.profile.address2) {
+    if (currentUser.profile.address2 != undefined) {
     // Définit la deuxième map pour l'addresse work
   GoogleMaps.ready('address2Map', function(map) {
   // appelle la fonction setCircl et récupère le bounds qui me permet de définir mon centre et mon zoom grace à la fonction fitBounds.
@@ -72,6 +73,7 @@ Session.setDefault('updatingProfile', false);
 // Création de la map 
 Template.profilepage.onCreated(function() {
 // Appelle la fonction SetMaps que j'ai créé pour crééer les 2 cartes
+  Meteor.publish;
  setMaps();
 });
 
@@ -82,25 +84,31 @@ Template.profilepage.events({
 	},
 
 	'click .saveProfile' : function(event){
-  var userId = Meteor.userId();
-	document.getElementById('save-pic').click();
-	document.getElementById('save-profileInfo').click();
+  var currentUser = Meteor.user();
 
+
+  // AAAATTTTENTION J'AI DESACTIVÉ la SAUVEGARDE DE LA PICTURE PARCE QUE CA FAIT PLANTER LES ADDRESSES.
+
+
+	//document.getElementById('save-pic').click();
+	document.getElementById('save-profileInfo').click();
+  /*
   // Récupère les valeurs qui sont dans les champs addresses
   var address1 = document.getElementById('address1Field').value;
   var address2 = document.getElementById('address2Field').value;
   // si elles sont nulles alors cela supprime les addresses dans la BD Meteor.usesrs
-  if (address1 == ""){
-    Meteor.users.update( userId, { $unset: { 'profile.address1': "" } } );
+  if (address1 === "" && currentUser.profile.address1){
+    Meteor.users.update( currentUser._id, { $unset: {  'profile.address1': "" } } );
   }
-  if (address2 == ""){
-    Meteor.users.update( userId, { $unset: { 'profile.address2': "" } } );
-  }
+  if (address2 === "" && currentUser.profile.address2){
+    Meteor.users.update( currentUser._id, { $unset: { 'profile.address2': "" } } );
+  }*/
+  Session.set('updatingProfile', false);
 
 	// Appelle la fonction SetMaps que j'ai créé pour recréer les maps avec les bons cercles
   setMaps();
-  Session.set('updatingProfile', false);
 	},
+
 
   // Si l'utilisateur presse entrée (code 13)
   'keypress input': function(event) {
@@ -136,14 +144,6 @@ Template.profilepage.events({
    	var currentUser = Meteor.user();
 
     if (GoogleMaps.loaded()) {
-
-
-    //	if ((currentUser.profile.address1)&&(currentUser.profile.address2)
-    //	{
-    //	console.log("1 et 2");
-    //	}
-
-
       // Map initialization options
       return {
       	disableDoubleClickZoom: false, 
@@ -158,14 +158,10 @@ Template.profilepage.events({
     }
   },
 
+  // pour savoir si on est actuellement en train d'update le profile.
 	'actuallyUpdatingProfile' : function(){
 	var updatingProfile = Session.get('updatingProfile');
 	return updatingProfile;
-  },
-
-  'getSecondAddress' : function(){
-  var secondAddress = Session.get('secondAddress');
-  return secondAddress;
   },
 
 		// Permet d'afficher la photo de profile
@@ -195,18 +191,15 @@ Template.profilepage.events({
    	return c;
 	},
 
-	'actuallyUpdatingProfile' : function(){
-	var updatingProfile = Session.get('updatingProfile');
-	return updatingProfile;
- 	},
-
  	'getProgressBarPercentage' : function(){
  	var percentage = 0;
  	var currentUser = Meteor.user();
- 	if (currentUser.profile.address1.lat) {percentage = percentage +25;}
- 	if (currentUser.profile.address2.lat) {percentage = percentage +25;}
- 	if (currentUser.profile.birthday) {percentage = percentage +25;}
- 	if (currentUser.profile.pic) {percentage = percentage +25;}
+  if (currentUser.profile.firstName) {percentage = percentage +16;}
+  if (currentUser.profile.lastName) {percentage = percentage +16;}
+ 	if (currentUser.profile.address1) {percentage = percentage +16;}
+ 	if (currentUser.profile.address2) {percentage = percentage +16;}
+ 	if (currentUser.profile.birthday) {percentage = percentage +16;}
+ 	if (currentUser.profile.pic) {percentage = percentage +20;}
  	return percentage;
  	}
 });
@@ -220,4 +213,5 @@ Template.profilepage.events({
 
 
 if (Meteor.isServer) {
+
 }
