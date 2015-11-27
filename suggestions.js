@@ -7,15 +7,16 @@ if (Meteor.isClient) {
 //  Meteor.subscribe("locations", Session.get('center'));
 	});
 
-	function fromWhere(){  		
-    	if(document.getElementById('home').checked)
-    	{return 'home';}
-    	if(document.getElementById('work').checked)
-    	{return 'work';}
-    	if(document.getElementById('position').checked)
-    	{return 'position';}
+		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
+  		function fromWhere(){  
+    	if(document.getElementById('bhome').classList.contains('active'))
+    	{return "home";}
+    	if(document.getElementById('bwork').classList.contains('active'))
+    	{return "work";}
+    	if(document.getElementById('bposition').classList.contains('active'))
+    	{return "position";}
+    	else {return "error";}
 		}
-
 
 	// FONCTION QUI LANCE MA CARTE POUR SAVOIR OU SONT LES UTILISATEURS AUTOUR DE MOI
 		function setUsersMap(){
@@ -91,16 +92,19 @@ var lenderCircle = new google.maps.Circle({
       // on récupère les infos de l'utilisateur actuellement connecté
       var currentUser = Meteor.user();
     if (from == "home")
-     	{return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+     	{return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
     if (from == "work")
-     	{return {center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
+     	{return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
         zoom: 14};
     	}
     if (from == "position")
      	{// A DEFINIR
-     	return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+     	return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
       

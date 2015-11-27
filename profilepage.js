@@ -73,6 +73,7 @@ Session.setDefault('updatingProfile', false);
 // Création de la map 
 Template.profilepage.onCreated(function() {
 // Appelle la fonction SetMaps que j'ai créé pour crééer les 2 cartes
+// PROBLEME : cela affiche la carte avant qu'on ait chargé Meteor.users.....
   Meteor.publish;
  setMaps();
 });
@@ -85,14 +86,11 @@ Template.profilepage.events({
 
 	'click .saveProfile' : function(event){
   var currentUser = Meteor.user();
-
-
   // AAAATTTTENTION J'AI DESACTIVÉ la SAUVEGARDE DE LA PICTURE PARCE QUE CA FAIT PLANTER LES ADDRESSES.
-
 
 	//document.getElementById('save-pic').click();
 	document.getElementById('save-profileInfo').click();
-  /*
+  
   // Récupère les valeurs qui sont dans les champs addresses
   var address1 = document.getElementById('address1Field').value;
   var address2 = document.getElementById('address2Field').value;
@@ -102,7 +100,7 @@ Template.profilepage.events({
   }
   if (address2 === "" && currentUser.profile.address2){
     Meteor.users.update( currentUser._id, { $unset: { 'profile.address2': "" } } );
-  }*/
+  }
   Session.set('updatingProfile', false);
 
 	// Appelle la fonction SetMaps que j'ai créé pour recréer les maps avec les bons cercles

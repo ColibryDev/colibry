@@ -21,21 +21,35 @@ if (Meteor.isClient) {
 
 		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
   		function fromWhere(){  
-
-    	if(document.getElementById("home").checked)
+    	if(document.getElementById('bhome').classList.contains('active'))
     	{return "home";}
-    	if(document.getElementById("work").checked)
+    	if(document.getElementById('bwork').classList.contains('active'))
     	{return "work";}
-    	if(document.getElementById("position").checked)
+    	if(document.getElementById('bposition').classList.contains('active'))
     	{return "position";}
     	else {return "error";}
 		}
 
+ // fonction qui permet de dessiner un cercle sur la carte en question
+  // 3 arguments : le om de la map, l'addresse à encercler ainsi que la couleur (rouge pour personal et bleu pour work)
+  	function setCircle(map,address, color) {
+  	var addressCircles = new google.maps.Circle({
+      strokeColor: color,
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: color,
+      fillOpacity: 0.35,
+      map: map.instance,
+      center: {lat: address.lat, lng: address.lng},
+      radius: 80
+  	  });
+  		}
 
 /////// TEMPLATE BORROW EVENTS //////////////
 	Template.borrow.events({
   	'click':function()
   	{
+  	var currentUser = Meteor.user();
   	// on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
     var classDoc = event.target.classList;
     //si on a cliqué sur une image dont la class est "thumb-books", alors on affiche l'explication
@@ -45,8 +59,49 @@ if (Meteor.isClient) {
       // si on clique sur un livre de sa bibliothèque, la fonction met l'ID du livre de la DB informationBooks dans la variable selectedPhysicalBook (afin que celui ci soit affiché)
     var selectedBook = this.__originalId;
     Session.set('chosenBookId', selectedBook);
-    console.log("caca ",selectedBook);
-     }
+
+
+    // Initie les ronds lorsqu'on clique sur un des bouquins
+    // Cherche dans PhysicalBooks les owners de ce bouquin
+    var thisBookLenders = [];
+    PHYSICAL_BOOKS.find({/*bookOwner:{$ne:currentUser._id},*/bookRef:selectedBook,status:"1"}).forEach(function(element){
+    	thisBookLenders.push(element.bookOwner);});
+
+    console.log("les utilisateurs sont",thisBookLenders);
+    var lendersAddresses = [];
+	Meteor.users.find({_id:{ $in:thisBookLenders}}).forEach(function(element) 
+	{
+ 	lendersAddresses.push({
+		address1:{
+			lat : element.profile.address1.lat,
+ 			lng : element.profile.address1.lng
+		},
+		address2:{
+			lat : element.profile.address2.lat,
+ 			lng : element.profile.address2.lng
+		}}
+		);
+
+     });
+
+		GoogleMaps.ready('booksMap', function(map) {
+			for (var nb in lendersAddresses){
+				var addressCircles = new google.maps.Circle({
+		      strokeColor: '#FF0000',
+		      strokeOpacity: 0.8,
+		      strokeWeight: 1,
+		      fillColor: '#FF0000',
+		      fillOpacity: 0.35,
+		      map: map.instance,
+		      center: {lat: lendersAddresses[nb].address1.lat, lng: lendersAddresses[nb].address1.lng},
+		      radius: 80
+		  	  });
+			//setCircle(map,lendersAddresses[nb].address1, '#FF0000');
+			//setCircle(map,lendersAddresses[nb].address2, '#000080');
+			}
+ 		});
+ 	}
+
      else
      {
       //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
@@ -56,8 +111,11 @@ if (Meteor.isClient) {
 	}); // Fin EVENTS template Borrow
 
 	// Lors de la création de la carte
-	Template.booksMap.onCreated(function(){
+
+Template.booksMap.onCreated(function(){
 	GoogleMaps.ready('booksMap', function(map){
+
+		/*
 		// Avant tout, on lance la localisation de l'utilisateur pour savoir ou il est !
 		Location.getGPSState(success, failure, options);
 		Location.locate(function(pos){
@@ -66,12 +124,13 @@ if (Meteor.isClient) {
 			}, function(err){
  	  console.log("Oops! There was an error", err);
 		});
-
+*/
 		//Session.get('usersWhoShareCoordinatesSession').forEach(function(coordinates){
 		// récupère mes infos perso
 		var currentUser = Meteor.user();
 		// récupère l'info de quel radio button est checked
-		var from =fromWhere();
+		var from = fromWhere();
+		console.log(from);
 		// Mer un marker home si home est checked
 		if (currentUser.profile.address1 && from =="home")
 		{new google.maps.Marker({
@@ -98,41 +157,46 @@ if (Meteor.isClient) {
 
 
 /////////////// TEMPLATE Des radios buttons ////////////
-Template.locationRadioButtons.helpers({
-	isThisAnAddress:function()
-	{
+Template.locationRadioButtons.onRendered( function(){
 	var currentUser = Meteor.user();
-	// add1 = est ce que le bouton radar address 1 est displayed, idem add2
-	// add1Active = est ce que le bouton radar address 1 est actif, idem add2 et position
-	console.log(currentUser.profile.address1.lat);
-	console.log(currentUser.profile.address2.lat);
-	var result;
+
 	// address1 et adress2 existent
-	if (currentUser.profile.address1.lat && currentUser.profile.address2.lat)
+	if (currentUser.profile.address1 && currentUser.profile.address2)
 	{console.log("address1 et adress2 existent");
-		result = {add1:"",add2:"",add1Active:"active",add2Active:"",positionActive:""};}
-	// seule adress2 existe
-	else if (currentUser.profile.address1.lat == undefined && currentUser.profile.address2.lat == undefined)
-	{console.log("aucune des 2 adresses n'existe");
-		result = {add1:none,add2:none,add1Active:"",add2Active:"",positionActive:"active"};}
-	
-	else if (currentUser.profile.address1.lat == undefined)
-	{console.log("seule adress2 existe");
-		result = {add1:none,add2:"",add1Active:"",add2Active:"active",positionActive:""};}
-	// seule adress1 existe
-	else if (currentUser.profile.address2.lat == undefined)
-	{console.log("seule adress1 existe");
-		result = {add1:"",add2:none,add1Active:"active",add2Active:"",positionActive:""};}
-	// si aucune des 2 adresses n'est renseignée
-	
-	console.log(result);
-	return result;
+	document.getElementById('bhome').classList.add('active');
 	}
+	// seule adress2 existe
+	else if (currentUser.profile.address1 === undefined && currentUser.profile.address2 === undefined)
+	{console.log("aucune des 2 adresses n'existe");
+	document.getElementById('bhome').classList.add('hidden');
+	document.getElementById('bwork').classList.add('hidden');
+	document.getElementById('bposition').classList.add('active');
+	}
+	
+	else if (currentUser.profile.address1 === undefined)
+	{console.log("seule adress2 existe");
+	document.getElementById('bhome').classList.add('hidden');
+	document.getElementById('bwork').classList.add('active');
+	}
+	// seule adress1 existe
+	else if (currentUser.profile.address2 === undefined)
+	{console.log("seule adress1 existe");
+	document.getElementById('bwork').classList.add('hidden');
+	document.getElementById('bhome').classList.add('active');
+	}
+	// si aucune des 2 adresses n'est renseignée
+		
+});
+
+Template.locationRadioButtons.helpers({
+	
 }); // Fin Template
 
 
 
 /////////////// TEMPLATE DE LA MAP = booksMap ////////////
+
+
 Template.booksMap.helpers({
 	booksMapOptions: function() {
     // Make sure the maps API has loaded
@@ -143,16 +207,19 @@ Template.booksMap.helpers({
       // on récupère les infos de l'utilisateur actuellement connecté
       var currentUser = Meteor.user();
     if (from == "home")
-     	{return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+     	{return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
     if (from == "work")
-     	{return {center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
+     	{return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address2.lat,currentUser.profile.address2.lng),
         zoom: 14};
     	}
     if (from == "position")
      	{// A DEFINIR
-     	return {center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
+     	return {scrollwheel: false,
+     		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
       

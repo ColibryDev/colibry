@@ -70,7 +70,6 @@
   <!-- Système de panneau BOOTSTRAP -->
   <!-- l'ID est récupéré par les fonctions INTERACT (drag & drop) pour savoir dans quel partie de la bibliothèque ranger le livre.
   ID : 1 = livre actuellement disponible -->
-  <div class="container-fluid">
   <div id="1" class="panel panel-success dropzone">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -153,7 +152,6 @@
     </div>
       </div>
   </div>
-</div>
 </template>
 
 
@@ -236,6 +234,6 @@
   {{#if imageOrNot}}
    <img class="thumb-books" src="{{thumb}}" alt={{title}} height="80">
   {{else}}
-  <img class="thumb-books gris"  alt={{title}} height="70">
+  <img class="thumb-books gris"  alt={{title}} height="80">
   {{/if}}
 </template>
