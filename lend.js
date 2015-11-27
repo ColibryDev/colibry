@@ -188,7 +188,7 @@ Template.lend.helpers({
   'isTheAddressMissing':function()
   {
   var currentUser = Meteor.user();
-  if (currentUser.profile.address1.lat || currentUser.profile.address2.lng)
+  if (currentUser.profile.address1 || currentUser.profile.address2)
     {return false;}
   else
     {return true;  }
