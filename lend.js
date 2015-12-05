@@ -161,7 +161,6 @@ Template.displayMyPhysicalBooks.events({
 Template.displaySelectedBook.events({
 // Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template displaySelectedBook)
 'click .erase-book' : function(){
-  console.log("hahaha");
     // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
     var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
@@ -273,7 +272,6 @@ Template.displaySearchGoogleBooks.events({
 Template.displaySearchGoogleBooks.helpers({ 
   'getAverageRating':function(){
     var averageRating = this.averageRating;
-    console.log("caca",averageRating);
     if (averageRating == undefined) {return false;}
     else if (averageRating > 0 && averageRating < 1.5)
       {return "1";}
@@ -449,11 +447,8 @@ if (Meteor.isServer) {
 
   'removeBook': function(selectedPhysicalBook_Id){
 // on stocke la BookRef dans une variable afin de vérifier qu'il n'en existe pas d'autres. Si il n'en existe pas d'autre on suprrime aussi le bouquin de nos BOOKS_INFOS car personne d'autre ne l'a...
-console.log("l'Id du livre physique est ",selectedPhysicalBook_Id);
 var bookRef = PHYSICAL_BOOKS.findOne(selectedPhysicalBook_Id).bookRef;
-console.log("l'Id du livre courant est",bookRef);
 var nbBooksPossessed = PHYSICAL_BOOKS.find({bookRef:bookRef}).count();
-console.log(nbBooksPossessed);
 if (nbBooksPossessed == 1)
 {
   BOOKS_INFOS.remove(bookRef);

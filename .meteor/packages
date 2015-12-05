@@ -10,15 +10,12 @@ accounts-facebook
 
 
 iron:router
-ryanswapp:interactjs
-jquery
 ddp
 meteor
 mrt:dhtmlx-message
 aldeed:autoform
 aldeed:simple-schema
 aldeed:collection2
-useraccounts:bootstrap
 accounts-base
 accounts-google
 email
@@ -45,4 +42,11 @@ yogiben:autoform-file
 easy:search
 piyush:nearby
 mirrorcell:geolocation-plus
+jquery
+ryanswapp:interactjs
+useraccounts:core
+useraccounts:bootstrap
+tinytest
+less
+fortawesome:fontawesome
 twbs:bootstrap

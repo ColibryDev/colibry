@@ -183,9 +183,7 @@ Template.profilepage.events({
    	// CREATEDAT NE FONCTIONNE PAS. A REGLER....
    	var a = currentUser.createdAt;
   
-   	console.log(a);
    	var c = moment(a).toNow();
-   	console.log(c);
    	return c;
 	},
 

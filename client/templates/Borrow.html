@@ -1,0 +1,285 @@
+<head>
+</head>
+
+<template name="borrow">
+  <br>
+  <div class="container-fluid panel-defaults panel">
+
+
+
+
+      <h3><span class="label label-primary">1</span> <img src="/arrow.png" height="25">  Search your next reading in your neighbourhood!</h3>
+      <!-- Affiche la SearchBar -->
+  	{{>searchBar}} <br>
+
+	<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-8"> 
+ <!-- Affiche les résultats de la searchBar-->
+    	{{> displaySearch}}
+  </div>
+  <div class="center-block">
+  <div class="col-xs-12 col-sm-4"> 
+  		    {{> displayChosenBook}}
+    
+    </div>
+  </div>
+  </div>
+	
+	<br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Look for the best place to pick your book!</h3>
+    <!-- Affiche les boutons radios pour savoir ou est le centre de la carte -->
+    {{>locationRadioButtons}}
+    <!-- Affiche la carte des bouquins disponibles-->
+    {{>booksMap}}
+
+    <br>
+
+    <br>
+      <h3><span class="label label-primary">3</span> <img src="/arrow.png" height="25">  Contact your neighbour!</h3>
+    <br>
+
+
+      <div class="well well-sm"><strong><i class="glyphicon glyphicon-ok form-control-feedback"></i> Required Field</strong></div>
+      <div class="form-group">
+        <label for="InputName">Your Name</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required="">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
+      </div>
+      <div class="form-group">
+        <label for="InputEmail">Your Email</label>
+        <div class="input-group">
+          <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email" required="">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
+      </div>
+      <div class="form-group">
+        <label for="InputMessage">Message</label>
+        <div class="input-group">
+          <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required=""></textarea>
+          <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
+      </div>
+      <div class="form-group">
+        <label for="InputReal">What is 4+3? (Simple Spam Checker)</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="InputReal" id="InputReal" required="">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
+      </div>
+      <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
+   
+ 
+</div>
+</template>
+
+
+<!-- ******************************************************** -->
+
+<template name="searchBar">
+<!--Barre de recherche d'un livre (vient taper dans INFOS_BOOKS, pas forcément disponible) -->
+    
+   <!-- Le time out permet d'attendre un peu avant d'actualiser. Meilleure expérience utilisateur 
+// cherche les attributs de mon input easySearch
+-->	
+<div class="input-group">
+<span class="input-group-addon">
+<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+</span>
+{{> EasySearch.Input index=biIndex timeout=400 attributes=inputAttributes}}
+</div>
+</template>
+
+<!-- ******************************************************** -->
+
+
+<!-- Radio buttons so as to know from which location he'd like to borrow books  -->
+<template name="locationRadioButtons">
+  <div class="btn-group" data-toggle="buttons" id="radioLocButtons">
+
+<label class="btn btn-primary"> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Borrow from </label>
+	<!-- Les boutons disparaissent s'il n'y a pas d'addresse de remplie-->
+  <label class="btn btn-default" id="bhome">
+    <input type="radio" name="borrowLoc" id="home" autocomplete="off" > home
+  </label>
+  	<!-- Les boutons disparaissent s'il n'y a pas d'addresse de remplie-->
+  <label class="btn btn-default" id="bwork">
+    <input type="radio" name="borrowLoc" id="work" autocomplete="off" > work
+  </label>
+  <label class="btn btn-default" id="bposition">
+    <input type="radio" name="borrowLoc" id="position" autocomplete="off"> my position
+  </label>
+</div>
+</template>
+
+<!-- ******************************************************** -->
+
+<template name="displaySearch">
+<!-- Renders the content when the associated input is being searched. Allows multiple indexes. -->
+{{#EasySearch.IfSearching index=biIndex}}
+  <div>Searching...</div>
+{{/EasySearch.IfSearching}}
+
+ <!-- Affiche tous les bouquins correspondant à la recherche -->
+{{#EasySearch.Each index=biIndex}}
+<a class="img-thumbnail img-responsive searchBooks">
+{{> bookimage}}         
+</a>
+{{/EasySearch.Each}}
+   
+<!-- Ça les charge 10 par 10, si il y en a besoin de plus... il suffit de cliquer -->
+<br>
+{{> EasySearch.LoadMore index=biIndex attributes=moreButtonAttributes}}
+
+<!--
+<br><br> Ancienne version
+
+ {{#EasySearch.IfNoResults index=biIndex}}
+    <div class="no-results">No results found!</div>
+  {{/EasySearch.IfNoResults}}
+
+	<form>
+
+        <input type="text" name="searchedBook" placeholder="Titre du livre recherché">
+        <input type="submit" value="Recherchez dans Colibry">
+    </form>
+
+    <div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-8"> {{> displaySearchedBooks}}
+	</div>
+	<div class="center-block">
+	<div class="col-xs-6 col-md-4"> 
+    </div>
+    </div>
+    </div>-->
+</template>
+
+<!-- ******************************************************** -->
+
+<template name="displayAvailableBooks">
+	<h5>L'ensemble des livres disponibles dans la communauté</h5>
+
+	<div class="panel-body">
+      	<div class="row">
+      	 {{#each availableBooks}}
+    			<a class="img-thumbnail img-responsive">
+     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+           {{> bookimage}}         
+    			</a>
+  			{{/each}}
+  		</div>	
+  	</div>
+</template>
+
+<!-- ******************************************************** -->
+
+<template name="displaySearchedBooks">
+	<h5>Livres disponibles à l'emprunt correspondants à votre recherche</h5>
+	 <div class="panel-body">
+      	<div class="row">
+
+	      	{{#if tryToSearch}}
+		      	{{#if searchInAllAvailableBooks.count}}
+		      	 {{#each searchInAllAvailableBooks}}
+		    			<a class="img-thumbnail img-responsive proposedBook">
+		     			<!-- Référence au template bookimage pour afficher l'image du livre dans une div -->
+		           {{> bookimage}}         
+		    			</a>
+		  			{{/each}}
+		  		{{else}}
+		         <!-- Phrase si pas de livre dans cette partie de la biblio...-->
+		         Désolé! Aucun livre de notre base de donnéee ne correspond à votre recherche!
+		        {{/if}}
+		    {{else}}
+		    <!-- Phrase avant de faire une recherche...-->
+		         Vas y cherche !
+		    {{/if}}
+  		</div>	
+  	</div>
+</template>
+
+<!-- ******************************************************** -->
+
+<!-- TEMPLATE pour afficher le livre actuellement sélectionné dans la proposition suite à la recherche  -->
+<template name="displayChosenBook">
+	{{#if myChosenBook}}
+		{{#if currentUser}}
+
+<div class="media">
+    <div class="media-left image add-this-book">
+    <a href="#" class="media-object ">
+      <img class="thumb-books" src="{{myChosenBook.thumb}}" height="100">
+    </a>
+  </div>
+
+  <div class="media-body">
+    <h4 class="media-heading">{{myChosenBook.title}} by {{myChosenBook.authors}}</h4>
+{{myChosenBook.snippet}}
+    <br>
+ <!-- Class add-this-book pour ajouter un livre à la bibliotheque qu'on clique sur le bouton ou qu'on clique sur l'image du livre GSEARCH-->
+      <button type="button" id="borrowButton" data-loading-text="Loading..." class="btn btn-sm btn-primary" autocomplete="off">
+Borrow</button> 
+   
+      <!-- cherche la fonction getAverageRating pour savoir s'il y a un rating sur ce livre. S'Il y en a un alors la fonction retourne un chiffre de 1 à 5 qui vient donc compléter le nom de l'image qu'on affiche -->
+      {{#if getAverageRating}}
+    <img src="{{getAverageRating}}star.png" height="20"> 
+    {{/if}} 
+  </div>
+</div>
+
+
+
+			<!-- on valide que le livre est bien disponible  -->
+			{{#if usersWhoShareIt.count}}
+					
+				     	<h5>This book is available close to you :</h5>
+				     	<div class="table-responsive">
+  							<table class="table table-condensed">
+				     	{{#each usersWhoShareIt}} 
+				    		<tr><td>{{userInfos.firstName}}...</td>
+				    		<td>à {{userInfos.distance}} {{userInfos.unit}} from you</td></tr>
+						{{/each}}
+					</table>
+					</div>
+
+              <p class="text-center">
+            <!-- même bouton étoile que dans le Lend -->
+              <a href="#" class="btn btn-primary btn-sm" role="button">Borrow</a></p>
+               <p class="text-center">
+            <!-- même bouton étoile que dans le Lend -->
+              <a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Ajouter à ma Wishlist</a></p>
+				 
+			<!-- si le livre n'est pas disponible, on fait en sorte de l'ajouter à la wishliste -->
+			{{else}}
+				
+				     	<h5>Ce livre est victime de son succès, tous les exemplaires sont présentement prêtés. Ajoute-le à ta wishlist et nous te préviendrons dès qu'un exemplaire sera disponible près de chez toi.</h5>
+				    <p class="text-center">
+				    <!-- même bouton étoile que dans le Lend -->
+        			<a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Ajouter à ma Wishlist</a></p>
+			{{/if}}
+	    {{else}}
+	    	<!-- on valide que le livre est bien disponible  -->
+	    	{{#if usersWhoShareIt.count}}
+			     	<h5>Ce livre est disponible et {{usersWhoShareIt.count}} utilisateurs peuvent te le prêter</h5>
+			     	<h5>Connecte-toi vite pour les contacter!</h5>
+			     	<!-- Les bouton s'enregistrer et se connecter ne sont pas actifs pour l'instant -->
+	        		<p><a class="se connecter" role="button"> Se connecter</a> </p> <p><a class="s'inscrire" role="button"> S'inscrire</a> </p>          		
+			  
+			<!-- si le livre n'est pas disponible, on dit qu'il le sera bientôt et on fait en sorte que l'utilisateur s'enregistre pour commencer une wishliste  -->
+			{{else}}
+				<h3>caca pour user non connecté</h3>
+			{{/if}}
+    	{{/if}}
+    {{/if}}
+</template>
+
+<!-- ******************************************************** -->
+
+<!-- TEMPLATE pour afficher la carte de la disponibilité d'un bouquin autour de chez moi  -->
+
+<template name="booksMap">
+
+	 <div class="map-container">
+       {{> googleMap name="booksMap" options=booksMapOptions coordinates=usersCoordinates}}
+
+   </div>
+</template>
+
+

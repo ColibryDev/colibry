@@ -1,0 +1,476 @@
+<head>
+  <!-- Script Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-70151723-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+
+<!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
+<template name="main">
+<!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+ {{> topNavBar }}
+ 
+ {{> yield}}
+ {{> footer}}
+</div>
+      </div>
+</template>
+
+
+<!-- topNavbar -->
+<template name="topNavBar">
+    <div class="row border-bottom white-bg">
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <i class="fa fa-reorder"></i>
+                </button>
+                <a href="{{pathFor route='lend'}}" class="navbar-brand">COLIBRY</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar"> 
+            <ul class="nav navbar-nav">
+                <!-- <span class="m-r-sm text-muted welcome-message"> Colibry | Free book sharing plateform</span>-->
+
+                <!-- Lend -->
+                <li><a href="{{pathFor route='lend'}}">LEND </a></li>
+
+                <!-- Borrow -->
+                <li class="dropdown dropdown-main">
+                <a href="{{pathFor route='borrow'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">BORROW <span class="fa fa-angle-down dropdown-arrow"></span></a>
+                  <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                  <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
+                  <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
+                  </ul>
+                 </li>
+                 {{#if currentUser}}
+                      <li class="dropdown dropdown-main">
+                            <a href="{{pathFor route='profilepage'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+
+                                {{#if currentUser.profile.pic}}
+                                <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
+                                {{else}}
+                                <span class="glyphicon glyphicon-user"> </span>
+                                {{/if}}
+                                {{currentUser.profile.firstName}}  
+
+                              <span class="fa fa-angle-down dropdown-arrow"></span></a>
+                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                                <li><a href="{{pathFor route='profilepage'}}">My profile</a></li>
+                                 <li><a href="{{pathFor route='lend'}}">My library</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" class="logout">Logout</a></li>
+                            </ul>
+                          </li>
+                  {{/if}}
+             </ul>
+
+            <ul class="nav navbar-top-links navbar-right">
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope"></i>  <span class="label label-warning">xx</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/public/img/a7.jpg">
+                                </a>
+                                <div class="media-body">
+                                    <small class="pull-right">46h ago</small>
+                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/public/img/a4.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right text-navy">5h ago</small>
+                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/public/img/profile.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right">23h ago</small>
+                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="{{pathFor route='mailbox'}}">
+                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="{{pathFor route='mailbox'}}">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{pathFor route='profile'}}">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{pathFor route='gridOptions'}}">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="{{pathFor route='notifications'}}">
+                                    <strong>See All Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+
+<!-- La partie liens vers Facebook et Twitter -->
+                <li>            
+                          <a href="https://twitter.com/TheColibry" data-animation="flipInY">
+                          <i class="fa fa-twitter-square"></i>
+                          </a> 
+                          </li>
+                          <li>
+                          <a href="https://www.facebook.com/colibry.ca/" data-animation="flipInY">
+                          <i class="fa fa-facebook-square"></i>
+                          </a>
+                </li>
+
+                      <!-- Si un utilisateur est actuellement connecté-->
+                      {{#if currentUser}}
+                      {{else}}
+                      <li><a href="{{pathFor route='loginregister'}}"><i class="fa fa-sign-out"></i> Log outLogin / Register</a></li>
+                      {{/if}} 
+                
+            </ul>
+          </div>
+        </nav>
+    </div>
+
+</template>
+<!-- End topNavbar >
+
+
+
+<!-- Template pour la Barre de navigation-->
+<template name="navBar">
+<!-- Begin Navigation -->
+          <div class="navbar-wrapper">
+          <div class="navbar navbar-main navbar-dark affix-top" id="fixed-navbar">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-12 column-header">
+                  <div class="navbar-header">
+                    <!-- Brand -->
+                    <a href="{{pathFor route='lend'}}" class="navbar-brand">
+                      <div class="css-logo"></div> <img src="" class="raleway-logo" alt="Colibry | Free book sharing plateform"> Colibry
+                    </a>
+                    <!-- Mobile Navigation -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                    </button>
+                  </div><!-- /navbar header -->   
+
+
+                  <!-- Main Navigation - Explained in Documentation -->
+                  <nav class="navbar-collapse collapse navHeaderCollapse" role="navigation">
+                    <ul class="nav navbar-nav navbar-right">
+
+                  <li><a href="{{pathFor route='lend'}}">Lend</a></li>
+
+
+
+                      <li class="dropdown dropdown-main">
+                            <a href="{{pathFor route='borrow'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Borrow<span class="fa fa-angle-down dropdown-arrow"></span></a>
+                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                                <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
+                                <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
+                            </ul>
+                          </li>
+
+                      <!-- Si un utilisateur est actuellement connecté-->
+                      {{#if currentUser}}
+                      <li class="dropdown dropdown-main">
+                            <a href="{{pathFor route='profilepage'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+
+                                {{#if currentUser.profile.pic}}
+                                <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
+                                {{else}}
+                                <span class="glyphicon glyphicon-user"> </span>
+                                {{/if}}
+                                {{currentUser.profile.firstName}}  
+
+                              <span class="fa fa-angle-down dropdown-arrow"></span></a>
+                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                                <li><a href="{{pathFor route='profilepage'}}">My profile</a></li>
+                                 <li><a href="{{pathFor route='lend'}}">My library</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" class="logout">Logout</a></li>
+                            </ul>
+                          </li>
+                      {{else}}
+                      <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
+                      {{/if}} 
+                      
+                      <li class="dropdown hidden-sm hidden-xs">
+                                  <a href="#" class="ml10 nav-circle-li dropdown-toggle dropdown-form-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
+                                    <ul class="fadeInRight-animated dropdown-menu dropdown-menu-user">
+                                        <li id="dropdownForm">
+                                          <div class="dropdown-form">
+                                              <form class="form-default form-inline p15">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control search-input" placeholder="Search...">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-rw btn-primary search-btn" type="button">Go!</button>
+                                                        </span>
+                                                    </div>  
+                                              </form><!-- /searh form -->  
+                                            </div><!-- /dropdown form -->  
+                                        </li><!-- /dropdownForm list item -->  
+                                    </ul><!-- /search dropdown -->
+                              </li><!-- /search navbar list item --> 
+                    </ul><!-- /navbar right -->  
+                  </nav><!-- /nav -->
+                </div>
+              </div>
+            </div><!-- /container header -->   
+          </div><!-- /navbar -->
+        </div><!-- /navbar wrapper -->
+        <!-- End Navigation -->
+
+
+
+ <!--
+<div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+    <a class="navbar-brand" href="{{pathFor route='lend'}}">Colibry</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            
+        <li><a href="{{pathFor route='lend'}}">Lend<span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="borrow">Borrow<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="themes">
+                <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
+                <li class="divider"></li>
+                <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
+              </ul>
+            </li>
+
+
+
+
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="ISBN, title, author, theme, etc.">
+        </div>
+        <button type="submit" class="btn btn-default">Borrow</button>
+      </form>
+
+
+
+        
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+          
+
+ Si un utilisateur est actuellement connecté
+        {{#if currentUser}}
+        Menu dropdown avec en majeur le nom de l'utilisateur puis lorsqu'on clique dessus : sous menu profile et log-out
+      <li class="dropdown closed">
+              <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+          Si l'utilisateur a mis une Profile Pic alors a travers la fonction getProfilePic, on va chercher l'ID de l'utilisateur, puis l'Id de son image qu'on va ensuite chercher dans la BD IMAGES puis qu'on renvoit. On appelle ensuite. ProfilePic.url pour avoir l'image dans src ... :)
+              {{#if currentUser.profile.pic}}
+              <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
+              {{else}}
+              <span class="glyphicon glyphicon-user"> </span>
+              {{/if}}
+              {{currentUser.profile.firstName}}  
+              <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="drop2">
+                <li><a href="{{pathFor route='profilepage'}}">Profile</a></li>
+                <li><a href="{{pathFor route='lend'}}">My Library</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" class="logout">Logout</a></li>
+              </ul>
+            </li>
+        Si aucun utilisateur n'est connecté
+       {{else}}
+        <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
+        {{/if}} 
+
+
+
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+-->
+
+
+
+
+</template>
+
+
+
+
+<!-- TEMPLATE pour les commentaires de BetaTest -->
+<template name="betaComments">
+  <!-- Start Switcher -->
+  <div class="demo_changer" style="left: -160px;">
+      <div class="demo-icon">
+          <i class="fa fa-cog fa-spin fa-2x"></i>
+      </div><!-- End opener icon -->
+      <div class="form_holder">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="predefined_styles"> 
+                      <!-- Module #1 -->
+                      Please send us an mail to declare some bugs or to suggest dev improvments. Many thanks ! 
+                      <!-- End Module #1 -->
+                      <hr>
+                      <!-- Module #2 -->
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:martin@colibry.ca">martin@colibry.ca</a></small></p>
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:alex@colibry.ca">alex@colibry.ca</a></small></p>
+                      <!-- End Module #2 -->
+                  </div><!-- End predefined_styles -->
+              </div><!-- End col -->
+          </div><!-- End row -->
+      </div><!-- End form_holder -->
+  </div><!-- End demo_changer -->
+  <!-- End Switcher -->
+</template>
+<!-- Fin template betaComments -->
+
+
+
+
+
+
+<template name="footer">
+<!-- Begin Footer -->
+      <footer class="footer-light">
+          <div class="container">
+              <div class="row">
+
+                  <!-- About -->
+                  <div class="col-sm-3 mg25-xs">
+                      <div class="heading-footer"><h4>About</h4></div>
+                      <p>The Collaborative Library is a free book sharing plateform. Colibry intends to developp collaborative readers communities all around the world. Read, share and make friends close to your home.</p>
+                     <!-- <a href="mailto:martin@colibry.ca" class="btn btn-primary btn-rw mt10">
+                          Contact us !
+                      </a>-->
+                  </div>
+                  
+                  <!-- Social -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Social Networks</h4></div>
+                      <a class="btn btn-social-icon btn-twitter btn-lg" href="https://twitter.com/TheColibry">
+                          <i class="fa fa-twitter"></i>
+                      </a>
+                      <a class="btn btn-social-icon btn-facebook btn-lg" href="https://www.facebook.com/colibry.ca/">
+                          <i class="fa fa-facebook"></i>
+                      </a>
+                      <a class="btn btn-social-icon btn-linkedin btn-lg" href="https://www.linkedin.com/in/martin-werlen-587a6010">
+                          <i class="fa fa-linkedin"></i>
+                      </a>
+                  </div>
+
+                  <!-- Contact -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Contact us</h4></div>
+                      <!--<p><span class="ion-home footer-info-icons"></span><small class="address"></small></p>-->
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:martin@colibry.ca">martin@colibry.ca</a></small></p>
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:alex@colibry.ca">alex@colibry.ca</a></small></p>
+                      <p><span class="ion-ios7-telephone footer-info-icons"></span><small class="address">+1 514 402 1693</small></p>
+                  </div>
+
+                  <!-- Copy right -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Copyright</h4></div>
+                     <p>© 2014 Colibry. All rights reserved.</p>
+                     
+                  </div>
+                  <div class="col-sm-1 col-xs-2 text-right">
+                      <a href="#" class="scroll-top"><div class="footer-scrolltop-holder"><span class="ion-ios7-arrow-up footer-scrolltop"></span></div></a>
+                  </div>
+              </div><!-- /row -->
+
+             
+              
+          </div><!-- /container -->
+      </footer><!-- /footer -->
+      <!-- End Footer --> 
+</template>
+
+
