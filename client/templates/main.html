@@ -24,7 +24,7 @@
         <div id="page-wrapper" class="gray-bg">
 
  {{> topNavBar }}
- 
+ {{> feedback}}
  {{> yield}}
  {{> footer}}
 </div>
@@ -66,7 +66,7 @@
                                 {{else}}
                                 <span class="glyphicon glyphicon-user"> </span>
                                 {{/if}}
-                                {{currentUser.profile.firstName}}  
+                                <span style="text-transform:uppercase">{{currentUser.profile.firstName}} </span>
 
                               <span class="fa fa-angle-down dropdown-arrow"></span></a>
                             <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
@@ -89,7 +89,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="{{pathFor route='mailbox'}}" class="pull-left">
-                                    <img alt="image" class="img-circle" src="/public/img/a7.jpg">
+                                    <img alt="image" class="img-circle" src="/img/a7.jpg">
                                 </a>
                                 <div class="media-body">
                                     <small class="pull-right">46h ago</small>
@@ -102,7 +102,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="{{pathFor route='mailbox'}}" class="pull-left">
-                                    <img alt="image" class="img-circle" src="/public/img/a4.jpg">
+                                    <img alt="image" class="img-circle" src="/img/a4.jpg">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right text-navy">5h ago</small>
@@ -115,7 +115,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="{{pathFor route='mailbox'}}" class="pull-left">
-                                    <img alt="image" class="img-circle" src="/public/img/profile.jpg">
+                                    <img alt="image" class="img-circle" src="/img/profile.jpg">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right">23h ago</small>
@@ -206,209 +206,243 @@
 
 
 
-<!-- Template pour la Barre de navigation-->
-<template name="navBar">
-<!-- Begin Navigation -->
-          <div class="navbar-wrapper">
-          <div class="navbar navbar-main navbar-dark affix-top" id="fixed-navbar">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-12 column-header">
-                  <div class="navbar-header">
-                    <!-- Brand -->
-                    <a href="{{pathFor route='lend'}}" class="navbar-brand">
-                      <div class="css-logo"></div> <img src="" class="raleway-logo" alt="Colibry | Free book sharing plateform"> Colibry
-                    </a>
-                    <!-- Mobile Navigation -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                    </button>
-                  </div><!-- /navbar header -->   
-
-
-                  <!-- Main Navigation - Explained in Documentation -->
-                  <nav class="navbar-collapse collapse navHeaderCollapse" role="navigation">
-                    <ul class="nav navbar-nav navbar-right">
-
-                  <li><a href="{{pathFor route='lend'}}">Lend</a></li>
-
-
-
-                      <li class="dropdown dropdown-main">
-                            <a href="{{pathFor route='borrow'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Borrow<span class="fa fa-angle-down dropdown-arrow"></span></a>
-                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
-                                <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
-                                <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
-                            </ul>
-                          </li>
-
-                      <!-- Si un utilisateur est actuellement connecté-->
-                      {{#if currentUser}}
-                      <li class="dropdown dropdown-main">
-                            <a href="{{pathFor route='profilepage'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
-
-                                {{#if currentUser.profile.pic}}
-                                <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
-                                {{else}}
-                                <span class="glyphicon glyphicon-user"> </span>
-                                {{/if}}
-                                {{currentUser.profile.firstName}}  
-
-                              <span class="fa fa-angle-down dropdown-arrow"></span></a>
-                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
-                                <li><a href="{{pathFor route='profilepage'}}">My profile</a></li>
-                                 <li><a href="{{pathFor route='lend'}}">My library</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#" class="logout">Logout</a></li>
-                            </ul>
-                          </li>
-                      {{else}}
-                      <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
-                      {{/if}} 
-                      
-                      <li class="dropdown hidden-sm hidden-xs">
-                                  <a href="#" class="ml10 nav-circle-li dropdown-toggle dropdown-form-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
-                                    <ul class="fadeInRight-animated dropdown-menu dropdown-menu-user">
-                                        <li id="dropdownForm">
-                                          <div class="dropdown-form">
-                                              <form class="form-default form-inline p15">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control search-input" placeholder="Search...">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-rw btn-primary search-btn" type="button">Go!</button>
-                                                        </span>
-                                                    </div>  
-                                              </form><!-- /searh form -->  
-                                            </div><!-- /dropdown form -->  
-                                        </li><!-- /dropdownForm list item -->  
-                                    </ul><!-- /search dropdown -->
-                              </li><!-- /search navbar list item --> 
-                    </ul><!-- /navbar right -->  
-                  </nav><!-- /nav -->
-                </div>
-              </div>
-            </div><!-- /container header -->   
-          </div><!-- /navbar -->
-        </div><!-- /navbar wrapper -->
-        <!-- End Navigation -->
-
-
-
- <!--
-<div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-    <a class="navbar-brand" href="{{pathFor route='lend'}}">Colibry</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            
-        <li><a href="{{pathFor route='lend'}}">Lend<span class="sr-only">(current)</span></a></li>
-        <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="borrow">Borrow<span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="themes">
-                <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
-                <li class="divider"></li>
-                <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
-              </ul>
-            </li>
-
-
-
-
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="ISBN, title, author, theme, etc.">
-        </div>
-        <button type="submit" class="btn btn-default">Borrow</button>
-      </form>
-
-
-
-        
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-          
-
- Si un utilisateur est actuellement connecté
-        {{#if currentUser}}
-        Menu dropdown avec en majeur le nom de l'utilisateur puis lorsqu'on clique dessus : sous menu profile et log-out
-      <li class="dropdown closed">
-              <a id="dropdownProfileMenu" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-          Si l'utilisateur a mis une Profile Pic alors a travers la fonction getProfilePic, on va chercher l'ID de l'utilisateur, puis l'Id de son image qu'on va ensuite chercher dans la BD IMAGES puis qu'on renvoit. On appelle ensuite. ProfilePic.url pour avoir l'image dans src ... :)
-              {{#if currentUser.profile.pic}}
-              <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
-              {{else}}
-              <span class="glyphicon glyphicon-user"> </span>
-              {{/if}}
-              {{currentUser.profile.firstName}}  
-              <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="drop2">
-                <li><a href="{{pathFor route='profilepage'}}">Profile</a></li>
-                <li><a href="{{pathFor route='lend'}}">My Library</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#" class="logout">Logout</a></li>
-              </ul>
-            </li>
-        Si aucun utilisateur n'est connecté
-       {{else}}
-        <li><a href="{{pathFor route='loginregister'}}">Login / Register</a></li>
-        {{/if}} 
-
-
-
-
-          </ul>
-
-        </div>
-      </div>
-    </div>
-
--->
-
-
-
-
-</template>
-
-
-
-
 <!-- TEMPLATE pour les commentaires de BetaTest -->
-<template name="betaComments">
-  <!-- Start Switcher -->
-  <div class="demo_changer" style="left: -160px;">
-      <div class="demo-icon">
-          <i class="fa fa-cog fa-spin fa-2x"></i>
-      </div><!-- End opener icon -->
-      <div class="form_holder">
-          <div class="row">
-              <div class="col-sm-12">
-                  <div class="predefined_styles"> 
-                      <!-- Module #1 -->
-                      Please send us an mail to declare some bugs or to suggest dev improvments. Many thanks ! 
-                      <!-- End Module #1 -->
-                      <hr>
-                      <!-- Module #2 -->
-                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:martin@colibry.ca">martin@colibry.ca</a></small></p>
-                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:alex@colibry.ca">alex@colibry.ca</a></small></p>
-                      <!-- End Module #2 -->
-                  </div><!-- End predefined_styles -->
-              </div><!-- End col -->
-          </div><!-- End row -->
-      </div><!-- End form_holder -->
-  </div><!-- End demo_changer -->
-  <!-- End Switcher -->
+<template name="feedback">
+ <div class="theme-config">
+    <div class="theme-config-box">
+        <div class="spin-icon">
+            <i class="fa fa-cogs fa-spin"></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">Configuration</div>
+            <div class="setings-item">
+                    <span>
+                        Collapse menu
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="collapsemenu">
+                        <label class="onoffswitch-label" for="collapsemenu">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Fixed sidebar
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedsidebar" class="onoffswitch-checkbox" id="fixedsidebar">
+                        <label class="onoffswitch-label" for="fixedsidebar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Top navbar
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
+                        <label class="onoffswitch-label" for="fixednavbar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Boxed layout
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
+                        <label class="onoffswitch-label" for="boxedlayout">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Fixed footer
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedfooter" class="onoffswitch-checkbox" id="fixedfooter">
+                        <label class="onoffswitch-label" for="fixedfooter">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">Skins</div>
+            <div class="setings-item default-skin">
+                    <span class="skin-name ">
+                         <a class="s-skin-0">
+                             Default
+                         </a>
+                    </span>
+            </div>
+            <div class="setings-item blue-skin">
+                    <span class="skin-name ">
+                        <a  class="s-skin-1">
+                            Blue light
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item yellow-skin">
+                    <span class="skin-name ">
+                        <a  class="s-skin-3">
+                            Yellow/Purple
+                        </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    // Config box
+    <!-- IMPORTANT -->
+    // Angular directive handel this so there is no need to include this to project
+    <!-- IMPORTANT -->
+
+    // Enable/disable fixed top navbar
+    $('#fixednavbar').click(function () {
+        if ($('#fixednavbar').is(':checked')) {
+            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $("body").removeClass('boxed-layout');
+            $("body").addClass('fixed-nav');
+            $('#boxedlayout').prop('checked', false);
+        } else {
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+        }
+    });
+
+    // Enable/disable fixed sidebar
+    $('#fixedsidebar').click(function () {
+        if ($('#fixedsidebar').is(':checked')) {
+            $("body").addClass('fixed-sidebar');
+            $('.sidebar-collapse').slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        } else {
+            $('.sidebar-collapse').slimscroll({destroy: true});
+            $('.sidebar-collapse').attr('style', '');
+            $("body").removeClass('fixed-sidebar');
+        }
+    });
+
+    // Enable/disable collapse menu
+    $('#collapsemenu').click(function () {
+        if ($('#collapsemenu').is(':checked')) {
+            $("body").addClass('mini-navbar');
+            SmoothlyMenu();
+        } else {
+            $("body").removeClass('mini-navbar');
+            SmoothlyMenu();
+        }
+    });
+
+    // Enable/disable boxed layout
+    $('#boxedlayout').click(function () {
+        if ($('#boxedlayout').is(':checked')) {
+            $("body").addClass('boxed-layout');
+            $('#fixednavbar').prop('checked', false);
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+            $(".footer").removeClass('fixed');
+            $('#fixedfooter').prop('checked', false);
+        } else {
+            $("body").removeClass('boxed-layout');
+        }
+    });
+
+    // Enable/disable fixed footer
+    $('#fixedfooter').click(function () {
+        if ($('#fixedfooter').is(':checked')) {
+            $('#boxedlayout').prop('checked', false);
+            $("body").removeClass('boxed-layout');
+            $(".footer").addClass('fixed');
+        } else {
+            $(".footer").removeClass('fixed');
+        }
+    });
+
+    // SKIN Select
+    $('.spin-icon').click(function () {
+        $(".theme-config-box").toggleClass("show");
+    });
+
+    // Default skin
+    $('.s-skin-0').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+    });
+
+    // Blue skin
+    $('.s-skin-1').click(function () {
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-1");
+    });
+
+    // Inspinia ultra skin
+    $('.s-skin-2').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-2");
+    });
+
+    // Yellow skin
+    $('.s-skin-3').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").addClass("skin-3");
+    });
+
+    // Helper function - only for demo purpose
+    function SmoothlyMenu() {
+        if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
+            // Hide menu in order to smoothly turn on when maximize menu
+            $('#side-menu').hide();
+            // For smoothly turn on menu
+            setTimeout(
+                    function () {
+                        $('#side-menu').fadeIn(500);
+                    }, 100);
+        } else if ($('body').hasClass('fixed-sidebar')){
+            $('#side-menu').hide();
+            setTimeout(
+                    function () {
+                        $('#side-menu').fadeIn(500);
+                    }, 300);
+        } else {
+            // Remove all inline style from jquery fadeIn function to reset menu state
+            $('#side-menu').removeAttr('style');
+        }
+    }
+
+</script>
 </template>
 <!-- Fin template betaComments -->
 
