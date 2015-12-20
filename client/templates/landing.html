@@ -1,4 +1,6 @@
 <template name="welcome">
+
+
     <!-- NavBar spéciale welcome Page -->
     <div class="navbar-wrapper">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,6 +20,7 @@
                         <li><a class="page-scroll" href="#features">Features</a></li>
                         <li><a class="page-scroll" href="#citizen">A citizen project</a></li>
                         <li><a class="page-scroll" href="#team">Team</a></li>
+                        <li><a class="page-scroll" href="#development">App in dev</a></li>
                         <li><a class="page-scroll" href="#lookingFor">Looking for</a></li>
                         <li><a class="page-scroll" href="#contact">Contact</a></li>
                     </ul>
@@ -26,8 +29,9 @@
         </nav>
     </div>
 
-    <!-- 3 img slider-->
 
+
+    <!-- 3 img slider-->
 
     <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -42,7 +46,7 @@
                             books for free<br/>
                             and meet people<br/>
                             in your neighbourhood</h1>
-                        <p>The first book sharing plateform in Canada.</p>
+                        <p>Colibry, the first book sharing plateform in Canada.</p>
                         <p>
                             <a class="btn btn-lg btn-primary" href="#features" role="button">READ MORE</a>
                         </p>
@@ -58,9 +62,10 @@
             <div class="item">
                 <div class="container">
                     <div class="carousel-caption blank">
-                        <h1>We create meaningful <br/> interfaces that inspire.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                        <h1>Books are for sharing <br/> not sleeping on your shelves.</h1>
+                        <p>Create your library on Colibry, share and borrow books and meet new people.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#features" role="button">LEARN MORE</a></p>
+
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
@@ -78,68 +83,109 @@
     </div>
 
 
+
+  <!-- features : Partie pour présenter l'idée même de Colibry -->
+
     <section id="features" class="container services">
         <div class="row">
             <div class="col-sm-3">
-                <h2>Full responsive</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
+                <h2>Your library</h2>
+                <p>Create and manage your library on Colibry. Search for you physical books and add them on your library. Post comments and reviews and suggest your books to your friends.</p>
+                <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">My library &raquo;</a></p>
             </div>
             <div class="col-sm-3">
-                <h2>LESS/SASS Files</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
+                <h2>Borrow books</h2>
+                <p>You know what you'd like to read ? Search for this book in your area, contact a Colibry member and meet him to borrow his book. You're looking for suggestions ? Just have a look to other colibry members' libraries.</p>
+                <p><a class="navy-link" href="{{pathFor route='borrow'}}" role="button">Borrow books &raquo;</a></p>
             </div>
             <div class="col-sm-3">
-                <h2>6 Charts Library</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
+                <h2>Share your books</h2>
+                <p>With its reviews and comments system, Colibry is the faithful partner to share books without fearing loss or damage. </p>
+                <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">Share books &raquo;</a></p>
             </div>
             <div class="col-sm-3">
-                <h2>Advanced Forms</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                <p><a class="navy-link" href="#" role="button">Details &raquo;</a></p>
+                <h2>Meet people</h2>
+                <p>Sharing books is about real connections. Meet people with the same reading passions. Share your library, try new genres and meet new people.</p>
+                <p><a class="navy-link" href="{{pathFor route='profilepage'}}" role="button">Go to my profile &raquo;</a></p>
             </div>
         </div>
+            <section class="timeline gray-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>The Colibry story</h1>
+                    <p></p>
+                </div>
+            </div>
+            <div class="row features-block">
+                <div class="col-lg-12">
+                    <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div class="vertical-timeline-content">
+                                Search for you actual physical books and create your library on Colibry
+                                <span class="vertical-date"> Create and manage your library <br/> <small>Now</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-file-text"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Search for a book or have a look to other colibry members' libraries.
+                                <span class="vertical-date"> Search <br/> <small>In 5 minutes</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Contact him and settle together the best time and location to meet.
+                                <span class="vertical-date"> Contact <br/> <small>In 5 min and 30 sec</small> </span>
+                            </div>
+                        </div>
+
+                         <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Meet him at his place, in a coffee or in a library.
+                                <span class="vertical-date"> Meet <br/> <small>Today</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-coffee"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                After having read the book, settle another appointment to meet him. Share together about this reading and maybe share some books with him.
+                                <span class="vertical-date"> Share your thoughts and your books <br/> <small>In a few days</small> </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
     </section>
 
-    <section  class="container features">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>Over 40+ unique view<br/> <span class="navy"> with many custom components</span> </h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 text-center wow fadeInLeft">
-                <div>
-                    <i class="fa fa-mobile features-icon"></i>
-                    <h2>Full responsive</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-                <div class="m-t-lg">
-                    <i class="fa fa-bar-chart features-icon"></i>
-                    <h2>6 Charts Library</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-            </div>
-            <div class="col-md-6 text-center  wow zoomIn">
-                <img src="img/landing/perspective.png" alt="dashboard" class="img-responsive">
-            </div>
-            <div class="col-md-3 text-center wow fadeInRight">
-                <div>
-                    <i class="fa fa-envelope features-icon"></i>
-                    <h2>Mail pages</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-                <div class="m-t-lg">
-                    <i class="fa fa-google features-icon"></i>
-                    <h2>AngularJS version</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus.</p>
-                </div>
-            </div>
-        </div>
+    
+    <section id="citizen" class="container features">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
@@ -254,66 +300,55 @@
 
     </section>
 
-    <section class="timeline gray-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Our workflow</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-                </div>
-            </div>
-            <div class="row features-block">
+ 
 
-                <div class="col-lg-12">
-                    <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-briefcase"></i>
-                            </div>
 
-                            <div class="vertical-timeline-content">
-                                <h2>Meeting</h2>
-                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
-                                </p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Today <br/> <small>Dec 24</small> </span>
-                            </div>
-                        </div>
+    <!-- development : Partie dédiée pour le développement informatique, ce qu'on a fait et ce qu'on cherche à faire -->
 
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-file-text"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Decision</h2>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Tomorrow <br/> <small>Dec 26</small> </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-cogs"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Implementation</h2>
-                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-                                <a href="#" class="btn btn-xs btn-primary"> More info</a>
-                                <span class="vertical-date"> Monday <br/> <small>Jan 02</small> </span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+<section  id="development" class="container features">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Colibry is currently in development<br/> <span class="navy">A 100% Meteor-developped application.</span></h1>
+                <p>Whether you're a reader or an wonderful programmer, come and help us making Colibry a success</p>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-3 text-center wow fadeInLeft">
+                <div>
+                    <i class="fa fa-laptop features-icon"></i>
+                    <h2>On computer</h2>
+                    <p>Colibry is available on computer with full functionnalities. The website if full responsive.</p>
+                </div>
+            <div class="m-t-lg">
+                    <i class="fa fa-mobile features-icon"></i>
+                    <h2>On mobile</h2>
+                    <p>Colibry is also available on mobile - full responsive. Don't loose patience, the mobile app is actually being developed.</p>
+                </div> 
+           </div>
+            <div class="col-md-6 text-center  wow zoomIn">
+                <img src="/welcome/showcase-full.png" alt="Also available on mobile" class="img-responsive">
+            </div>
+            <div class="col-md-3 text-center wow fadeInRight">
+                <div>
+                    <i class="fa fa-file-code-o features-icon"></i>
+                    <h2>Devs pro wanted</h2>
+                    <p>Colibry is expanding quickly. So as to boost our development, we're looking for one or more amaizing developers JS Full Stack who're interested in collaborative economy, books and drinking beers.</p>
+                </div>
+                <div class="m-t-lg">
+                    <i class="fa fa-github features-icon"></i>
+                    <h2>Open source</h2>
+                    <p>As we wanted Colibry as a citizen project, we developped it open source. If you're interested in improving our application or just giving us some pieces of advice, we'll appreciate your contribution.</p>
+                    <p><a class="navy-link" href="https://github.com/ColibryDev/colibry" role="button">Go on Github &raquo;</a></p>
+                </div>
+            </div>
+        </div>
     </section>
+
+
+
+
+  <!-- lookingFor : Partie dédiée à notre recherche de partenaire financier $$-->
 
     <section id="lookingFor" class="navy-section testimonials" style="margin-top: 0">
 
@@ -444,123 +479,8 @@
         </div>
 
     </section>
-    <section id="citizen" class="pricing">
-        <div class="container">
-            <div class="row m-b-lg">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>A citizen project</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled">
-                        <li class="pricing-title">
-                            Basic
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$16</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled selected">
-                        <li class="pricing-title">
-                            Standard
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$22</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <strong>Support platform</strong>
-                        </li>
-                        <li class="plan-action">
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 wow zoomIn">
-                    <ul class="pricing-plan list-unstyled">
-                        <li class="pricing-title">
-                            Premium
-                        </li>
-                        <li class="pricing-desc">
-                            Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.
-                        </li>
-                        <li class="pricing-price">
-                            <span>$160</span> / month
-                        </li>
-                        <li>
-                            Dashboards
-                        </li>
-                        <li>
-                            Projects view
-                        </li>
-                        <li>
-                            Contacts
-                        </li>
-                        <li>
-                            Calendar
-                        </li>
-                        <li>
-                            AngularJs
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-xs" href="#">Signup</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row m-t-lg">
-                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">
-                    <p>*Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. <span class="navy">Various versions</span>  have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-                </div>
-            </div>
-        </div>
-
-    </section>
+ 
+    <!-- contact : Prendre contact avec nous ! -->
 
     <section id="contact" class="gray-section contact">
         <div class="container">
