@@ -1,16 +1,3 @@
-// On créé un index Easy Search pour la DB BOOKS_INFOS
-// https://atmospherejs.com/matteodem/easy-search
-BIIndex = new EasySearch.Index(
-	{
-    collection: BOOKS_INFOS,
-    fields: ['title', 'authors', 'publisher'],
-    engine: new EasySearch.MongoDB(),
-    defaultSearchOptions: {limit: 20}
-  	}
-);
-
-
-
 if (Meteor.isClient) {
 // SUBSCRIBE PHYSICAL BOOKS POUR RÉCUPÉRER TOUTES LES INFOS SUR LES LIVRES
 	Meteor.subscribe('allAvailableBooks');
@@ -67,7 +54,6 @@ if (Meteor.isClient) {
     PHYSICAL_BOOKS.find({/*bookOwner:{$ne:currentUser._id},*/bookRef:selectedBook,status:"1"}).forEach(function(element){
     	thisBookLenders.push(element.bookOwner);});
 
-    console.log("les utilisateurs sont",thisBookLenders);
     var lendersAddresses = [];
 	Meteor.users.find({_id:{ $in:thisBookLenders}}).forEach(function(element) 
 	{
@@ -130,7 +116,6 @@ Template.booksMap.onCreated(function(){
 		var currentUser = Meteor.user();
 		// récupère l'info de quel radio button est checked
 		var from = fromWhere();
-		console.log(from);
 		// Mer un marker home si home est checked
 		if (currentUser.profile.address1 && from =="home")
 		{new google.maps.Marker({
@@ -162,25 +147,25 @@ Template.locationRadioButtons.onRendered( function(){
 
 	// address1 et adress2 existent
 	if (currentUser.profile.address1 && currentUser.profile.address2)
-	{console.log("address1 et adress2 existent");
+	{
 	document.getElementById('bhome').classList.add('active');
 	}
 	// seule adress2 existe
 	else if (currentUser.profile.address1 === undefined && currentUser.profile.address2 === undefined)
-	{console.log("aucune des 2 adresses n'existe");
+	{
 	document.getElementById('bhome').classList.add('hidden');
 	document.getElementById('bwork').classList.add('hidden');
 	document.getElementById('bposition').classList.add('active');
 	}
 	
 	else if (currentUser.profile.address1 === undefined)
-	{console.log("seule adress2 existe");
+	{
 	document.getElementById('bhome').classList.add('hidden');
 	document.getElementById('bwork').classList.add('active');
 	}
 	// seule adress1 existe
 	else if (currentUser.profile.address2 === undefined)
-	{console.log("seule adress1 existe");
+	{
 	document.getElementById('bwork').classList.add('hidden');
 	document.getElementById('bhome').classList.add('active');
 	}
@@ -231,7 +216,6 @@ Template.booksMap.helpers({
 		// pour l'instant la fonction renvoie les coordonnées des utilisateurs qui peuvent prêter
 		// setting dans une session également au cas où une sytaxe paticulière demanderai l'appel d'une session plutôt que d'une fonction
 		var chosenBookId = Session.get('chosenBookId');
-		console.log(chosenBookId);
 		// recupération des ID des users qui peuvent partager
 		var userWhoCanShare = [];
 			PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"}).forEach(function(element) {userWhoCanShare.push(element.bookOwner);});
@@ -249,7 +233,6 @@ Template.booksMap.helpers({
 			});
 		});
 
-		console.log(userWhoCanShareCoordinates);
 		Session.set('usersWhoShareCoordinatesSession',userWhoCanShareCoordinates);
 
 		return userWhoCanShareCoordinates;
@@ -338,7 +321,6 @@ Template.booksMap.onCreated(function(){
 		// Fonction pour montrer les llivres en base de donnée qui correspondent à la recherche par titre
 		// on récupère la valeur recherchée
 		var searchedBookVar2 = Session.get('searchedBookSession');
-		console.log(searchedBookVar2);
 		// on renvoie la liste des des livres dont le titre correspond
 		// la regex permet de ne pas tenir compte de la casse
    		return BOOKS_INFOS.find({title:{
@@ -360,7 +342,6 @@ Template.booksMap.onCreated(function(){
 		'usersWhoShareIt': function(){
 			// Récupère l'ID du livre choisi par l'utilisateur (sur lequel on a cliqué) et renvoi la liste des physcal books correspondant
 			var chosenBookId = Session.get('chosenBookId');
-			console.log()
 			return PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"});
 		},
 		'userInfos': function(){
@@ -368,14 +349,12 @@ Template.booksMap.onCreated(function(){
 		// On met dans une variable
 		var bookOwner = this.bookOwner;
 		var actualUser = Meteor.users.findOne({_id:bookOwner});
-		console.log(actualUser);
 		
 		// Distance jusqu'à l'add 1 et l'add 2
 		var distanceToAdd1 = 1000000;
 		var distanceToAdd2 = 1000000;
 		var currentUser = Meteor.user();
 		var from = fromWhere();
-		console.log(from);
 		// si actualUser existe	
 	if (actualUser)
 	{
@@ -425,8 +404,7 @@ Template.booksMap.onCreated(function(){
 		// var distance = nearByLocation.getDistance({})
 		}
 
-		console.log(distanceToAdd2.distance);
-		console.log(distanceToAdd1.distance);
+	
 		// On calcule qui est le plus proche.
 		if (distanceToAdd1.distance > distanceToAdd2.distance) 
 		{

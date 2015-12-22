@@ -1,0 +1,38 @@
+<head>
+</head>
+
+<template name="suggestions">
+<br>
+  <div class="container-fluid panel-defaults panel">
+
+
+  
+ 
+
+  <h3><span class="label label-primary">1</span> <img src="/arrow.png" height="25">  Visit your neighbour's library!</h3>
+    {{> locationRadioButtons}}
+     <br>
+    {{> usersMap}}
+
+    <br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Choose a book in his library!</h3>
+    <br>
+
+    <br>
+      <h3><span class="label label-primary">2</span> <img src="/arrow.png" height="25">  Contact him!</h3>
+    <br>
+
+  </div>
+
+</template>
+
+<!-- ******************************************************** -->
+
+<!-- Carte qui affiche les utilisateurs présent autour de soi et qui permet de voir le nombre de livres dispos autour de chez soi-->
+<template name="usersMap">
+  {{usersCoordinates}}
+    <div class="map-container">
+       {{> googleMap name="usersMap" options=usersMapOptions}}
+
+   </div>
+</template> 
