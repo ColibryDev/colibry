@@ -1,0 +1,516 @@
+<head>
+  <!-- Script Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-70151723-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+
+<!-- TEMPLATE MAIN qui s'affiche sur l'ensemble des pages ! -->
+<template name="main">
+<!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+ {{> topNavBar }}
+ {{> feedback}}
+ {{> yield}}
+ {{> footer}}
+</div>
+      </div>
+</template>
+
+
+<!-- topNavbar -->
+<template name="topNavBar">
+    <div class="row border-bottom white-bg">
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <i class="fa fa-reorder"></i>
+                </button>
+                <a href="{{pathFor route='lend'}}" class="navbar-brand">COLIBRY</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar"> 
+            <ul class="nav navbar-nav">
+                <!-- <span class="m-r-sm text-muted welcome-message"> Colibry | Free book sharing plateform</span>-->
+
+                <!-- Lend -->
+                <li><a href="{{pathFor route='lend'}}">LEND </a></li>
+
+                <!-- Borrow -->
+                <li class="dropdown dropdown-main">
+                <a href="{{pathFor route='borrow'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">BORROW <span class="fa fa-angle-down dropdown-arrow"></span></a>
+                  <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                  <li><a href="{{pathFor route='borrow'}}">Looking for a specific book</a></li>
+                  <li><a href="{{pathFor route='suggestions'}}">Looking for suggestions</a></li>
+                  </ul>
+                 </li>
+                 {{#if currentUser}}
+                      <li class="dropdown dropdown-main">
+                            <a href="{{pathFor route='profilepage'}}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+
+                                {{#if currentUser.profile.pic}}
+                                <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle" height="20" width="20">
+                                {{else}}
+                                <span class="glyphicon glyphicon-user"> </span>
+                                {{/if}}
+                                <span style="text-transform:uppercase">{{currentUser.profile.firstName}} </span>
+
+                              <span class="fa fa-angle-down dropdown-arrow"></span></a>
+                            <ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+                                <li><a href="{{pathFor route='profilepage'}}">My profile</a></li>
+                                 <li><a href="{{pathFor route='lend'}}">My library</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" class="logout">Logout</a></li>
+                            </ul>
+                          </li>
+                  {{/if}}
+             </ul>
+
+            <ul class="nav navbar-top-links navbar-right">
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope"></i>  <span class="label label-warning">xx</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/img/a7.jpg">
+                                </a>
+                                <div class="media-body">
+                                    <small class="pull-right">46h ago</small>
+                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/img/a4.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right text-navy">5h ago</small>
+                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="dropdown-messages-box">
+                                <a href="{{pathFor route='mailbox'}}" class="pull-left">
+                                    <img alt="image" class="img-circle" src="/img/profile.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right">23h ago</small>
+                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="{{pathFor route='mailbox'}}">
+                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="{{pathFor route='mailbox'}}">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{pathFor route=''}}">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{pathFor route='gridOptions'}}">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="{{pathFor route='notifications'}}">
+                                    <strong>See All Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+
+<!-- La partie liens vers Facebook et Twitter -->
+                <li>            
+                          <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/TheColibry" data-animation="flipInY">
+                          <i class="fa fa-twitter"></i>
+                          </a> 
+                          </li>
+                          <a class="btn btn-social-icon btn-github" href="https://github.com/ColibryDev/colibry">
+                          <i class="fa fa-github"></i>
+                         </a>
+                          <li>
+                          <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/colibry.ca/" data-animation="flipInY">
+                          <i class="fa fa-facebook"></i>
+                          </a>
+                </li>
+
+                      <!-- Si un utilisateur est actuellement connecté-->
+                      {{#if currentUser}}
+                      {{else}}
+                      <li><a href="{{pathFor route='loginregister'}}"><i class="fa fa-sign-out"></i> Log outLogin / Register</a></li>
+                      {{/if}} 
+                
+            </ul>
+          </div>
+        </nav>
+    </div>
+
+</template>
+<!-- End topNavbar >
+
+
+
+<!-- TEMPLATE pour les commentaires de BetaTest -->
+<template name="feedback">
+ <div class="theme-config">
+    <div class="theme-config-box">
+        <div class="spin-icon">
+            <i class="fa fa-cogs fa-spin"></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">Configuration</div>
+            <div class="setings-item">
+                    <span>
+                        Collapse menu
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="collapsemenu">
+                        <label class="onoffswitch-label" for="collapsemenu">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Fixed sidebar
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedsidebar" class="onoffswitch-checkbox" id="fixedsidebar">
+                        <label class="onoffswitch-label" for="fixedsidebar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Top navbar
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
+                        <label class="onoffswitch-label" for="fixednavbar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Boxed layout
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
+                        <label class="onoffswitch-label" for="boxedlayout">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                    <span>
+                        Fixed footer
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedfooter" class="onoffswitch-checkbox" id="fixedfooter">
+                        <label class="onoffswitch-label" for="fixedfooter">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">Skins</div>
+            <div class="setings-item default-skin">
+                    <span class="skin-name ">
+                         <a class="s-skin-0">
+                             Default
+                         </a>
+                    </span>
+            </div>
+            <div class="setings-item blue-skin">
+                    <span class="skin-name ">
+                        <a  class="s-skin-1">
+                            Blue light
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item yellow-skin">
+                    <span class="skin-name ">
+                        <a  class="s-skin-3">
+                            Yellow/Purple
+                        </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    // Config box
+    <!-- IMPORTANT -->
+    // Angular directive handel this so there is no need to include this to project
+    <!-- IMPORTANT -->
+
+    // Enable/disable fixed top navbar
+    $('#fixednavbar').click(function () {
+        if ($('#fixednavbar').is(':checked')) {
+            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $("body").removeClass('boxed-layout');
+            $("body").addClass('fixed-nav');
+            $('#boxedlayout').prop('checked', false);
+        } else {
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+        }
+    });
+
+    // Enable/disable fixed sidebar
+    $('#fixedsidebar').click(function () {
+        if ($('#fixedsidebar').is(':checked')) {
+            $("body").addClass('fixed-sidebar');
+            $('.sidebar-collapse').slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        } else {
+            $('.sidebar-collapse').slimscroll({destroy: true});
+            $('.sidebar-collapse').attr('style', '');
+            $("body").removeClass('fixed-sidebar');
+        }
+    });
+
+    // Enable/disable collapse menu
+    $('#collapsemenu').click(function () {
+        if ($('#collapsemenu').is(':checked')) {
+            $("body").addClass('mini-navbar');
+            SmoothlyMenu();
+        } else {
+            $("body").removeClass('mini-navbar');
+            SmoothlyMenu();
+        }
+    });
+
+    // Enable/disable boxed layout
+    $('#boxedlayout').click(function () {
+        if ($('#boxedlayout').is(':checked')) {
+            $("body").addClass('boxed-layout');
+            $('#fixednavbar').prop('checked', false);
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+            $(".footer").removeClass('fixed');
+            $('#fixedfooter').prop('checked', false);
+        } else {
+            $("body").removeClass('boxed-layout');
+        }
+    });
+
+    // Enable/disable fixed footer
+    $('#fixedfooter').click(function () {
+        if ($('#fixedfooter').is(':checked')) {
+            $('#boxedlayout').prop('checked', false);
+            $("body").removeClass('boxed-layout');
+            $(".footer").addClass('fixed');
+        } else {
+            $(".footer").removeClass('fixed');
+        }
+    });
+
+    // SKIN Select
+    $('.spin-icon').click(function () {
+        $(".theme-config-box").toggleClass("show");
+    });
+
+    // Default skin
+    $('.s-skin-0').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+    });
+
+    // Blue skin
+    $('.s-skin-1').click(function () {
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-1");
+    });
+
+    // Inspinia ultra skin
+    $('.s-skin-2').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-2");
+    });
+
+    // Yellow skin
+    $('.s-skin-3').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").addClass("skin-3");
+    });
+
+    // Helper function - only for demo purpose
+    function SmoothlyMenu() {
+        if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
+            // Hide menu in order to smoothly turn on when maximize menu
+            $('#side-menu').hide();
+            // For smoothly turn on menu
+            setTimeout(
+                    function () {
+                        $('#side-menu').fadeIn(500);
+                    }, 100);
+        } else if ($('body').hasClass('fixed-sidebar')){
+            $('#side-menu').hide();
+            setTimeout(
+                    function () {
+                        $('#side-menu').fadeIn(500);
+                    }, 300);
+        } else {
+            // Remove all inline style from jquery fadeIn function to reset menu state
+            $('#side-menu').removeAttr('style');
+        }
+    }
+
+</script>
+</template>
+<!-- Fin template betaComments -->
+
+
+
+
+
+
+<template name="footer">
+<!-- Begin Footer -->
+      <footer class="footer-light">
+          <div class="container">
+              <div class="row">
+
+                  <!-- About -->
+                  <div class="col-sm-3 mg25-xs">
+                      <div class="heading-footer"><h4>About</h4></div>
+                      <p>The Collaborative Library is a free book sharing plateform. Colibry intends to developp collaborative readers communities all around the world. Read, share and make friends close to your home.</p>
+                     <!-- <a href="mailto:martin@colibry.ca" class="btn btn-primary btn-rw mt10">
+                          Contact us !
+                      </a>-->
+                  </div>
+                  
+                  <!-- Social -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Social Networks</h4></div>
+                      <a class="btn btn-social-icon btn-twitter btn-lg" href="https://twitter.com/TheColibry">
+                          <i class="fa fa-twitter"></i>
+                      </a>
+                      <a class="btn btn-social-icon btn-facebook btn-lg" href="https://www.facebook.com/colibry.ca/">
+                          <i class="fa fa-facebook"></i>
+                      </a>
+                      <a class="btn btn-social-icon btn-github btn-lg" href="https://github.com/ColibryDev/colibry">
+                          <i class="fa fa-github"></i>
+                      </a>
+                      <a class="btn btn-social-icon btn-linkedin btn-lg" href="https://www.linkedin.com/in/martin-werlen-587a6010">
+                          <i class="fa fa-linkedin"></i>
+                      </a>
+                  </div>
+
+                  <!-- Contact -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Contact us</h4></div>
+                      <!--<p><span class="ion-home footer-info-icons"></span><small class="address"></small></p>-->
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:martin@colibry.ca">martin@colibry.ca</a></small></p>
+                      <p><span class="ion-email footer-info-icons"></span><small class="address"><a href="mailto:alex@colibry.ca">alex@colibry.ca</a></small></p>
+                      <p><span class="ion-ios7-telephone footer-info-icons"></span><small class="address">+1 514 402 1693</small></p>
+                  </div>
+
+                  <!-- Copy right -->
+                  <div class="col-sm-3 hidden-xs">
+                      <div class="heading-footer"><h4>Copyright</h4></div>
+                     <p>© 2014 Colibry. All rights reserved.</p>
+                     
+                  </div>
+                  <div class="col-sm-1 col-xs-2 text-right">
+                      <a href="#" class="scroll-top"><div class="footer-scrolltop-holder"><span class="ion-ios7-arrow-up footer-scrolltop"></span></div></a>
+                  </div>
+              </div><!-- /row -->
+
+             
+              
+          </div><!-- /container -->
+      </footer><!-- /footer -->
+      <!-- End Footer --> 
+</template>
+
+

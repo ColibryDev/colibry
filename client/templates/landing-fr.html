@@ -1,0 +1,473 @@
+<template name="bienvenue">
+
+
+    <!-- NavBar spéciale welcome Page -->
+    <div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{pathFor route='welcome'}}">Colibry</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="#page-top">Colibry</a></li>
+                        <li><a class="page-scroll" href="#features">Comment ça marche ?</a></li>
+                        <li><a class="page-scroll" href="#citizen">Un projet citoyen</a></li>
+                        <li><a class="page-scroll" href="#development">En développement</a></li>
+                        <li><a class="page-scroll" href="#lookingFor">Participer</a></li>
+                        <li><a class="page-scroll" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+    <!-- 3 img slider-->
+
+    <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+            <li data-target="#inSlider" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>COLIBRY, LA PREMIÈRE BIBLIOTHÈQUE COLLABORATIVE <br/>
+                            Lisez, partagez, rencontrez<br/>
+                            </h1>
+                        <p>Redonnez vie aux centaines de livres qui dorment sur les étagères de vos voisins et partagez vos lectures préférées.<br>Une solution simple et gratuite.</p>
+                        <p>
+                            <a class="btn btn-lg btn-primary" href="#features" role="button">Dites m'en plus !</a>
+                        </p>
+                    </div>
+                    <!--
+                    <div class="carousel-image wow zoomIn">
+                        <img src="/welcome/laptop.png" alt="laptop" height="50%">
+                    </div>
+                    -->
+                </div>
+                <!-- Set background for slide in css -->
+                <div class="header-back one"></div>
+
+            </div>
+            <div class="item">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>COLIBRY, LA PREMIÈRE BIBLIOTHÈQUE COLLABORATIVE <br/>
+                            Lisez, partagez, rencontrez<br/>
+                            </h1>
+                        <p>Redonnez vie aux centaines de livres qui dorment sur les étagères de vos voisins et partagez vos lectures préférées.<br>Une solution simple et gratuite.</p>
+                        <p>
+                            <a class="btn btn-lg btn-primary" href="#features" role="button">Dites m'en plus !</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Set background for slide in css -->
+                <div class="header-back two"></div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+
+  <!-- features : Partie pour présenter l'idée même de Colibry -->
+
+    <section id="features" class="container services">
+        <div class="row">
+            <div class="col-sm-3">
+                <h2>Gère ta bibliothèque</h2>
+                <p>Fais figurer en quelques clics dans ta bibliothèque Colibry les livres que tu possèdes. Choisis ceux que tu veux prêter à tes voisins et proposes un commentaire sur ceux que tu as préférés.</p>
+              <!--  <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">Ma bibliothèque &raquo;</a></p> -->
+            </div>
+            <div class="col-sm-3">
+                <h2>Emprunte des livres</h2>
+                <p>Tu as une idée de lecture en tête? Recherche le livre sur Colibry et découvre si un exemplaire est disponible près de chez toi. Contacte le membre Colibry qui le propose pour définir un lieu de rencontre.
+                En manque d’inspiration? Laisse toi guider par les coups de coeur de tes voisins!</p>
+                <!-- <p><a class="navy-link" href="{{pathFor route='borrow'}}" role="button">Emprunte des livres &raquo;</a></p>-->
+            </div>
+            <div class="col-sm-3">
+                <h2>Partage en toute confiance</h2>
+                <p>Grâce à un système de notations et de commentaires sur chaque prêt, Colibry est un partenaire de confiance pour retrouver tes livres préférés en bon état!</p>
+                <!-- <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">Prête tes livres &raquo;</a></p>-->
+            </div>
+            <div class="col-sm-3">
+                <h2>Fais de nouvelles rencontres</h2>
+                <p>Partager des livres est une affaire de rencontres. Échange avec des gens qui ont les mêmes goûts littéraires, laisse-toi guider par ceux qui voudront te faire découvrir de nouveaux livres et construit ta communauté!</p>
+               <!--  <p><a class="navy-link" href="{{pathFor route='profilepage'}}" role="button">Vers mon profil &raquo;</a></p>-->
+            </div>
+        </div>
+            <section class="timeline gray-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Comment ça marche ?</h1>
+                    <p></p>
+                </div>
+            </div>
+            <div class="row features-block">
+                <div class="col-lg-12">
+                    <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div class="vertical-timeline-content">
+                                Ajoute les livres que tu possèdes à ta bibliothèque Colibry et décide de ceux que tu veux prêter.
+                                <span class="vertical-date"> Gèrer sa bibliothèque <br/> <small>Maintenant</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-file-text"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Recherche un livre qui t'intéresse ou explore les coups de coeur de tes voisins.
+                                <span class="vertical-date"> Rechercher un livre <br/> <small>En 5 min</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Contacte un membre Colibry et définissez ensemble un lieu de rencontre.
+                                <span class="vertical-date"> Contacter un membre Colibry <br/> <small>En 5 min 30 sec</small> </span>
+                            </div>
+                        </div>
+
+                         <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Rencontre le chez lui, dans un café ou dans une bibliothèque.
+                                <span class="vertical-date"> Se rencontrer <br/> <small>Aujourd'hui</small> </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-coffee"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                Après avoir lu le livre, rencontrez vous de nouveau. Echange sur ta lecture et prête lui éventuellement un de tes livres préférés.
+                                <span class="vertical-date"> Partager ses impressions et ses livress <br/> <small>Dans quelques semaines</small> </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    </section>
+
+<section id="citizen" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Colibry, un projet citoyen</h1>
+                    <p>Nous partageons la lecture et entretetons la culture du partage.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 features-text">
+                    <small>Colibry</small>
+                    <h2>Partager la lecture </h2>
+                    <i class="fa fa-rss big-icon pull-right"></i>
+                    <p>Colibry se donne pour mission de diffuser la lecture au plus grand nombre. D'une part, le site permet gratuitement l'accèes à des ressources culturelles inexploitées. D'autre part, les rencontres qu'il génère permettent aux communautés de se rassembler et de développer la culture du partage.</p>
+                </div>
+                <div class="col-lg-5 features-text">
+                    <small>Colibry</small>
+                    <h2>Un projet vraiment collaboratif</h2>
+                    <i class="fa fa-group big-icon pull-right"></i>
+                    <p>Projet entièrement développé en open-source, c’est la communauté qui a permis la création de Colibry. 
+                    C'est tout naturellement que Colibry a décidé de placer ses membres au coeur de sa gouvernance grâce à des outils de consultation, de participation directe et de contrôle des décisions.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+  
+
+    <!-- development : Partie dédiée pour le développement informatique, ce qu'on a fait et ce qu'on cherche à faire -->
+
+<section  id="development" class="container features">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Colibry is currently in development<br/> <span class="navy">A 100% Meteor-developped application.</span></h1>
+                <p>Whether you're a reader or an wonderful programmer, come and help us making Colibry a success</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center wow fadeInLeft">
+                <div>
+                    <i class="fa fa-laptop features-icon"></i>
+                    <h2>On computer</h2>
+                    <p>Colibry is available on computer with full functionnalities. The website if full responsive.</p>
+                </div>
+            <div class="m-t-lg">
+                    <i class="fa fa-mobile features-icon"></i>
+                    <h2>On mobile</h2>
+                    <p>Colibry is also available on mobile - full responsive. Don't loose patience, the mobile app is actually being developed.</p>
+                </div> 
+           </div>
+            <div class="col-md-6 text-center  wow zoomIn">
+                <img src="/welcome/showcase-full.png" alt="Also available on mobile" class="img-responsive">
+            </div>
+            <div class="col-md-3 text-center wow fadeInRight">
+                <div>
+                    <i class="fa fa-file-code-o features-icon"></i>
+                    <h2>Devs pro wanted</h2>
+                    <p>Colibry is expanding quickly. So as to boost our development, we're looking for one or more amaizing developers JS Full Stack who're interested in collaborative economy, books and drinking beers.</p>
+                </div>
+                <div class="m-t-lg">
+                    <i class="fa fa-github features-icon"></i>
+                    <h2>Open source</h2>
+                    <p>As we wanted Colibry as a citizen project, we developped it open source. If you're interested in improving our application or just giving us some pieces of advice, we'll appreciate your contribution.</p>
+                    <p><a class="navy-link" href="https://github.com/ColibryDev/colibry" role="button">Go on Github &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+  <!-- lookingFor : Partie dédiée à notre recherche de partenaire financier $$-->
+
+    <section id="lookingFor" class="navy-section testimonials" style="margin-top: 0">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center wow zoomIn">
+                    <i class="fa fa-comment big-icon"></i>
+                    <h1>
+                        What we are looking for ...
+                    </h1>
+                    <div class="testimonials-text">
+                        <i>"Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."</i>
+                    </div>
+                    <small>
+                        <strong>12.02.2014 - Andy Smith</strong>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="comments gray-section" style="margin-top: 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>What our partners say</h1>
+                    <p>Donec sed odio dui. Etiam porta sem malesuada. </p>
+                </div>
+            </div>
+            <div class="row features-block">
+                <div class="col-lg-4">
+                    <div class="bubble">
+                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                    </div>
+                    <div class="comments-avatar">
+                        <a href="" class="pull-left">
+                            <img alt="image" src="img/landing/avatar3.jpg">
+                        </a>
+                        <div class="media-body">
+                            <div class="commens-name">
+                                Andrew Williams
+                            </div>
+                            <small class="text-muted">Company X from California</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="bubble">
+                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                    </div>
+                    <div class="comments-avatar">
+                        <a href="" class="pull-left">
+                            <img alt="image" src="img/landing/avatar1.jpg">
+                        </a>
+                        <div class="media-body">
+                            <div class="commens-name">
+                                Andrew Williams
+                            </div>
+                            <small class="text-muted">Company X from California</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="bubble">
+                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                    </div>
+                    <div class="comments-avatar">
+                        <a href="" class="pull-left">
+                            <img alt="image" src="img/landing/avatar2.jpg">
+                        </a>
+                        <div class="media-body">
+                            <div class="commens-name">
+                                Andrew Williams
+                            </div>
+                            <small class="text-muted">Company X from California</small>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </section>
+
+    
+    <section id="contact" class="gray-section team">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Our Team</h1>
+                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 wow fadeInLeft">
+                    <div class="team-member">
+                        <img src="img/landing/avatar3.jpg" class="img-responsive img-circle img-small" alt="">
+                        <h4><span class="navy">Amelia</span> Smith</h4>
+                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus. </p>
+                        <ul class="list-inline social-icon">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member wow zoomIn">
+                        <img src="img/landing/avatar1.jpg" class="img-responsive img-circle" alt="">
+                        <h4><span class="navy">John</span> Novak</h4>
+                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
+                        <ul class="list-inline social-icon">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 wow fadeInRight">
+                    <div class="team-member">
+                        <img src="img/landing/avatar2.jpg" class="img-responsive img-circle img-small" alt="">
+                        <h4><span class="navy">Peter</span> Johnson</h4>
+                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
+                        <ul class="list-inline social-icon">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+    <!-- contact : Prendre contact avec nous ! -->
+
+    <section id="contact" class="gray-section contact">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Contact Us</h1>
+                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                </div>
+            </div>
+            <div class="row m-b-lg">
+                <div class="col-lg-3 col-lg-offset-3">
+                    <address>
+                        <strong><span class="navy">Company name, Inc.</span></strong><br/>
+                        795 Folsom Ave, Suite 600<br/>
+                        San Francisco, CA 94107<br/>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-lg-4">
+                    <p class="text-color">
+                        Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam veritatis quis ad perspiciatis, totam corporis laboriosam veritatis, consectetur adipisicing elit quos non quis ad perspiciatis, totam corporis ea,
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="mailto:test@email.com" class="btn btn-primary">Send us mail</a>
+                    <p class="m-t-sm">
+                        Or follow us on social platform
+                    </p>
+                    <ul class="list-inline social-icon">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p><strong>&copy; 2015 Company Name</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</template>

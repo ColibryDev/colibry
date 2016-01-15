@@ -133,7 +133,8 @@ interact('.dropzone').dropzone({
 
 // Attention, fonction mousedown, ca marche quand 
 Template.displayMyPhysicalBooks.events({
-  'mousedown': function(event){
+  // ontap sur mobile ????
+  'mousedown, touchstart': function(event){
    // on vient créer une variable classDoc dans laquelle on rentre les class de l'objet qui vient d'être cliqué !
     var classDoc = event.target.classList;
           //si on a cliqué sur une image dont la class est "thum-books", alors on affiche l'explication
@@ -160,7 +161,6 @@ Template.displayMyPhysicalBooks.events({
 Template.displaySelectedBook.events({
 // Quand on clique sur un item avec la class erasebook (en ce moment : lorsqu'on clique sur le bouton remove sur le template displaySelectedBook)
 'click .erase-book' : function(){
-  console.log("hahaha");
     // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
     var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
@@ -206,6 +206,32 @@ Template.displaySelectedBook.helpers({
   selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
   return BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef});
   }
+  },
+
+  'getAverageRating':function(){
+    
+    // Récupère l'ID du livre actuellement sélectionné (sur lequel on a cliqué)
+  var selectedPhysicalBook = Session.get('selectedPhysicalBook');
+  // renvoie toutes les infos sur le livre
+  if (selectedPhysicalBook != "")
+  {
+  var selectedBookRef;
+  selectedBookRef = PHYSICAL_BOOKS.findOne({_id:selectedPhysicalBook});
+  var averageRating = BOOKS_INFOS.findOne({_id:selectedBookRef.bookRef}).averageRating;
+  }
+
+    if (averageRating == undefined) {return false;}
+    else if (averageRating > 0 && averageRating < 1.5)
+      {return "1";}
+    else if (averageRating >= 1.5 && averageRating < 2.5)
+      {return "2";}
+    else if (averageRating >= 2.5 && averageRating < 3.5)
+      {return "3";}
+    else if (averageRating >= 3.5 && averageRating < 4.5)
+      {return "4";}
+    else if (averageRating >= 4.5 )
+      {return "5";}
+    else {return false;}
   }
 /*
  'showSelectedBook': function()
@@ -226,7 +252,7 @@ Template.displaySearchGoogleBooks.events({
   // On appelle côté serveur pour ajouter le livre. On envoie toutes les infos et on indique que le livre est actuellement disponible
   Meteor.call(
     //dans le meteor call on envoie une fonction pour qu'il nous revienne une erreur si le livre existe déjà dans la biblio
-    'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,
+    'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,selectedBookFromGSearch.averageRating,
     function(error, result)
     {
     if (error) {dhtmlx.message({type:"error", text:"Error", expire: 2000});}
@@ -242,6 +268,36 @@ Template.displaySearchGoogleBooks.events({
   }
 });
 
+// Fonctions helpers sur le template displaySearchGoogleBooks
+Template.displaySearchGoogleBooks.helpers({ 
+  'getAverageRating':function(){
+    var averageRating = this.averageRating;
+    if (averageRating == undefined) {return false;}
+    else if (averageRating > 0 && averageRating < 1.5)
+      {return "1";}
+    else if (averageRating >= 1.5 && averageRating < 2.5)
+      {return "2";}
+    else if (averageRating >= 2.5 && averageRating < 3.5)
+      {return "3";}
+    else if (averageRating >= 3.5 && averageRating < 4.5)
+      {return "4";}
+    else if (averageRating >= 4.5 )
+      {return "5";}
+    else {return false;}
+  },
+  // Afficher les résultats de la recherche Gbooks
+  GOOGLE_BOOKS_SEARCHFind: function() {
+    return GOOGLE_BOOKS_SEARCH.find();
+  },
+  //Afficher la variable Searching or not
+  searching: function() {
+    return Session.get('searching');
+  },
+  // Fonction pour savoir s'il y a un recherche actuellement affichée sur l'écran
+  actualGoogleBooksSearch: function() {
+  return Session.get('actualGoogleBooksSearch');
+  }
+});
 
 // Fonctions events sur le template displayMyPhysicalBooks
 Template.displayMyPhysicalBooks.events({
@@ -310,18 +366,7 @@ Template.searchGoogleBooks.events({
 
 // Fonctions helpers sur le template searchGoogleBooks
 Template.searchGoogleBooks.helpers({  
-  // Afficher les résultats de la recherche Gbooks
-  GOOGLE_BOOKS_SEARCHFind: function() {
-    return GOOGLE_BOOKS_SEARCH.find();
-  },
-  //Afficher la variable Searching or not
-  searching: function() {
-    return Session.get('searching');
-  },
-  // Fonction pour savoir s'il y a un recherche actuellement affichée sur l'écran
-  actualGoogleBooksSearch: function() {
-  return Session.get('actualGoogleBooksSearch');
-  }
+  
   
 });
 
@@ -348,7 +393,7 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     // POur insérer un livre dans la collection BOOK
-  'InsertBook': function(ISBN,title,authors,publisher,status,snippet,thumb,error){
+  'InsertBook': function(ISBN,title,authors,publisher,status,snippet,thumb,averageRating,error){
   // var pour l'id de l'utiisateur
   var currentUserId = this.userId;
   // variable ou est stocké l'id unique du livre de la DBMongo BOOKS_INFOS
@@ -368,7 +413,8 @@ if (Meteor.isServer) {
     title: title,
     publisher: publisher,    
     snippet:snippet,
-    thumb:thumb
+    thumb:thumb,
+    averageRating:averageRating
     });
   }
   else
@@ -401,11 +447,8 @@ if (Meteor.isServer) {
 
   'removeBook': function(selectedPhysicalBook_Id){
 // on stocke la BookRef dans une variable afin de vérifier qu'il n'en existe pas d'autres. Si il n'en existe pas d'autre on suprrime aussi le bouquin de nos BOOKS_INFOS car personne d'autre ne l'a...
-console.log("l'Id du livre physique est ",selectedPhysicalBook_Id);
 var bookRef = PHYSICAL_BOOKS.findOne(selectedPhysicalBook_Id).bookRef;
-console.log("l'Id du livre courant est",bookRef);
 var nbBooksPossessed = PHYSICAL_BOOKS.find({bookRef:bookRef}).count();
-console.log(nbBooksPossessed);
 if (nbBooksPossessed == 1)
 {
   BOOKS_INFOS.remove(bookRef);

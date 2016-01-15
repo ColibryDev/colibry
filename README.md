@@ -23,10 +23,12 @@ If you’re asked to enter your computer’s password, fill it out and tap the �
 ### Standards ###
 
 We've organised our code per html pages :
-**colibry** (html, css, js) the main file in which we have collections and iron-router
+**colibry** (html, css, js) the main file in which we have iron-router
+**collections.js** where you have all the collections and schemas defined
 **lend** is the home page in which you can share your books
 **borrow** is the page where you can search and find books around your place and ask to borrow them
 **profilepage** is the profile page (both updating and displaying)
+**suggestions** in which you can find the page for books suggestions
 &
 **main** is the standard layoutpage with the navBar
 
