@@ -25,7 +25,6 @@ cfs:standard-packages
 cfs:gridfs
 momentjs:moment
 softwarerero:accounts-t9n
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -50,3 +49,5 @@ tinytest
 less
 fortawesome:fontawesome
 twbs:bootstrap
+standard-minifier-css
+standard-minifier-js
