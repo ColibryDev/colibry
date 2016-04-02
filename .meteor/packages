@@ -49,5 +49,9 @@ tinytest
 less
 fortawesome:fontawesome
 twbs:bootstrap
+
 standard-minifier-css
 standard-minifier-js
+
+github
+
