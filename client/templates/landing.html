@@ -16,13 +16,13 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="page-scroll" href="#page-top">Home</a></li>
+                        <li><a class="page-scroll" href="#page-top">Colibry</a></li>
                         <li><a class="page-scroll" href="#features">Features</a></li>
                         <li><a class="page-scroll" href="#citizen">A citizen project</a></li>
-                        <li><a class="page-scroll" href="#team">Team</a></li>
                         <li><a class="page-scroll" href="#development">App in dev</a></li>
-                        <li><a class="page-scroll" href="#lookingFor">Looking for</a></li>
+                        <li><a class="page-scroll" href="#lookingFor">Participate</a></li>
                         <li><a class="page-scroll" href="#contact">Contact</a></li>
+                        <li><a class="" href="{{pathFor route='bienvenue'}}"><img src="img/flags/16/Canada.png">Fr</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,18 +42,19 @@
             <div class="item active">
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Share and borrow <br/>
-                            books for free<br/>
-                            and meet people<br/>
-                            in your neighbourhood</h1>
-                        <p>Colibry, the first book sharing plateform in Canada.</p>
+                        <h1>COLIBRY, THE COLLABORATIVE LIBRARY<br/>
+                            Read, share, meet people<br/>
+                            </h1>
+                        <p class="text-info">Create your library on Colibry, share and borrow books and meet new people.<br>A free and simple app.</p>
                         <p>
-                            <a class="btn btn-lg btn-primary" href="#features" role="button">READ MORE</a>
+                            <a class="btn btn-lg btn-primary" href="#features" role="button">Tell me more !</a>
                         </p>
                     </div>
+                    <!--
                     <div class="carousel-image wow zoomIn">
                         <img src="/welcome/laptop.png" alt="laptop" height="50%">
                     </div>
+                    -->
                 </div>
                 <!-- Set background for slide in css -->
                 <div class="header-back one"></div>
@@ -61,11 +62,14 @@
             </div>
             <div class="item">
                 <div class="container">
-                    <div class="carousel-caption blank">
-                        <h1>Books are for sharing <br/> not sleeping on your shelves.</h1>
-                        <p>Create your library on Colibry, share and borrow books and meet new people.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#features" role="button">LEARN MORE</a></p>
-
+                    <div class="carousel-caption">
+                        <h1>COLIBRY, THE COLLABORATIVE LIBRARY<br/>
+                            Read, share, meet people<br/>
+                            </h1>
+                        <p class="text-info">Create your library on Colibry, share and borrow books and meet new people.<br>A free and simple app.</p>
+                        <p>
+                            <a class="btn btn-lg btn-primary" href="#features" role="button">Tell me more !</a>
+                        </p>
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
@@ -91,22 +95,22 @@
             <div class="col-sm-3">
                 <h2>Your library</h2>
                 <p>Create and manage your library on Colibry. Search for you physical books and add them on your library. Post comments and reviews and suggest your books to your friends.</p>
-                <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">My library &raquo;</a></p>
+              <!--  <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">My library &raquo;</a></p> -->
             </div>
             <div class="col-sm-3">
                 <h2>Borrow books</h2>
                 <p>You know what you'd like to read ? Search for this book in your area, contact a Colibry member and meet him to borrow his book. You're looking for suggestions ? Just have a look to other colibry members' libraries.</p>
-                <p><a class="navy-link" href="{{pathFor route='borrow'}}" role="button">Borrow books &raquo;</a></p>
+                <!-- <p><a class="navy-link" href="{{pathFor route='borrow'}}" role="button">Borrow books &raquo;</a></p>-->
             </div>
             <div class="col-sm-3">
                 <h2>Share your books</h2>
                 <p>With its reviews and comments system, Colibry is the faithful partner to share books without fearing loss or damage. </p>
-                <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">Share books &raquo;</a></p>
+                <!-- <p><a class="navy-link" href="{{pathFor route='lend'}}" role="button">Share books &raquo;</a></p>-->
             </div>
             <div class="col-sm-3">
                 <h2>Meet people</h2>
                 <p>Sharing books is about real connections. Meet people with the same reading passions. Share your library, try new genres and meet new people.</p>
-                <p><a class="navy-link" href="{{pathFor route='profilepage'}}" role="button">Go to my profile &raquo;</a></p>
+               <!--  <p><a class="navy-link" href="{{pathFor route='profilepage'}}" role="button">Go to my profile &raquo;</a></p>-->
             </div>
         </div>
             <section class="timeline gray-section">
@@ -184,124 +188,34 @@
     </section>
     </section>
 
-    
-    <section id="citizen" class="container features">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="navy-line"></div>
-                <h1>Discover great feautres</h1>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
-            </div>
-        </div>
-        <div class="row features-block">
-            <div class="col-lg-6 features-text wow fadeInLeft">
-                <small>INSPINIA</small>
-                <h2>Perfectly designed </h2>
-                <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                <a href="" class="btn btn-primary">Learn more</a>
-            </div>
-            <div class="col-lg-6 text-right wow fadeInRight">
-                <img src="img/landing/dashboard.png" alt="dashboard" class="img-responsive pull-right">
-            </div>
-        </div>
-    </section>
-
-    <section id="team" class="gray-section team">
-        <div class="container">
-            <div class="row m-b-lg">
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>Our Team</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 wow fadeInLeft">
-                    <div class="team-member">
-                        <img src="img/landing/avatar3.jpg" class="img-responsive img-circle img-small" alt="">
-                        <h4><span class="navy">Amelia</span> Smith</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus. </p>
-                        <ul class="list-inline social-icon">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="team-member wow zoomIn">
-                        <img src="img/landing/avatar1.jpg" class="img-responsive img-circle" alt="">
-                        <h4><span class="navy">John</span> Novak</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
-                        <ul class="list-inline social-icon">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-4 wow fadeInRight">
-                    <div class="team-member">
-                        <img src="img/landing/avatar2.jpg" class="img-responsive img-circle img-small" alt="">
-                        <h4><span class="navy">Peter</span> Johnson</h4>
-                        <p>Lorem ipsum dolor sit amet, illum fastidii dissentias quo ne. Sea ne sint animal iisque, nam an soluta sensibus.</p>
-                        <ul class="list-inline social-icon">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="features">
+<section id="citizen" class="features">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>Even more great feautres</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+                    <h1>Colibry, a citizen project</h1>
+                    <p>We share books and spread the culture of sharing.</p>
                 </div>
             </div>
-            <div class="row features-block">
-                <div class="col-lg-3 features-text wow fadeInLeft">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                    <a href="" class="btn btn-primary">Learn more</a>
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 features-text">
+                    <small>Colibry</small>
+                    <h2>Share books</h2>
+                    <i class="fa fa-rss big-icon pull-right"></i>
+                    <p>Colibry intends to spread culture for free to everyone. The platerform give access for free to books whose usage is insufficient. On the other hand, the meetings it generates enable communities to come together and develop the culture of sharing .
+                    </p>
                 </div>
-                <div class="col-lg-6 text-right m-t-n-lg wow zoomIn">
-                    <img src="img/landing/iphone.jpg" class="img-responsive" alt="dashboard">
-                </div>
-                <div class="col-lg-3 features-text text-right wow fadeInRight">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>
-                    <a href="" class="btn btn-primary">Learn more</a>
+                <div class="col-lg-5 features-text">
+                    <small>Colibry</small>
+                    <h2>A collaborative project</h2>
+                    <i class="fa fa-group big-icon pull-right"></i>
+                    <p>The app is entirely developped on GitHub and is open-source.rojet entièrement développé en open-source, c’est la communauté qui a permis la création de Colibry. It is the community that has helped create Colibry. It is natural that Colibry decided to place its members at the heart of its governance through consultation tools, direct and control decisions.</p>
                 </div>
             </div>
         </div>
 
     </section>
-
- 
-
+  
 
     <!-- development : Partie dédiée pour le développement informatique, ce qu'on a fait et ce qu'on cherche à faire -->
 
@@ -357,14 +271,8 @@
                 <div class="col-lg-12 text-center wow zoomIn">
                     <i class="fa fa-comment big-icon"></i>
                     <h1>
-                        What we are looking for ...
-                    </h1>
-                    <div class="testimonials-text">
-                        <i>"Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."</i>
-                    </div>
-                    <small>
-                        <strong>12.02.2014 - Andy Smith</strong>
-                    </small>
+Join the Colibry community!                    </h1>
+                    
                 </div>
             </div>
         </div>
@@ -374,60 +282,55 @@
     <section class="comments gray-section" style="margin-top: 0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>What our partners say</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada. </p>
-                </div>
+                    
             </div>
             <div class="row features-block">
                 <div class="col-lg-4">
                     <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                        <small>
+                        The app needs a little bit more development. If you've skills in Js, html or css and you wish to take part to a social project, contact us!
+                    </small>
                     </div>
                     <div class="comments-avatar">
-                        <a href="" class="pull-left">
-                            <img alt="image" src="img/landing/avatar3.jpg">
-                        </a>
                         <div class="media-body">
                             <div class="commens-name">
-                                Andrew Williams
+                            <i class="fa fa-user"></i>
+                            Devs
                             </div>
-                            <small class="text-muted">Company X from California</small>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
                     <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                                                <small>
+                        Colibry will be soon available for a fot the first beta-testers, who'll help us improve the user experience on the plateform. We're looking for book lovers.
+                    </small>
                     </div>
                     <div class="comments-avatar">
-                        <a href="" class="pull-left">
-                            <img alt="image" src="img/landing/avatar1.jpg">
-                        </a>
+                       
                         <div class="media-body">
                             <div class="commens-name">
-                                Andrew Williams
-                            </div>
-                            <small class="text-muted">Company X from California</small>
+                            <i class="fa fa-users"></i>
+                            Beta-testers
+                                                        </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
                     <div class="bubble">
-                        "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                        <small>
+                        Colibry needs funds for its first months of existence, we are looking for financial partners who'll support our launch and participate in our growth.
+                    </small>
                     </div>
                     <div class="comments-avatar">
-                        <a href="" class="pull-left">
-                            <img alt="image" src="img/landing/avatar2.jpg">
-                        </a>
                         <div class="media-body">
                             <div class="commens-name">
-                                Andrew Williams
+                            <i class="fa fa-user-md"></i>
+                            Partners
                             </div>
-                            <small class="text-muted">Company X from California</small>
                         </div>
                     </div>
                 </div>
@@ -438,47 +341,60 @@
         </div>
 
     </section>
+        <section id="lookingFor" class="navy-section testimonials" style="margin-top: 0">
+</section>
 
-    <section class="features">
+    
+    <section id="contact" class="gray-section team">
         <div class="container">
-            <div class="row">
+            <div class="row m-b-lg">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>More and more extra great feautres</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p>
+                    <h1>The team</h1>
+                    <p></p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-bar-chart big-icon pull-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+                <div class="col-sm-6 wow fadeInLeft">
+                    <div class="team-member">
+                        <img src="welcome/Alex.jpg" class="img-responsive img-circle img-small" alt="">
+                        <h4><span class="navy">Alex</span> </h4>
+                       
+                        <ul class="list-inline social-icon">
+                            <li><a href="https://twitter.com/alex_j2b?lang=fr"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="https://www.facebook.com/alexandre.bigot?ref=ts&fref=ts"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/alexandre-bigot-27348920"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-lg-5 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-bolt big-icon pull-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+                
+                <div class="col-sm-6 wow fadeInRight">
+                    <div class="team-member">
+                        <img src="welcome/Martin.jpg" class="img-responsive img-circle img-small" alt="">
+                        <h4><span class="navy"></span> Martin</h4>
+                        
+                        <ul class="list-inline social-icon">
+                            <li><a href="https://twitter.com/poolman"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="https://www.facebook.com/martin.werlen.9?fref=ts"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/martin-werlen-587a6010"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-clock-o big-icon pull-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
-                </div>
-                <div class="col-lg-5 features-text">
-                    <small>INSPINIA</small>
-                    <h2>Perfectly designed </h2>
-                    <i class="fa fa-users big-icon pull-right"></i>
-                    <p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p>Participate!</p>
                 </div>
             </div>
         </div>
-
     </section>
+
  
     <!-- contact : Prendre contact avec nous ! -->
 
@@ -487,44 +403,48 @@
             <div class="row m-b-lg">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>Contact Us</h1>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+                    <h1>Contact us!</h1>
+                    <p></p>
                 </div>
             </div>
+            <!--
             <div class="row m-b-lg">
                 <div class="col-lg-3 col-lg-offset-3">
                     <address>
-                        <strong><span class="navy">Company name, Inc.</span></strong><br/>
-                        795 Folsom Ave, Suite 600<br/>
-                        San Francisco, CA 94107<br/>
-                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                        <strong><span class="navy">Colibry</span></strong><br/>
+                        404 on cherche un chez nous<br/>
+                        Montreal, CA HA HA HA<br/>
+                       <abbr title="Phone">P:</abbr> 514 402 1693 (Martin)
+                        <br> <i class="fa fa-enveloppe"></i><small class="address"><a href="mailto:martin@colibry.ca">martin@colibry.ca</a></small>
+                      <br><i class="fa fa-enveloppe"></i><small class="address"><a href="mailto:alex@colibry.ca">alex@colibry.ca</a></small>
                     </address>
                 </div>
                 <div class="col-lg-4">
                     <p class="text-color">
-                        Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam veritatis quis ad perspiciatis, totam corporis laboriosam veritatis, consectetur adipisicing elit quos non quis ad perspiciatis, totam corporis ea,
+                        Colibry est une société en cours de création au Québec.
                     </p>
                 </div>
             </div>
+        -->
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <a href="mailto:test@email.com" class="btn btn-primary">Send us mail</a>
+                    <a href="mailto:martin@colibry.ca" class="btn btn-primary">Email-us</a>
                     <p class="m-t-sm">
-                        Or follow us on social platform
+                        Or on social media:
                     </p>
                     <ul class="list-inline social-icon">
-                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        <li><a href="https://twitter.com/TheColibry"><i class="fa fa-twitter"></i></a>
                         </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        <li><a href="https://www.facebook.com/colibry.ca/"><i class="fa fa-facebook"></i></a>
                         </li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        <li><a href="https://github.com/ColibryDev/colibry"><i class="fa fa-github"></i></a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                    <p><strong>&copy; 2015 Company Name</strong><br/> consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                    <p><strong>&copy; 2016 Colibry. All rights reserved.</strong><br/> :)</p>
                 </div>
             </div>
         </div>
