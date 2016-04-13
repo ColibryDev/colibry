@@ -12,6 +12,29 @@
 <div class="row">
 
 
+
+
+                                <div class="image-crop">
+                                    {{#if currentUser.profile.pic}}
+									<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
+									{{else}}
+									<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+									{{/if}}
+                                </div>
+                                <div class="btn-group">
+                                    <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
+                                        Upload new image
+                                    </label>
+                                    <label title="Donload image" id="download" class="btn btn-primary">Download</label>
+                                </div>
+                                
+
+             
+               
+
+
+
 <!-- ENCART DE GAUCHE -->
 <div class="col-xs12 col-sm-6 col-md-4">
 	<!-- ACTIONS POSSIBLE SUR LE PROFILE -->
@@ -52,8 +75,25 @@
 
 <!-- Si actuellement en train d'updating le profile -->
 {{#if actuallyUpdatingProfile}}
+
+<!-- 
+                                <div class="image-crop">
+                                    {{#if currentUser.profile.pic}}
+									<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
+									{{else}}
+									<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+									{{/if}}
+                                </div>
+                                <div class="btn-group">
+                                    <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
+                                        Upload new image
+                                    </label>
+                                    <label title="Donload image" id="download" class="btn btn-primary">Download</label>
+                                </div> -->
+                                
+
 {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm' autosave=true}}
-{{> afQuickField name="profile.pic" label="Choose a picture" remove-label="Remove"}}
 
 	{{> afQuickField name="profile.firstName"}}
 	{{> afQuickField name="profile.lastName"}}

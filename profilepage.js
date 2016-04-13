@@ -79,6 +79,78 @@ Template.profilepage.onCreated(function() {
 });
 
 
+
+
+// Template profilepage RENDERED
+Template.profilepage.rendered = function(){
+
+    // Set options for cropper plugin
+
+    var $image = $(".image-crop > img")
+    $($image).cropper({
+        aspectRatio: 1/1,
+        preview: ".img-preview",
+        done: function(data) {
+            // Output the result data for cropping image.
+        }
+    });
+
+    var $inputImage = $("#inputImage");
+    if (window.FileReader) {
+        $inputImage.change(function() {
+            var fileReader = new FileReader(),
+                files = this.files,
+                file;
+
+            if (!files.length) {
+                return;
+            }
+
+            file = files[0];
+
+            if (/^image\/\w+$/.test(file.type)) {
+                fileReader.readAsDataURL(file);
+                fileReader.onload = function () {
+                    $inputImage.val("");
+                    $image.cropper("reset", true).cropper("replace", this.result);
+                };
+            } else {
+                showMessage("Please choose an image file.");
+            }
+        });
+    } else {
+        $inputImage.addClass("hide");
+    }
+
+
+    $("#download").click(function(document) {
+      console.log($image.cropper("getDataURL"));
+var fsFile = new FS.File($image.cropper("getDataURL"));
+fsFile.owner = Meteor.userId();
+var filed = IMAGES.insert(fsFile, function (err) {
+   if (err) throw err;
+ });
+Meteor.users.update(fsFile.owner,{$set: {"profile.pic":filed._id}} );
+    });
+
+    $("#zoomIn").click(function() {
+        $image.cropper("zoom", 0.1);
+    });
+
+    $("#zoomOut").click(function() {
+        $image.cropper("zoom", -0.1);
+    });
+
+    $("#setDrag").click(function() {
+        $image.cropper("setDragMode", "crop");
+    });
+  }
+
+
+
+
+
+// Template profilepage EVENTS
 Template.profilepage.events({
 	'click .updateProfile' : function(){
 	Session.set('updatingProfile', true);
@@ -173,7 +245,7 @@ Template.profilepage.events({
 	// pour s'amuser : http://momentjs.com/docs/#/displaying/from/
 	// Permet de mettre la date du jour au bon format
    	var currentUser = Meteor.user();
-   	var birthdayDate = moment(currentUser.profile.birthday).format('DD/MM/YYYY');
+   	var birthdayDate = 0;//moment(currentUser.profile.birthday).format('DD/MM/YYYY');
    	return birthdayDate;
 	},
 
@@ -181,10 +253,10 @@ Template.profilepage.events({
 	// pour s'amuser : http://momentjs.com/docs/#/displaying/from/
    	var currentUser = Meteor.user();
    	// CREATEDAT NE FONCTIONNE PAS. A REGLER....
-   	var a = currentUser.createdAt;
+   //	var a = currentUser.createdAt;
   
-   	var c = moment(a).toNow();
-   	return c;
+   	//var c = moment(a).toNow();
+   	//return c;
 	},
 
  	'getProgressBarPercentage' : function(){
