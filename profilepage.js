@@ -81,15 +81,15 @@ Template.profilepage.onCreated(function() {
 
 
 
-// Template profilepage RENDERED
-Template.profilepage.rendered = function(){
+// Template changePhoto RENDERED
+Template.changePhoto.rendered = function(){
 
     // Set options for cropper plugin
 
     var $image = $(".image-crop > img")
     $($image).cropper({
         aspectRatio: 1/1,
-        preview: ".img-preview",
+        //preview: ".img-preview",
         done: function(data) {
             // Output the result data for cropping image.
         }
