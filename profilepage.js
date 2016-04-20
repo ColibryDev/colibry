@@ -124,7 +124,6 @@ Template.changePhoto.rendered = function(){
 
 
     $("#download").click(function(document) {
-      console.log($image.cropper("getDataURL"));
 var fsFile = new FS.File($image.cropper("getDataURL"));
 fsFile.owner = Meteor.userId();
 var filed = IMAGES.insert(fsFile, function (err) {
@@ -145,6 +144,22 @@ Meteor.users.update(fsFile.owner,{$set: {"profile.pic":filed._id}} );
         $image.cropper("setDragMode", "crop");
     });
   }
+
+
+
+Template.changePhoto.helpers({
+// Permet d'afficher la photo de profile
+  'getProfilePic': function () {
+  var currentUser = Meteor.user();
+  var profilePicId = currentUser.profile.pic;
+    return IMAGES.findOne({_id:profilePicId}); // Where Images is an FS.Collection instance
+    }
+
+})
+  
+
+
+
 
 
 
@@ -245,18 +260,18 @@ Template.profilepage.events({
 	// pour s'amuser : http://momentjs.com/docs/#/displaying/from/
 	// Permet de mettre la date du jour au bon format
    	var currentUser = Meteor.user();
-   	var birthdayDate = 0;//moment(currentUser.profile.birthday).format('DD/MM/YYYY');
+   	var birthdayDate = moment.utc(currentUser.profile.birthday).format('MMMM Do YYYY');
    	return birthdayDate;
 	},
 
 	'timeFromInscription' : function() {
 	// pour s'amuser : http://momentjs.com/docs/#/displaying/from/
    	var currentUser = Meteor.user();
-   	// CREATEDAT NE FONCTIONNE PAS. A REGLER....
-   //	var a = currentUser.createdAt;
-  
-   	//var c = moment(a).toNow();
-   	//return c;
+   	 
+   	var a = currentUser.profile.createdAt;
+    console.log(a);
+   	var c = moment(a).fromNow();
+   	return c;
 	},
 
  	'getProgressBarPercentage' : function(){

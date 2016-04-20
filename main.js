@@ -38,6 +38,20 @@ Template.topNavBar.events({
     }
 });
 
+Template.feedback.events({
+    'submit .form-horizontal': function(event){
+        event.preventDefault();
+        dhtmlx.message({ type:"error", text:"Mail envoyé", expire: 1500}); 
+        var emailtext = "Bug de la page "+event.target.pageBug.value+"      Description bug : "+event.target.bugDescription.value;
+        console.log(emailtext);
+        Meteor.call('sendEmail',
+            'martin@colibry.ca',
+            'thecolibry@gmail.com',
+            'Bug report!',
+            emailtext);
+    }
+});
+
 Template.topNavBar.helpers({
 	getProfilePic: function () {
 	var currentUser = Meteor.user();

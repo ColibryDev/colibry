@@ -62,14 +62,19 @@ var mySubmitFunc = function(error, state){
 
     }
     if (state === "signUp") {
-                Router.go('lend');
+                //Router.go('lend');
 
-         // Router.go('profilepage');
+          Router.go('profilepage');
          // Session.set('updatingProfile', false);
 
     }
   }
 };
+
+
+AccountsTemplates.configure({
+    onSubmitHook: mySubmitFunc
+});
 
 //configuration du module de connexion : https://github.com/meteor-useraccounts/core/blob/master/Guide.md
 
@@ -104,7 +109,7 @@ AccountsTemplates.configure({
     termsUrl: 'terms-of-use',
 
     // Redirects
-    homeRoutePath: '/lend',
+    homeRoutePath: 'lend',
     redirectTimeout: 4000,
 
     // Hooks
