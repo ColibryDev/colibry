@@ -9,3 +9,5 @@ Meteor.require = function(moduleName) {
   return Meteor.npmRequire(moduleName);
 };
 
+var mailcomposer = require("mailcomposer");
+

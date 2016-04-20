@@ -5,6 +5,9 @@ body {}
     padding-top: 52px;
 }
 
+.toast-top-right{padding-top: 52px;}
+
+
 .row-centered {
     text-align:center;
 }

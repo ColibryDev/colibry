@@ -12,7 +12,6 @@ accounts-facebook
 iron:router
 ddp
 meteor
-mrt:dhtmlx-message
 aldeed:autoform
 aldeed:simple-schema
 aldeed:collection2
