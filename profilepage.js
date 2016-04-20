@@ -204,7 +204,8 @@ Template.profilepage.events({
     },
 
 	'click .suppressAccount' : function(){
-	dhtmlx.message({type:"error", text:"Dumb, you thought you could leave like that ? ", expire: 1000});
+    toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+        toastr.error("Dumb, you thought you could leave like that ? ");
 	}  
 });
 
@@ -277,12 +278,13 @@ Template.profilepage.events({
  	'getProgressBarPercentage' : function(){
  	var percentage = 0;
  	var currentUser = Meteor.user();
-  if (currentUser.profile.firstName) {percentage = percentage +16;}
-  if (currentUser.profile.lastName) {percentage = percentage +16;}
- 	if (currentUser.profile.address1) {percentage = percentage +16;}
- 	if (currentUser.profile.address2) {percentage = percentage +16;}
- 	if (currentUser.profile.birthday) {percentage = percentage +16;}
- 	if (currentUser.profile.pic) {percentage = percentage +20;}
+  if (currentUser.profile.firstName) {percentage = percentage +14;}
+  if (currentUser.profile.lastName) {percentage = percentage +14;}
+ 	if (currentUser.profile.address1) {percentage = percentage +14;}
+ 	if (currentUser.profile.address2) {percentage = percentage +14;}
+ 	if (currentUser.profile.birthday) {percentage = percentage +14;}
+  if (currentUser.profile.description) {percentage = percentage +15;}
+ 	if (currentUser.profile.pic) {percentage = percentage +15;}
  	return percentage;
  	}
 });
