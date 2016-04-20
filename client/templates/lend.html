@@ -10,7 +10,7 @@
   <div class="row">
 
 <div class="center-block">
-  <div class="col-xs-12 col-sm-6 col-md-4"> 
+  <div class="col-xs-12 col-sm-6 col-md-3"> 
     {{#if isTheAddressMissing}}
       <div class="alert alert-danger alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-8"> 
+  <div class="col-xs-12 col-sm-6 col-md-9"> 
     {{> displaySearchGoogleBooks}}
    <p class="text-center">
   <h4>MY COLLABORATIVE LIBRARY</h4></p>
@@ -42,35 +42,34 @@
 <template name="displaySelectedBook">
   {{#if mySelectedBook}}
 
-
-<div class="media">
-    <div class="media-left image add-this-book">
-    <a href="#" class="media-object ">
-      <img class="thumb-books" src="{{mySelectedBook.thumb}}" height="100">
-    </a>
-  </div>
-
-  <div class="media-body">
-    <h4 class="media-heading">{{mySelectedBook.title}} by {{mySelectedBook.authors}}</h4>
-{{mySelectedBook.snippet}}   
-
-{{#if getAverageRating}}
-    <img src="{{getAverageRating}}star.png" height="20"> 
-    {{/if}} 
-    <br>
- </div>
-
-        <p class="text-center">
-          <!-- Le bouton remove est actif grâce à la class erase-book -->
-        <p><a class="btn btn-danger erase-book" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
-          <!-- Le bouton étoile n'est pas actif pour le moment, voulait m'en servir pour ajouter aux favoris -->
-        <a href="#" class="btn btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Add</a></p>
-      </p>
-   
+<div class="ibox">
+                        <div class="ibox-content product-box">
+                                            <div class="lightBoxGallery">
+                                            
+                            
+                                <img class="thumb-books" src="{{mySelectedBook.thumb}}">
+                            </div>
+                            <div class="product-desc">
+                                {{#if getAverageRating}}<span class="product-price">
       <!-- cherche la fonction getAverageRating pour savoir s'il y a un rating sur ce livre. S'Il y en a un alors la fonction retourne un chiffre de 1 à 5 qui vient donc compléter le nom de l'image qu'on affiche -->
    
- 
-</div>
+                                     <img src="{{getAverageRating}}star.png" height="20"> 
+                                </span>   {{/if}} 
+                                <small class="text-muted">{{mySelectedBook.authors}}</small>
+                                <a href="#" class="product-name"> {{mySelectedBook.title}}</a>
+
+                                <div class="small m-t-xs">
+                                {{mySelectedBook.snippet}}  
+                                </div>
+                                <p class="text-center">
+                                <a class="btn btn-xs btn-outline btn-danger erase-book" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a> 
+                                  <!-- Le bouton étoile n'est pas actif pour le moment, voulait m'en servir pour ajouter aux favoris -->
+                                <a href="#" class="btn btn-xs btn-outline btn-success" role="button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>Add</a>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
     {{/if}}
 </template>
 

@@ -115,7 +115,11 @@ interact('.dropzone').dropzone({
     var targetedShelf = "available for lending !";
     if (targetedStatus == "0") {targetedShelf = "unavailable for lending !"}
     if (targetedStatus == "2") {targetedShelf = "declared as lent !"}
-    dhtmlx.message({type:"dhtmlxsucess", text:"This book is now "+targetedShelf, expire: 1000});
+    toastr.options = {  "closeButton": false,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "2000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+    toastr.success("This book is now "+targetedShelf);
+
+
+
   }
     Session.set('targetedStatus',"no move")
 
@@ -164,22 +168,24 @@ Template.displaySelectedBook.events({
     // on récupère l'ID du livre grâce au sessionget selectedPhysicalBook qui change lorsque quelqu'un clique sur un livre.
     var selectedPhysicalBook_Id = Session.get('selectedPhysicalBook');
     // Affichage d'une fenetre de confirmation de la supression effective du livre.
-    dhtmlx.message({
-    type:"confirm",
-    text: "Delete this book from your library?",
-    callback: function(confirmation) {
-      // Si l'utilisateur clique sur ok, affichage d'un message
-    if (confirmation == true)
-    {
-    dhtmlx.message({ type:"error", text:"This book has been removed from your library", expire: 1500}); 
+
+    swal({
+        title: "Are you sure?",
+        text: "Delete this book from your library?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: true
+    }, function () {
+       toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+    toastr.warning("This book has been removed from your library");
      // Si l'utilisateur clique sur ok, appel Meteor call vers la fonction pour supprimer le bouquin de la liste
     Meteor.call('removeBook', selectedPhysicalBook_Id);
     Session.set('selectedPhysicalBook', "");
-  }
-   
+    });
 
-  }
-});
+
     }
 });
 
@@ -255,14 +261,17 @@ Template.displaySearchGoogleBooks.events({
     'InsertBook',selectedBookFromGSearch.ISBN,selectedBookFromGSearch.title,selectedBookFromGSearch.authors,selectedBookFromGSearch.publisher,"1",selectedBookFromGSearch.snippet,selectedBookFromGSearch.thumb,selectedBookFromGSearch.averageRating,
     function(error, result)
     {
-    if (error) {dhtmlx.message({type:"error", text:"Error", expire: 2000});}
+    if (error) {  toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "2000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+    toastr.error("Error");}
     // Si validation de l'opération, book ajouté
-    if (result == "oui") {dhtmlx.message({type:"dhtmlxsucess", text:"This book has been added to your library", expire: 1500});
+    if (result == "oui") {toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+    toastr.success("This book has been added to your library");
     // permet de remettre la recherche à zéro, les résultats de la searchGoogleBooks s'efface pour ne pas qu'il restenet à l'écran alors que la recherche a été fructueuse...
   Session.set('actualGoogleBooksSearch', false);}
     // sinon, erreur déjà dans biblio, affichage message avec DHTMLX et rien ne se passe cçoté serveur
-    if (result == "error") {dhtmlx.message({type:"error", text:"This book is already in your library", expire: 2000});}
-  }
+    if (result == "error") {  toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "2000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+    toastr.error("This book is already in your library");}
+    }
   );
   
   }

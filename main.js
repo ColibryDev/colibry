@@ -30,7 +30,8 @@ Meteor.startup(function() {
 Template.topNavBar.events({
     'click .logout': function(event){
         event.preventDefault();
-        dhtmlx.message({ type:"error", text:"You logged out", expire: 1500}); 
+        toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+        toastr.error("You logged out");
         AccountsTemplates.logout();
         Router.go('loginregister');
         Session.set('selectedPhysicalBook', "");
@@ -39,9 +40,10 @@ Template.topNavBar.events({
 });
 
 Template.feedback.events({
-    'submit .form-horizontal': function(event){
+    'submit .form': function(event){
         event.preventDefault();
-        dhtmlx.message({ type:"error", text:"Mail envoyé", expire: 1500}); 
+        toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+        toastr.success("Mail envoyé");
         var emailtext = "Bug de la page "+event.target.pageBug.value+"      Description bug : "+event.target.bugDescription.value;
         console.log(emailtext);
         Meteor.call('sendEmail',
