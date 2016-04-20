@@ -22,7 +22,7 @@ Bandeau du haut avec photo, nom, stats -->
                     	{{#if currentUser.profile.pic}}
 									<img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-circle circle-border m-b-md">
 									{{else}}
-									<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-circle circle-border m-b-md">
+									<img src="/standardProfilePic.jpg" alt="Profile Picture" class="img-circle circle-border m-b-md">
 									{{/if}}
                     </div>
                     <div class="profile-info">
@@ -33,7 +33,7 @@ Bandeau du haut avec photo, nom, stats -->
                                 </h2>
                                 <h4>Colibry reader</h4>
                                 <small>
-                                    À propos de moi (à intégrer dans la DB)
+                                    {{currentUser.profile.description}}
                                 </small>
                             </div>
                         </div>
@@ -112,19 +112,29 @@ Si on actualise le profil -->
  {{/autoForm}}
 
  </div>
-
+<div class="col-xs12 col-sm-12 col-md-8">
 {{>changePhoto}}
+</div>
+
+<div class="col-xs12 col-sm-12 col-md-12">
+
+{{#autoForm collection='Meteor.users' doc=currentUser type='update' id='accountForm2' autosave=true}}
+
+    {{> afQuickField name="profile.description"}}
+
+{{/autoForm}}
+</div>
 
 {{else}}
 
-	<div class="col-lg-4">
+	<div class="col-xs12 col-sm-6 col-md-4">
 
                     <div class="ibox">
                         <div class="ibox-content profile-content">
                          <h4><strong>{{currentUser.profile.firstName}} {{currentUser.profile.lastName}}</strong></h4>
 
 								{{#if currentUser.profile.birthday}}
- 								<p>Born the {{birthdayDateFormat}}</p>
+ 								<p>Born on {{birthdayDateFormat}}</p>
  								{{/if}}
 
  								<p><i class="fa fa-envelope-o"></i> {{currentUser.emails.[0].address}}</p>
@@ -146,17 +156,12 @@ Si on actualise le profil -->
 								{{/if}}
                                 <br>
                                 <p>Registered from {{timeFromInscription}}</p>
-                                <h5>
-                                    About me
-                                </h5>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.
-                                </p>
+                                
 
                         </div>
                     </div>
    	</div>
-   	<div class="col-lg-4">
+   	<div class="col-xs12 col-sm-6 col-md-4">
 
                        {{#if currentUser.profile.address1.lat}}
                     <div class="ibox">
@@ -171,7 +176,7 @@ Si on actualise le profil -->
                     {{/if}}
 
      </div>
-   	<div class="col-lg-4">
+   	<div class="col-xs12 col-sm-6 col-md-4">
 
 					{{#if currentUser.profile.address2.lat}}
                     <div class="ibox">
@@ -207,7 +212,7 @@ Si on actualise le profil -->
 
 
 <template name="changePhoto">
-<div class="col-xs12 col-sm-12 col-md-6">
+
  <!-- Autoform pour upload la photo, package yogiben
  {{#autoForm collection='Meteor.users' doc=currentUser type='update' id='photoForm' autosave=true scope="profile.pic"}}
 {{> afQuickField name="profile.pic" label="Choose a picture" remove-label="Remove"}}
@@ -225,20 +230,19 @@ Si on actualise le profil -->
 {{#if currentUser.profile.pic}}
 <img src="{{getProfilePic.url}}" alt="Profile Picture" class="img-responsive">
 {{else}}
-<img src="/public/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
+<img src="/standardProfilePic.jpg" alt="Profile Picture" class="img-responsive">
 {{/if}}
 </div>
 	</div>
 
 <div class="btn-group">
-<label title="Upload image file" for="inputImage" class="btn btn-primary">
+<label title="Upload image file" for="inputImage" class="btn btn-success">
 <input type="file" accept="image/*" name="file" id="inputImage" class="hide">Upload new image
 </label>
-<label title="Donload image" id="download" class="btn btn-primary">Download</label>
+<label title="Donload image" id="download" class="btn btn-primary">Crop</label>
 </div>
 </div>
  </div> 
-</div>
 </div>
 </template>
 
