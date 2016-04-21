@@ -32,8 +32,22 @@ if (Meteor.isClient) {
   	  });
   		}
 
+
+/////// TEMPLATE displayChosenBook EVENTS //////////////
+	Template.displayChosenBook.events({
+  	'click .borrowButton':function()
+  	{
+  	  	var currentUserId = Meteor.userId();
+  	document.getElementById("input_sender_Id").value = currentUserId;
+  	document.getElementById("input_recipient_Id").value = this.bookOwner;
+	document.getElementById("input_book_Id").value = this.bookRef;
+	document.getElementById("input_physicalBook_Id").value = this._id;
+
+}	
+	}); // Fin EVENTS template displayChosenBook
+
 /////// TEMPLATE BORROW EVENTS //////////////
-	Template.borrow.events({
+	Template.displaySearch.events({
   	'click':function()
   	{
   	var currentUser = Meteor.user();
@@ -86,7 +100,7 @@ if (Meteor.isClient) {
 			//setCircle(map,lendersAddresses[nb].address2, '#000080');
 			}
  		});
- 	}
+ 	} /// FIN DU IF SI ON CLIQUE SUR Un THUMB Book
 
      else
      {
