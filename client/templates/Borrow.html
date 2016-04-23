@@ -45,27 +45,23 @@
     <br>
 
       <div class="form-group form">
+        <form>
         <div class="input-group">
-          <input type="text" class="form-control " name="input_sender_Id" id="input_sender_Id" required="">
-          <input type="text" class="form-control " name="input_recipient_Id" id="input_recipient_Id" required="">
-          <input type="text" class="form-control " name="input_book_Id" id="input_book_Id" required="">
-          <input type="text" class="form-control " name="input_physicalBook_Id" id="input_physicalBook_Id" required="">
+          <input type="text" class="form-control hide" name="input_sender_Id" id="input_sender_Id" required="">
+          <input type="text" class="form-control hide" name="input_recipient_Id" id="input_recipient_Id" required="">
+          <input type="text" class="form-control hide" name="input_book_Id" id="input_book_Id" required="">
+          <input type="text" class="form-control hide" name="input_physicalBook_Id" id="input_physicalBook_Id" required="">
           
         </div>
       
-        
         <label for="InputMessage">Message</label>
         <div class="input-group">
           <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required=""></textarea>
           <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
- 
-        <label for="InputReal">What is 4+3? (Simple Spam Checker)</label>
-        <div class="input-group">
-          <input type="text" class="form-control" name="InputReal" id="InputReal" required="">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span></div>
     
-          <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
 
+          <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
+        </form>
       </div>
    
     </section>
