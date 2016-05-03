@@ -32,8 +32,78 @@ if (Meteor.isClient) {
   	  });
   		}
 
-/////// TEMPLATE BORROW EVENTS //////////////
-	Template.borrow.events({
+
+/////// TEMPLATE displayChosenBook EVENTS //////////////
+	Template.displayChosenBook.events({
+  	'click .borrowButton':function()
+  	{
+  	  	var currentUserId = Meteor.userId();
+  	document.getElementById("input_sender_Id").value = currentUserId;
+  	document.getElementById("input_recipient_Id").value = this.bookOwner;
+	document.getElementById("input_book_Id").value = this.bookRef;
+	document.getElementById("input_physicalBook_Id").value = this._id;
+
+}	
+	}); // Fin EVENTS template displayChosenBook
+
+
+
+
+// Fonctions events sur le template borrow
+Template.borrow.events({ 
+  'submit form': function(event, template) {
+    event.preventDefault();
+
+
+    swal({
+		        title: "Borrow a book?",
+		        text: "Send an email to borrow this book?",
+		        type: "success",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Yes!",
+		        closeOnConfirm: true
+		    }, function () {
+		       toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
+		    toastr.success("E-mail sent!");
+		  var now = new Date();
+		  			// Récupère l'ID d'entrée dans la DB pour ensuite l'écrire sur l'autre DB conversation
+				    var mailbox_Id = Meteor.call(
+				    'sendMail',
+				    event.target.input_sender_Id.value,
+					event.target.input_recipient_Id.value,
+				  	event.target.input_book_Id.value,
+				  	event.target.input_physicalBook_Id.value,
+				  	now,
+				  	now,
+				  	true,
+				  	false,
+				  	"waiting"); 
+
+				    //Puis ajoute le message dans le chat
+				    Meteor.call(
+				    'addChat',
+				    mailbox_Id,
+				    event.target.input_sender_Id.value,
+					event.target.input_recipient_Id.value,
+				    now,
+				    event.target.InputMessage.value
+				    ); 
+
+
+			Router.go('mailbox');
+
+    	});
+    
+
+	}
+  });
+
+
+
+
+/////// TEMPLATE DISPLAYSearch EVENTS //////////////
+	Template.displaySearch.events({
   	'click':function()
   	{
   	var currentUser = Meteor.user();
@@ -86,7 +156,7 @@ if (Meteor.isClient) {
 			//setCircle(map,lendersAddresses[nb].address2, '#000080');
 			}
  		});
- 	}
+ 	} /// FIN DU IF SI ON CLIQUE SUR Un THUMB Book
 
      else
      {
@@ -447,5 +517,35 @@ if (Meteor.isServer) {
 	Meteor.publish('allAvailableBooks',function(){
     return PHYSICAL_BOOKS.find({status: "1"});
   });
+
+
+  Meteor.methods({
+		  'sendMail': function(sender_Id,recipient_Id,book_Id,physicalBook_Id,createdAt,lastDiscussionDate,readBySender,readByRecipient,status){
+		  
+		  MAILBOX.insert({
+		  	sender_Id: sender_Id,
+		  	recipient_Id: recipient_Id,
+		  	book_Id: book_Id,
+		  	physicalBook_Id: physicalBook_Id,
+		  	createdAt: createdAt,
+		  	lastDiscussionDate: lastDiscussionDate,
+		  	readBySender: readBySender,
+		  	readByRecipient: readByRecipient,
+		  	status: status
+		  });
+			},
+
+		'addChat': function(mailbox_Id,sender_Id,recipient_Id,date,message){
+		  
+		  CHAT.insert({
+		  	 mailbox_Id:mailbox_Id,
+		  	 sender_Id:sender_Id,
+		  	 recipient_Id:recipient_Id,
+		  	 date:date,
+		     message:message
+		  });
+			}
+
+	});
 
 }
