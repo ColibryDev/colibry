@@ -84,6 +84,8 @@ Template.borrow.events({
 				    Meteor.call(
 				    'addChat',
 				    mailbox_Id,
+				    event.target.input_sender_Id.value,
+					event.target.input_recipient_Id.value,
 				    now,
 				    event.target.InputMessage.value
 				    ); 
@@ -533,10 +535,12 @@ if (Meteor.isServer) {
 		  });
 			},
 
-		'addChat': function(mailbox_Id,date,message){
+		'addChat': function(mailbox_Id,sender_Id,recipient_Id,date,message){
 		  
 		  CHAT.insert({
 		  	 mailbox_Id:mailbox_Id,
+		  	 sender_Id:sender_Id,
+		  	 recipient_Id:recipient_Id,
 		  	 date:date,
 		     message:message
 		  });
