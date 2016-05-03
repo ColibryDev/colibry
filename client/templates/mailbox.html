@@ -1,2 +1,165 @@
 <template name="mailbox">
+
+
+
+<div class="row m-t-lg">
+                <div class="col-lg-6">
+                    
+                </div>
+               
+            </div>
+
+
+
+
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                	<div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-cloud-download"></i>Borrow</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-share-square-o"></i>Lend</a></li>
+                        </ul>
+
+                        <!-- PREMIER PANEL - BORROW -->
+
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+									                                    
+									<div class="ibox">
+			                        <div class="ibox-content">
+
+			                            <div class="table-responsive">
+			                            <table class="table table-hover issue-tracker">
+			                                <tbody>
+			                                	{{#each getBorrowingMailInfos}}
+				                                <tr>
+				                                	<td>
+				                                		{{#if getRecipientPhoto}}
+				                                		<img alt="recipient" class="img-circle" src="{{getRecipientPhoto.url}}" eight="50" width="50">
+                                						{{else}}
+				                                		<img alt="recipient" class="img-circle" src="/standardProfilePic.jpg" eight="50" width="50">
+                                						{{/if}}
+				                                	</td>
+				                                    <td>
+				                                        <bold>{{getRecipientName}}</bold>
+				                                        <br>
+				                                        <small>{{getLastDiscussionDate}}</small>
+				                                    </td>
+				                                    <td class="issue-info">
+				                                        <a href="/mailbox/{{getConversationId}}">
+				                                           {{#if getReadBySender}}<span class="label label-primary">New</span>
+				                                           {{/if}}
+				                                           {{getBookTitle}} 
+				                                        </a>
+
+				                                        <small>
+				                                           Conversation with {{getRecipientName}} to borrow him "{{getBookTitle}}"
+				                                        </small>
+				                                    </td>
+				                                    <td>
+													<img class="thumb-books" src="{{getBookThumb}}" alt="{{getBookTitle}}" height="50">
+				                                    </td>
+				                                    <td>
+				                                        {{getCreatedAt}}
+				                                    </td>
+				                                    
+				                                    <td>
+				                                        {{#if isStatusWaiting}} <span class="label label-warning">Waiting</span> {{/if}}
+				                                        {{#if isStatusAccepted}}<span class="label label-primary">Accepted</span>{{/if}}
+				                                        {{#if isStatusRefused}} <span class="label label-danger">Refused</span>{{/if}}
+				                                    </td>
+				                                    
+				                                </tr>
+			                                	{{/each}}
+			                                
+			                              
+			                                </tbody>
+			                            </table>
+			                            </div>
+			                        </div>
+
+			                    </div>
+                                   
+                                </div>
+                            </div>
+
+
+                            <!-- DEUXIÈEME PANEL _ LEND -->
+
+
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="ibox">
+			                        <div class="ibox-content">
+
+			                            <div class="table-responsive">
+			                            <table class="table table-hover issue-tracker">
+			                                <tbody>
+			                                	{{#each getLendingMailInfos}}
+				                                <tr>
+				                                	<td>
+				                                		<img class="thumb-books" src="{{getBookThumb}}" alt="{{getBookTitle}}" height="50">
+				                                	</td>
+				                                    
+				                                    <td class="issue-info">
+				                                        <a href="/mailbox/{{getConversationId}}">
+				                                          {{#if getReadByRecipient}}<span class="label label-primary">New</span>
+														  {{/if}}	
+				                                          {{getBookTitle}}
+				                                        </a>
+
+				                                        <small>
+				                                           Conversation with {{getSenderName}} to borrow him "{{getBookTitle}}"
+				                                        </small>
+				                                    </td>
+				                                    <td>
+				                                		{{#if getSenderPhoto}}
+										        		<img alt="sender" class="img-circle" src="{{getSenderPhoto.url}}" eight="50" width="50">
+										        		{{else}}
+					                                	<img alt="sender" class="img-circle" src="/standardProfilePic.jpg" eight="50" width="50">
+	                                					{{/if}}
+				                                    </td>
+				                                    <td>
+				                                        <bold>{{getSenderName}}</bold>
+														<br>
+				                                        <small>{{getLastDiscussionDate}}</small>
+				                                    </td>
+				                                    <td>
+				                                        {{getCreatedAt}}
+				                                    </td>
+				                                    
+				                                    <td>
+				                                    	{{#if isStatusWaiting}} <span class="label label-warning">Waiting</span> {{/if}}
+				                                        {{#if isStatusAccepted}}<span class="label label-primary">Accepted</span>{{/if}}
+				                                        {{#if isStatusRefused}} <span class="label label-danger">Refused</span>{{/if}}
+				                                        
+				                                    </td>
+				                                    
+				                                </tr>
+			                                	{{/each}}
+			                                
+			                              
+			                                </tbody>
+			                            </table>
+			                            </div>
+			                        </div>
+
+			                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                </div>
+            </div>
+
+
+        </div>
+
 </template>
