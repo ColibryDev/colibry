@@ -2,7 +2,7 @@ Colibry Website
 =============
 
 ### Description ###
-Colibry is a free books sharing plateform designed by two non-dev guys (*please be indulgent*).
+Colibry is a book sharing platform designed by two non-dev guys.
 
 ### Quick Start ###
 1) Install meteor
@@ -34,7 +34,7 @@ We've organised our code per html pages :
 
 ### We appreciate your help ###
 
-As we are working on a collaborative project **:)**, don't hesitate to help us. It will be appreciated. 
+As we are working on a collaborative project **:)**, please help us. It will be appreciated. 
 Many thanks ! 
 
 ### Contact ###
