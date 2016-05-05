@@ -30,7 +30,7 @@ if (Meteor.isClient) {
 		var recipient = Meteor.users.findOne({_id:recipient_Id});
 		var recipientProfilePic = recipient && recipient.profile && recipient.profile.pic;
 	    return IMAGES.findOne({_id:recipientProfilePic});
-	    	
+
 		},
 
 		getSenderName: function() {
@@ -108,9 +108,4 @@ if (Meteor.isClient) {
 		return Id;
 		}
 	});
-}
-
-
-// CLIENT SIDE
-if (Meteor.isServer) {
 }

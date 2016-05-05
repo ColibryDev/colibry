@@ -7,7 +7,7 @@ if (Meteor.isClient) {
 
 
 		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
-  		function fromWhere(){  
+  		function fromWhere(){
     	if(document.getElementById('bhome').classList.contains('active'))
     	{return "home";}
     	if(document.getElementById('bwork').classList.contains('active'))
@@ -43,14 +43,14 @@ if (Meteor.isClient) {
 	document.getElementById("input_book_Id").value = this.bookRef;
 	document.getElementById("input_physicalBook_Id").value = this._id;
 
-}	
+}
 	}); // Fin EVENTS template displayChosenBook
 
 
 
 
 // Fonctions events sur le template borrow
-Template.borrow.events({ 
+Template.borrow.events({
   'submit form': function(event, template) {
     event.preventDefault();
 
@@ -78,7 +78,7 @@ Template.borrow.events({
 				  	now,
 				  	true,
 				  	false,
-				  	"waiting"); 
+				  	"waiting");
 
 				    //Puis ajoute le message dans le chat
 				    Meteor.call(
@@ -88,13 +88,13 @@ Template.borrow.events({
 					event.target.input_recipient_Id.value,
 				    now,
 				    event.target.InputMessage.value
-				    ); 
+				    );
 
 
 			Router.go('mailbox');
 
     	});
-    
+
 
 	}
   });
@@ -125,7 +125,7 @@ Template.borrow.events({
     	thisBookLenders.push(element.bookOwner);});
 
     var lendersAddresses = [];
-	Meteor.users.find({_id:{ $in:thisBookLenders}}).forEach(function(element) 
+	Meteor.users.find({_id:{ $in:thisBookLenders}}).forEach(function(element)
 	{
  	lendersAddresses.push({
 		address1:{
@@ -162,8 +162,8 @@ Template.borrow.events({
      {
       //si on a pas cliqué sur une image alors l'explication sur le livre disparait !
     Session.set('chosenBookId', "");
-     } 
- 	}	
+     }
+ 	}
 	}); // Fin EVENTS template Borrow
 
 	// Lors de la création de la carte
@@ -227,7 +227,7 @@ Template.locationRadioButtons.onRendered( function(){
 	document.getElementById('bwork').classList.add('hidden');
 	document.getElementById('bposition').classList.add('active');
 	}
-	
+
 	else if (currentUser.profile.address1 === undefined)
 	{
 	document.getElementById('bhome').classList.add('hidden');
@@ -240,11 +240,11 @@ Template.locationRadioButtons.onRendered( function(){
 	document.getElementById('bhome').classList.add('active');
 	}
 	// si aucune des 2 adresses n'est renseignée
-		
+
 });
 
 Template.locationRadioButtons.helpers({
-	
+
 }); // Fin Template
 
 
@@ -277,7 +277,7 @@ Template.booksMap.helpers({
      		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
-      
+
     }
   },
 
@@ -307,7 +307,7 @@ Template.booksMap.helpers({
 
 		return userWhoCanShareCoordinates;
 	}
-  
+
 }); // fin template
 
 // https://developers.google.com/maps/documentation/javascript/examples/layer-fusiontables-simple
@@ -318,7 +318,7 @@ Template.booksMap.onCreated(function(){
 
 	Template.displayAvailableBooks.helpers({
     // Fonctions pour montrer toutes les infos des livres de PHYSICAL_BOOKS qui ont un statut 1
-  		'availableBooks': function(){  
+  		'availableBooks': function(){
    		 var differentBooks = [];
    		 PHYSICAL_BOOKS.find({status:"1"}).forEach(function(element) {differentBooks.push(element.bookRef);});
    		 // renvoi les infos des livres dont les id sont contenus dans le tableau précédent
@@ -336,7 +336,7 @@ Template.booksMap.onCreated(function(){
    	 		console.log(tryToSearch);
    	 		var searchedBookVar1 = event.target.searchedBook.value;
    	 		// on met la valeur recherchée dans searchedBookSession pour ouvoir la rappeler ensuite avec un Get
-   	 		Session.set('searchedBookSession',searchedBookVar1);		
+   	 		Session.set('searchedBookSession',searchedBookVar1);
    	 	},*/
 
    	 	'change #home' : function(){
@@ -362,7 +362,7 @@ Template.booksMap.onCreated(function(){
 	biIndex: function(){
   	return BIIndex;
   	},
-  	
+
   	//retourne les attributs de mon boutton EasySearch load more
   	moreButtonAttributes:function(){
   	return {'class':'btn btn-primary'};
@@ -383,7 +383,7 @@ Template.booksMap.onCreated(function(){
   	}
   	});
 
-  
+
 
 	Template.displaySearchedBooks.helpers({
 
@@ -415,17 +415,17 @@ Template.booksMap.onCreated(function(){
 			return PHYSICAL_BOOKS.find({bookRef:chosenBookId, status:"1"});
 		},
 		'userInfos': function(){
-		// Cette fonction 
+		// Cette fonction
 		// On met dans une variable
 		var bookOwner = this.bookOwner;
 		var actualUser = Meteor.users.findOne({_id:bookOwner});
-		
+
 		// Distance jusqu'à l'add 1 et l'add 2
 		var distanceToAdd1 = 1000000;
 		var distanceToAdd2 = 1000000;
 		var currentUser = Meteor.user();
 		var from = fromWhere();
-		// si actualUser existe	
+		// si actualUser existe
 	if (actualUser)
 	{
 		// Si le radio option = home
@@ -474,12 +474,12 @@ Template.booksMap.onCreated(function(){
 		// var distance = nearByLocation.getDistance({})
 		}
 
-	
+
 		// On calcule qui est le plus proche.
-		if (distanceToAdd1.distance > distanceToAdd2.distance) 
+		if (distanceToAdd1.distance > distanceToAdd2.distance)
 		{
-			if (distanceToAdd2.distance > 1) 
-			{	
+			if (distanceToAdd2.distance > 1)
+			{
 			return {firstName:actualUser.profile.firstName,distance:distanceToAdd2.distance.toFixed(1),unit:"km"};
 			}
 			else
@@ -488,10 +488,10 @@ Template.booksMap.onCreated(function(){
 			return {firstName:actualUser.profile.firstName,distance:distanceFinale.toFixed(0),unit:"m"};
 			}
 		}
-		else 
+		else
 		{	// on met en mètre si c'est inférieur à 1 km
-			if (distanceToAdd1.distance > 1) 
-			{	
+			if (distanceToAdd1.distance > 1)
+			{
 			return {firstName:actualUser.profile.firstName,distance:distanceToAdd1.distance.toFixed(1),unit:"km"};
 			}
 			else
@@ -500,52 +500,13 @@ Template.booksMap.onCreated(function(){
 			return {firstName:actualUser.profile.firstName,distance:distanceFinale.toFixed(0),unit:"m"};
 			}
 		}
-		
+
 	}
 	else
 	{
 	return {firstName:"User unavailable",distance:"0", unit:"m"};
 	}
 	}
-	});
-	
-}
-
-
-if (Meteor.isServer) {
-	// fonction publish qui renvoit la liste de tous les livres available, quel que soit l'utilisateur
-	Meteor.publish('allAvailableBooks',function(){
-    return PHYSICAL_BOOKS.find({status: "1"});
-  });
-
-
-  Meteor.methods({
-		  'sendMail': function(sender_Id,recipient_Id,book_Id,physicalBook_Id,createdAt,lastDiscussionDate,readBySender,readByRecipient,status){
-		  
-		  MAILBOX.insert({
-		  	sender_Id: sender_Id,
-		  	recipient_Id: recipient_Id,
-		  	book_Id: book_Id,
-		  	physicalBook_Id: physicalBook_Id,
-		  	createdAt: createdAt,
-		  	lastDiscussionDate: lastDiscussionDate,
-		  	readBySender: readBySender,
-		  	readByRecipient: readByRecipient,
-		  	status: status
-		  });
-			},
-
-		'addChat': function(mailbox_Id,sender_Id,recipient_Id,date,message){
-		  
-		  CHAT.insert({
-		  	 mailbox_Id:mailbox_Id,
-		  	 sender_Id:sender_Id,
-		  	 recipient_Id:recipient_Id,
-		  	 date:date,
-		     message:message
-		  });
-			}
-
 	});
 
 }

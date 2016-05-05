@@ -50,7 +50,7 @@ AccountsTemplates.addFields([
     displayName: "Last Name",
     re: /^[a-zA-Z-]{2,25}$/
 },
-  
+
   pwd
 ]);
 
@@ -138,20 +138,4 @@ AccountsTemplates.configure({
 
 if (Meteor.isClient) {
 
-}
-
-
-
-
-// Côté serveur
-
-if (Meteor.isServer) {
-
-  //vérification de l'unicité du username
-  /*
-Meteor.methods({
-        "userExists": function(username){
-            return !!Meteor.users.findOne({username: username});
-        },
-    });*/
 }

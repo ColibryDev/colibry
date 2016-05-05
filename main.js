@@ -7,7 +7,7 @@ Template.main.rendered = function(){
     $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
     $("body").removeClass('boxed-layout');
             $("body").addClass('fixed-nav');
-    
+
 }
 
 Template.main.destroyed = function(){
@@ -63,6 +63,4 @@ Template.topNavBar.helpers({
 });
 
 
-}
-if (Meteor.isServer) {
 }

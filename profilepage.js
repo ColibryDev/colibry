@@ -70,7 +70,7 @@ Session.setDefault('updatingProfile', false);
 
   }
 
-// Création de la map 
+// Création de la map
 Template.profilepage.onCreated(function() {
 // Appelle la fonction SetMaps que j'ai créé pour crééer les 2 cartes
 // PROBLEME : cela affiche la carte avant qu'on ait chargé Meteor.users.....
@@ -156,7 +156,7 @@ Template.changePhoto.helpers({
     }
 
 })
-  
+
 
 
 
@@ -177,7 +177,7 @@ Template.profilepage.events({
 
 	//document.getElementById('save-pic').click();
 	document.getElementById('save-profileInfo').click();
-  
+
   // Récupère les valeurs qui sont dans les champs addresses
   var address1 = document.getElementById('address1Field').value;
   var address2 = document.getElementById('address2Field').value;
@@ -206,7 +206,7 @@ Template.profilepage.events({
 	'click .suppressAccount' : function(){
     toastr.options = {  "closeButton": true,  "debug": false,  "progressBar": true,  "preventDuplicates": false,  "positionClass": "toast-top-right","onclick": null,"showDuration": "400","hideDuration": "1000","timeOut": "1500","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear", "showMethod": "fadeIn","hideMethod": "fadeOut"};
         toastr.error("Dumb, you thought you could leave like that ? ");
-	}  
+	}
 });
 
 
@@ -232,7 +232,7 @@ Template.profilepage.events({
     if (GoogleMaps.loaded()) {
       // Map initialization options
       return {
-      	disableDoubleClickZoom: false, 
+      	disableDoubleClickZoom: false,
       	center : new google.maps.LatLng(45.50737, -73.564101),
       		scrollwheel: false,
          // Apply the map style array to the map.
@@ -240,7 +240,7 @@ Template.profilepage.events({
     	styles: styleArray
     	};
 
-    	      
+
     }
   },
 
@@ -268,7 +268,7 @@ Template.profilepage.events({
 	'timeFromInscription' : function() {
 	// pour s'amuser : http://momentjs.com/docs/#/displaying/from/
    	var currentUser = Meteor.user();
-   	 
+
    	var a = currentUser.profile.createdAt;
     console.log(a);
    	var c = moment(a).fromNow();
@@ -293,10 +293,4 @@ Template.profilepage.events({
 
 
 // Fin côté client
-}
-
-
-
-if (Meteor.isServer) {
-
 }

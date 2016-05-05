@@ -8,7 +8,7 @@ if (Meteor.isClient) {
 	});
 
 		// envoie l'information de quel radio button est sélectionné. Cette fonction permet à la carte de savoir ou centrer
-  		function fromWhere(){  
+  		function fromWhere(){
     	if(document.getElementById('bhome').classList.contains('active'))
     	{return "home";}
     	if(document.getElementById('bwork').classList.contains('active'))
@@ -20,7 +20,7 @@ if (Meteor.isClient) {
 
 	// FONCTION QUI LANCE MA CARTE POUR SAVOIR OU SONT LES UTILISATEURS AUTOUR DE MOI
 		function setUsersMap(){
-		GoogleMaps.ready('usersMap', function(map){		
+		GoogleMaps.ready('usersMap', function(map){
 		var currentUser = Meteor.user();
 		var from =fromWhere();
 		if (currentUser.profile.address1 && from =="home")
@@ -31,7 +31,7 @@ if (Meteor.isClient) {
 		title:"Home",
 		map: map.instance
 		});}
-		
+
 		if (currentUser.profile.address2 && from =="work")
 		{new google.maps.Marker({
 		draggable: false,
@@ -49,7 +49,7 @@ if (Meteor.isClient) {
 function setLenderCircles(map) {
 var lendersAddresses = [];
 var currentUser = Meteor.user();
-Meteor.users.find({_id:{$ne:currentUser._id}}).forEach(function(element) 
+Meteor.users.find({_id:{$ne:currentUser._id}}).forEach(function(element)
 	{
  	lendersAddresses.push({
 		address1:{
@@ -59,7 +59,7 @@ Meteor.users.find({_id:{$ne:currentUser._id}}).forEach(function(element)
 		address2:{
 			lat : element.profile.address2.lat,
  			lng : element.profile.address2.lng
-		} 			
+		}
  	});
 	});
 
@@ -107,10 +107,10 @@ var lenderCircle = new google.maps.Circle({
      		center: new google.maps.LatLng(currentUser.profile.address1.lat,currentUser.profile.address1.lng),
         zoom: 14};
     	}
-      
+
     }
   }
-	}); // Fin template  
+	}); // Fin template
 
 	// Lors de la création
 	Template.usersMap.onCreated(function(){
@@ -118,15 +118,3 @@ var lenderCircle = new google.maps.Circle({
 	}); // Fin Template
 
 } // FIN CLIENT SIDE
-
-////////////////////////////////////////////////////////////////////// SERVER SIDE /////////////////////////////////////////////////////////////////////////////
-if (Meteor.isServer) {
-
-// Meteor Publish adresses (lat,lgn) des utillisateurs
-Meteor.publish('UsersPublicInfos',function(){
-// Cela retourne tous les lat / lng des utilisateurs, sauf l'utilisateur actuel..
-        var currentUserId = this.userId;
-    return Meteor.users.find({_id:{$ne:currentUserId}},{fields:{'profile.firstName':1,'profile.address1.lat':1,'profile.address1.lng':1,'profile.address2.lat':1,'profile.address2.lng':1,'profile.pic':1}});
-  });
-
-} // FIN SERVER SIDE
